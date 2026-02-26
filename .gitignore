@@ -1,0 +1,8 @@
+.env
+__pycache__
+老nodes.py
+
+# 忽略日志文件夹
+logs/
+*.log
+products_intro.xlsx
