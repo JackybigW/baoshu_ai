@@ -2,7 +2,7 @@
 import os
 import sys
 import re
-from tools import summon_specialist_tool,search_products
+from nodes.tools import summon_specialist_tool,search_products
 # 🛠️ 【防报错补丁】
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)

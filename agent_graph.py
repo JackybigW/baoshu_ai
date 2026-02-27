@@ -3,7 +3,7 @@ from state import AgentState, IntentType
 from langgraph.graph import StateGraph
 from nodes.consultants import first_greeting_node, high_value_node, art_node
 from nodes.consultants import sales_node,interviewer_node,human_handoff_node, consultant_node
-from nodes.tools import search_products, extractor_node
+from nodes.tools import  extractor_node
 from nodes.router import classifier_node, sales_detector_node
 from langgraph.graph import StateGraph, END
 
