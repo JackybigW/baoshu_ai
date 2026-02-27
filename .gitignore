@@ -6,3 +6,4 @@ __pycache__
 logs/
 *.log
 products_intro.xlsx
+deploy.sh
