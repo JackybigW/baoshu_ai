@@ -7,3 +7,4 @@ logs/
 *.log
 products_intro.xlsx
 deploy.sh
+tests/
