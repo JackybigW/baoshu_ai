@@ -1,8 +1,7 @@
 #这里全是干苦力的工具人
 import os
-import sys
-import re  # 正则提取必用
-import pandas as pd # 处理 Excel 必用
+import sys # 正则提取必用
+import pandas as pd# 处理 Excel 必用
 
 # 🛠️ 【防报错补丁】
 current_dir = os.path.dirname(os.path.abspath(__file__))

@@ -5,10 +5,9 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+from langchain_core.messages import SystemMessage
 
 # 状态与类型
-from typing import Literal, TypedDict
 from state import AgentState, IntentResult # 假设 IntentResult 在 state 里
 
 # 环境变量 (加载 API Key)

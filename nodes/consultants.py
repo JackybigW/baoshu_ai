@@ -1,7 +1,8 @@
 #这里是负责前台和用户交互的顾问 agents 们
 import os
 import sys
-
+import re
+from tools import summon_specialist_tool,search_products
 # 🛠️ 【防报错补丁】
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -11,10 +12,9 @@ sys.path.append(parent_dir)
 
 # 核心聊天组件
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage, BaseMessage
+from langchain_core.messages import SystemMessage,  AIMessage, ToolMessage
 
 # 状态与画像
-from typing import List, Optional
 from state import AgentState, CustomerProfile 
 
 # 环境变量
