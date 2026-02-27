@@ -1,4 +1,4 @@
-# test/test_architecture.py
+# tests/test_architecture.py
 import sys
 import os
 import unittest
