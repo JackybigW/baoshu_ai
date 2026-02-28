@@ -1,7 +1,7 @@
 from langgraph.checkpoint.memory import MemorySaver
 from state import AgentState, IntentType
 from langgraph.graph import StateGraph
-from nodes.consultants import first_greeting_node, high_value_node, art_node
+from nodes.consultants import first_greeting_node, high_value_node, art_node, chit_chat_node
 from nodes.consultants import sales_node,interviewer_node,human_handoff_node, consultant_node
 from nodes.tools import  extractor_node
 from nodes.router import classifier_node, sales_detector_node
@@ -32,8 +32,8 @@ def route_classifier(state: AgentState):
         return "human_handoff"
     
     # 2. 纯闲聊/打招呼 -> Interviewer (省去Extractor的Token，让Interviewer陪聊)
-    if intent == IntentType.GREETING and status == "START":
-        return "interviewer"
+    if intent in [IntentType.GREETING, IntentType.CHIT_CHAT] and status == "START":
+        return "chit_chat"
     
     if intent == "ART_CONSULTING":
         return "art_director"
@@ -137,6 +137,7 @@ workflow.add_node("sales_detector", sales_detector_node)
 workflow.add_node("sales", sales_node)
 workflow.add_node("human_handoff", human_handoff_node)
 workflow.add_node("art_director", art_node)
+workflow.add_node("chit_chat", chit_chat_node)
 # --- 设置入口 (核心差异点) ---
 workflow.set_conditional_entry_point(
     route_entry, # 使用新的智能入口
@@ -159,7 +160,9 @@ workflow.add_conditional_edges(
         "sales": "sales",
         "interviewer": "interviewer", # 仅限打招呼
         "extractor": "extractor",
-        "art_director": "art_director"# 其他所有情况先去提取数据
+        "art_director": "art_director",
+        "chit_chat": "chit_chat"
+        # 其他所有情况先去提取数据
     }
 )
 
@@ -210,7 +213,7 @@ workflow.add_edge("high_value", END)
 workflow.add_edge("art_director", END)# 🔥 确保 VIP 节点也有出口
 workflow.add_edge("sales", END)
 workflow.add_edge("human_handoff", END)
-
+workflow.add_edge("chit_chat", END)
 # ==========================================
 # 3. 编译
 # ==========================================
