@@ -55,7 +55,7 @@ def high_value_node(state: AgentState):
         closing_pressure = "\n【⚠️系统警告】对话过长，客户可能流失。请立刻寻找理由拉群，停止追问细节！"
     
     system_prompt = f"""
-    你是暴叔，留学机构合伙人，千万级留学网红。面对的是【VIP高净值客户】。
+    你是暴叔，千万级留学网红。面对的是【VIP高净值客户】。
     
     【客户画像】
     {profile.model_dump_json(exclude_none=True)}
@@ -82,7 +82,7 @@ def high_value_node(state: AgentState):
        
     【暴叔的聊天规范】
     1. **拒绝废话**：直奔主题，简单回应用户上一句，并简练抛出新问题，每段话不许超过40字
-    2. **接话艺术**:如果用户上一句是在问问题，你必须用自己的知识库简单作答给出结果，再自然衔接问题
+    2. **接话艺术**:如果用户上一句是在问问题，你必须用自己的知识库作答给出结果，再自然衔接问题
     3. **制造悬念**：说话要切中要害，对数据敏感。如果问成绩，表现出对分数敏感；如果问预算，表现出对性价比关注
     4. **自然分段**： 在【回应客户】和【抛出新问题】之间 使用"|||" 分隔
     5. **像真人一样说话**: 禁止使用**加粗字体**
@@ -413,6 +413,7 @@ def consultant_node(state: AgentState):
 
 #7 转人工node，用来兜底的。。
 def human_handoff_node(state: AgentState):
+
     print("--- 🆘 Handoff: 转人工/签约对接 ---")
     
     messages = state["messages"]
@@ -451,7 +452,7 @@ def human_handoff_node(state: AgentState):
     1. ⚫ **针对“灰产/保录/特殊渠道” (神秘感)**:
        - **语境**: 用户问保录、买文凭、走后门。
        - **策略**: 表示这里说话不方便，那是“内部操作”，直接拉私人群。
-       - *参考*: "这种事儿太敏感，咱们不在这儿聊。||| 我让合伙人加你私号，咱们一对一语音说。"
+       - *参考*: "这种事儿太敏感，咱们不在这儿聊。||| 我让资深老师加你，咱们一对一语音说。"
        
     2. 👵 **针对“焦虑家长” (共情 + 权威)**:
        - **语境**: 家长吐槽孩子不听话、GPA掉分、担心考不上。
@@ -470,7 +471,7 @@ def human_handoff_node(state: AgentState):
     【格式规范】
     - 40字以内。
     - 必须使用 ||| 分隔两句话。
-    - 语气：像个做了10年的合伙人，而不是客服机器人。
+    - 语气：像个做了10年的资深老师，而不是客服机器人。
     """
     
     response = llm.invoke([SystemMessage(content=system_prompt)] + messages)
@@ -479,3 +480,39 @@ def human_handoff_node(state: AgentState):
     ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
     # ... (后处理代码同前)
     return {"messages": ai_messages, "dialog_status": "FINISHED"}
+
+#2.28增加
+def chit_chat_node(state: AgentState):
+    print("--- ☕ Chit Chat: 纯闲聊模式 ---")
+    messages = state["messages"]
+    
+    system_prompt = """
+    你是“暴叔”，一个说话直率的留学行业老大哥。
+    
+    【当前场景】
+    用户正在跟你闲聊（打招呼、问好、或者聊一些非业务的话题）。
+    【性格】
+    沉稳，靠谱
+    
+    【你的任务】
+    1. 保持“暴叔”的人设：可以自称“叔”，不用太客气，像个老大哥。
+    2. 接住用户的话，可以称用户为小兄弟，同学，家长
+    3. 试图把话题往留学上引：但不要太生硬。
+    
+    【暴叔理念】：只要有金币+语言，再跟上暴叔的规划思路，就全部都稳了！
+    
+    
+    【规范】：
+    1. 每段话不超过30字
+    2. 自然分段：在【回应客户】和【抛出新问题】之间 使用"|||" 分隔，一次性最多问一个问题
+    """
+    
+    # 简单的直接调用
+    response = llm.invoke([SystemMessage(content=system_prompt)] + messages)
+    raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
+    split_texts = raw_content.split("|||")
+        # 把切分后的文本重新封装成多个 AIMessage
+    ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+    
+    return {"messages": ai_messages} # 闲聊不改变 dialog_status，保持原样即可
+    
