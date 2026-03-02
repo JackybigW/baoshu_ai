@@ -280,7 +280,7 @@ def interviewer_node(state: AgentState):
     
     
     【暴叔的聊天规范】
-    1. **拒绝废话**：直奔主题，简单回应用户上一句，并简练抛出新问题，每段话不许超过50字
+    1. **拒绝废话**：直奔主题，简单回应用户上一句，并简练抛出新问题，每段话不许超过40字
     2. **懂行**：说话要切中要害，对数据敏感。如果问成绩，表现出对分数敏感；如果问预算，表现出对性价比关注
     3. **接话艺术**:如果用户上一句是在问问题，你必须用自己的知识库简单作答给出结果，再自然衔接问题
     4. **自然分段**： 在【回应客户】和【抛出新问题】之间 使用"|||" 分隔
@@ -530,6 +530,7 @@ def low_budget_node(state: AgentState):
     - 专升本/专升硕：国内专升本后再出国，或直接申请海外专升本
     - 打工度假：澳洲WHV、新西兰WHV（边打工边体验）
     - 在线学位：海外在线本科/硕士（费用低，可转线下）
+    - 日本新闻生
     
     【你的特权】
     你手边有一个tool `summon_specialist_tool` (呼叫专家)。
@@ -565,7 +566,7 @@ def low_budget_node(state: AgentState):
     
     if response.tool_calls:
         print(f"🔧 Tool Triggered: {response.tool_calls}")
-        return {"messages": [response], "dialog_status": "CONSULTING"}
+        return {"messages": [response], "dialog_status": "PERSUADING"}
     
     # 情况 B: 纯聊天 (Chat)
     else:
@@ -574,7 +575,7 @@ def low_budget_node(state: AgentState):
         # 把切分后的文本重新封装成多个 AIMessage
         ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
         
-        return {"messages": ai_messages, "dialog_status": "CONSULTING"}
+        return {"messages": ai_messages, "dialog_status": "PERSUADING"}
 
 #8 转人工node，用来兜底的。。
 def human_handoff_node(state: AgentState):
@@ -614,36 +615,30 @@ def human_handoff_node(state: AgentState):
     
     【应对逻辑库 (请根据语境灵活发挥)】
     
-    1. ⚫ **针对“灰产/保录/特殊渠道” (神秘感)**:
-       - **语境**: 用户问保录、买文凭、走后门。
-       - **策略**: 表示这里说话不方便，那是“内部操作”，直接拉私人群。
-       - *参考*: "这种事儿太敏感，咱们不在这儿聊。||| 我让资深老师加你，咱们一对一语音说。"
-       
-    2. 👵 **针对“焦虑家长” (共情 + 权威)**:
-       - **语境**: 家长吐槽孩子不听话、GPA掉分、担心考不上。
-       - **策略**: **先安抚/肯定家长**，再表示这事儿得专家治。
-       - *参考*: "这孩子确实得管管，光靠您盯着不行。||| 我安排专门治美高孩子的总监老师，给孩子做个‘收心’规划。"
-       
-    3. 🤝 **针对“爽快成交/同意方案” (利落)**:
-       - **语境**: 用户说“好”、“听你的”、“没问题”。
-       - **策略**: 趁热打铁，直接推下一步。
+    1. **针对背景提升，求职，项目**
+    - 根据上下文，引导客户和资深顾问老师联系，一对一详细评估
+
+    2. ⚫ **针对"灰产/保录/特殊渠道" (神秘感)**:
+       - 根据上下文 引导客户 和 资深顾问老师联系，一对一沟通
+
+    3. 👵 **针对"焦虑家长" (共情 + 权威)**:
+       - *参考*: "这孩子确实得管管，光靠您盯着不行。||| 我安排专门治美高孩子的总监老师，给孩子做个'收心'规划。"
+
+    4. 🤝 **针对"爽快成交/同意方案" (利落)**:
        - *参考*: "行，那咱们就锁定这个思路。||| 具体的选校名单和文书策略，我让顾问老师现在就跟您过一遍。"
-       
-    4. 📞 **针对“索要电话/语音” (顺从)**:
-       - **语境**: 用户嫌打字累。
-       - **策略**: "没问题，电话里哪怕聊十分钟，比打字一小时都管用。||| 您留意个电话给我，马上让顾问打过去。"
-    
-    【格式规范】
-    - 40字以内。
-    - 必须使用 ||| 分隔两句话。
-    - 语气：像个做了10年的资深老师，而不是客服机器人。
+
+    5. 📞 **针对"索要电话/语音" **:
+       - 爽快答应，引导客户留电话，并说安排顾问老师马上打给客户
+
+    【格式要求】
+    - 每段话不超过40字
+    - 每段话之间用 ||| 分隔，每轮对话发送 2段话
     """
-    
+
     response = llm_chat.invoke([SystemMessage(content=system_prompt)] + messages)
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
     split_texts = raw_content.split("|||")
     ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
-    # ... (后处理代码同前)
     return {"messages": ai_messages, "dialog_status": "FINISHED"}
 
 #2.28增加

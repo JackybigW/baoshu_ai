@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from dotenv import load_dotenv, find_dotenv
 import uuid
 from typing import Optional # 🔥 必须引入这个
@@ -48,13 +48,35 @@ async def chat_endpoint(req: ChatRequest):
         # 调用 LangGraph
         output = app.invoke(inputs, config=config)
         
-        content = ""
-        if output["messages"] and len(output["messages"]) > 0:
-            last_message = output["messages"][-1]
-            content = last_message.content
+        # 优化消息提取逻辑：
+        # 1. 找到最后一个 HumanMessage 的位置
+        # 2. 收集此后所有的 AIMessage，过滤掉 ToolMessage 和静默的 tool_calls
+        all_messages = output.get("messages", [])
+        last_human_index = -1
+        for i in range(len(all_messages) - 1, -1, -1):
+            if isinstance(all_messages[i], HumanMessage):
+                last_human_index = i
+                break
+        
+        ai_contents = []
+        for i in range(last_human_index + 1, len(all_messages)):
+            msg = all_messages[i]
+            if isinstance(msg, AIMessage) and msg.content:
+                # 过滤掉加粗（如果有遗留），并提取内容
+                clean_content = msg.content.replace("**", "").strip()
+                if clean_content:
+                    ai_contents.append(clean_content)
+            # 自动跳过 ToolMessage 和没有 content 的 AIMessage
+        
+        # 3. 组合内容，使用 ||| 方便前端分段处理
+        if ai_contents:
+            content = "|||".join(ai_contents)
+        else:
+            # 兜底内容
+            content = "好的，我刚才没听清，您能再说一遍吗？"
+
         preview_content = content[:50] + "..." if len(content) > 50 else content
         logger.info(f"🤖 暴叔 ({req.session_id}): {preview_content}")
-        
         
         return {
             "response": content,

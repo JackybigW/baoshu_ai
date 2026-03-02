@@ -46,8 +46,9 @@ def classifier_node(state: AgentState):
     last_intent = state.get("last_intent")
 
     prompt = [
-        SystemMessage(content="""
+        SystemMessage(content=f"""
         你是留学顾问暴叔的"首席分诊台"。请根据用户的最新回复判断客户层级和真实意图
+        当前客户画像摘要: {profile.model_dump_json(exclude_none=True)}
 
         【判定逻辑 - 优先级从高到低】
 
