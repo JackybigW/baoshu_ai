@@ -124,46 +124,85 @@ class CustomerProfile(BaseModel):
     @property
     def is_complete(self) -> bool:
         return len(self.missing_fields) == 0
+
+
+def merge_text_fields(old_text: Optional[str], new_text: Optional[str]) -> Optional[str]:
+    """
+    【文本合并小助手】
+    功能：去重、去空、保持顺序
+    解决：避免 "雅思6.0；雅思6.0" 这种复读机现象
+    """
+    # 1. 边界处理：如果一边是空的，直接返回另一边
+    if not new_text:
+        return old_text
+    if not old_text:
+        return new_text
+
+    # 2. 拆解：用正则表达式支持 中文分号(；) 和 英文分号(;) 切割
+    # 比如 "护理专业；雅思5.0" -> ["护理专业", "雅思5.0"]
+    old_segments = [s.strip() for s in re.split(r'[;；]', old_text) if s.strip()]
+    new_segments = [s.strip() for s in re.split(r'[;；]', new_text) if s.strip()]
+
+    # 3. 合并与去重
+    result_list = list(old_segments) # 先把旧的全拿过来
     
+    for new_seg in new_segments:
+        # --- 智能去重逻辑 ---
+        
+        # 1. 完全一致则跳过 (Exact Match)
+        if new_seg in result_list:
+            continue
+            
+        # 2. 包含检测 (Subset Check) - 可选，防止"雅思6"和"雅思6.0"共存
+        # 如果新来的这句，已经被旧的某句话包含了，那也算重复
+        # 例如：旧="全日制大专护理"，新="大专护理" -> 跳过
+        is_redundant = False
+        for old_seg in result_list:
+            if new_seg in old_seg: # 如果新的是旧的一部分，默认旧的更详细，跳过新的
+                is_redundant = True
+                break
+            # 反之，如果旧的是新的一部分（新信息更全），通常我们追加上去，或者替换
+            # 这里为了安全起见，我们选择追加，交给人类去看
+            
+        if not is_redundant:
+            result_list.append(new_seg)
+
+    # 4. 组装
+    return "；".join(result_list)
+
+
 def reduce_profile(old_data: Optional[CustomerProfile], new_data: Optional[CustomerProfile]) -> CustomerProfile:
     """
-    工业级合并策略：
-    1. 如果新数据是 None，返回旧数据。
-    2. 如果旧数据是 None，返回新数据。
-    3. 如果两者都有，执行【字段级合并】(Patch Update)。
+    【工业级合并策略 V2.0】
     """
-    # Case 1: 没有新数据，保持原样
-    if new_data is None:
-        return old_data
-    
-    # Case 2: 以前没数据，直接用新的
-    if old_data is None:
-        return new_data
+    if new_data is None: return old_data
+    if old_data is None: return new_data
 
-    # Case 3: 新旧都有，执行“非空覆盖” (增量更新)
-    # 我们创建一个副本，避免修改原始对象
     merged = old_data.model_copy()
     
-    # 逐个字段检查：只有当新数据里有值时，才覆盖旧的
-    if new_data.user_role is not None:
+    # --- 1. 单值字段：有值就覆盖 (Trust the latest non-null) ---
+    if new_data.user_role is not None: 
         merged.user_role = new_data.user_role
-    if new_data.educationStage is not None:
+        
+    if new_data.educationStage is not None: 
         merged.educationStage = new_data.educationStage
         
-    if new_data.destination_preference is not None:
-        merged.destination_preference= new_data.destination_preference
-        
-    if new_data.budget.amount != -1:
+    if new_data.destination_preference is not None: 
+        merged.destination_preference = new_data.destination_preference
+    
+    # --- 2. 结构化字段：Budget 特殊处理 ---
+    if new_data.budget.amount != -1: 
         merged.budget.amount = new_data.budget.amount
         
-    if new_data.budget.period != BudgetPeriod.UNKNOWN:
+    # 只有当新周期不是 UNKNOWN 时才覆盖。
+    # 如果旧的是 "YEAR"，新的是 "UNKNOWN"，保持 "YEAR"。
+    if new_data.budget.period != BudgetPeriod.UNKNOWN: 
         merged.budget.period = new_data.budget.period
-    if new_data.academic_background is not None:
-        merged.academic_background = new_data.academic_background
-        
-    if new_data.language_level is not None:
-        merged.language_level = new_data.language_level
-        
+
+    # --- 3. 文本字段：智能合并 (不再无脑 +=) ---
+    merged.academic_background = merge_text_fields(old_data.academic_background, new_data.academic_background)
+    merged.language_level = merge_text_fields(old_data.language_level, new_data.language_level)
+
     return merged
 
 class IntentType(str, Enum):
@@ -171,18 +210,22 @@ class IntentType(str, Enum):
     TRANSFER_TO_HUMAN = "TRANSFER_TO_HUMAN"
     ART_CONSULTING = "ART_CONSULTING"
     HIGH_VALUE = "HIGH_VALUE"
+    LOW_BUDGET = "LOW_BUDGET"         # 低预算客户 -> 单独处理
     NEED_CONSULTING = "NEED_CONSULTING" # 正常咨询 -> 提取+问询
     GREETING = "GREETING"             # 打招呼 -> 破冰
     CHIT_CHAT = "CHIT_CHAT"           # 闲聊 -> 敷衍
+    DECISION_SUPPORT = "DECISION_SUPPORT"  # 决策辅助/Offer对比/路径PK
 
 class AgentState(TypedDict):
     messages: Annotated[List[BaseMessage], add_messages]
     profile: Annotated[CustomerProfile,reduce_profile]
     # 增加这个，用于记录是否已经给过初步方案
-    # 如果是 True，说明我们进入了“博弈阶段”
+    # 如果是 True，说明我们进入了"博弈阶段"
     has_proposed_solution: bool 
     dialog_status: Literal["START", "PROFILING", "PERSUADING", "FINISHED"]
     last_intent: Optional[IntentType]
+    # 低预算标记，由 classifier 设置
+    is_low_budget: bool
     
 class IntentResult(BaseModel):
     intent: IntentType
@@ -219,6 +262,15 @@ class IntentResult(BaseModel):
             return "SALES_READY"
         if "HIGH" in clean_v:
             return "HIGH_VALUE"
+        if "ART" in clean_v:
+            return "ART_CONSULTING"
+        if "LOW" in clean_v or "BUDGET" in clean_v:
+            return "LOW_BUDGET"
+        
+        # 🔥 新增：DECISION_SUPPORT 的模糊捕获
+        # 防止 LLM 输出 "DECISION", "OFFER_PK", "COMPARE" 等变体
+        if "DECISION" in clean_v or "COMPARE" in clean_v or "OFFER" in clean_v:
+            return "DECISION_SUPPORT"
             
         # 6. 实在没救了，为了不崩系统，返回一个默认的安全选项
         # (通常归类为普通咨询是最安全的，因为 Extractor 会接住它)

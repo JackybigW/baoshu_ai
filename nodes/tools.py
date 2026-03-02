@@ -37,8 +37,16 @@ llm = init_chat_model(
 #（必须吐槽！！ 真正的rag 就是垃圾！！！也可能是我太菜 不会rag QAQ）
 
 try:
-    # 1. 读取 Excel
-    df_db = pd.read_excel("products_intro.xlsx")
+    # 1. 获取当前脚本所在目录 (.../nodes)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # 2. 获取项目根目录 (.../baoshu_ai) - 🔥 关键修改：往上跳一级
+    project_root = os.path.dirname(current_dir) 
+
+    # 3. 拼凑出 Excel 的绝对路径
+    excel_path = os.path.join(project_root, "products_intro.xlsx")
+    
+    df_db = pd.read_excel(excel_path)
 
     # =========================================================
     # 🔥 核心修复：按列类型自动填充 (不再写死列名)
@@ -142,77 +150,3 @@ def summon_specialist_tool():
     return "Specialist summoned."
 
 
-#3 用户信息提取node，用户给客户打标签
-def extractor_node(state: AgentState):
-    print("--- 🕵️ Extractor: 混合更新 (原子覆盖 + 文本合并) ---")
-    
-    # 1. 读取旧档案
-    current_profile = state.get("profile")
-    if current_profile is None:
-        current_profile = CustomerProfile()
-     
-    # 2. 获取上下文
-    msgs = state["messages"]
-    last_user_msg = msgs[-1].content
-    last_ai_msg = msgs[-2].content if len(msgs) > 1 else ""
-
-    # 3. 构造 Prompt (核心修改)
-    system_prompt = f"""
-    你是留学行业信息提取专家，你的任务是根据对话更新客户画像。
-    
-    【上下文信息】
-    1. 上文 AI 问: "{last_ai_msg}"
-    2. 当前 用户 答: "{last_user_msg}"
-    
-    【提取规则（优先级由高到低）】
-    1. **显式提取 (Explicit)**: 
-       - 如果 User 直接陈述了数据（如"预算50万"、"我想去美国"），以用户原话为准，绝对优先。
-       
-    2. **隐式确认 (Implicit)**:
-       - 如果 AI 上文给出了具体信息，User 表达了同意（"没问题"、"可以"），请直接提取 AI 提供的数值。
-       
-    3. **逻辑推理 (Inference)**: 
-       - **当且仅当**用户没有提供上述两条信息时，利用你的常识进行推理补全。
-       - **推理场景**:
-         - **预算**: 对于已经在海外读书的用户，根据国家地区合理推理预算（如英国高中，70w/年, 美国高中 90w/年，日本高中 20w/年 等等）
-         - **目的地**: 根据用户当前所在地，就读院校所在地或意向国家进行合理推断。
-    
-    【特殊判断】
-    - 区分现状与意向："想读本科"是意向(educationStage=None)，"我是大三"是现状(educationStage=本科)。
-    - 判断身份：主语是"我"->学生；主语是"孩子/儿子"->家长；不包含主语-> None
-    
-    如果某字段既无显示信息，也无法逻辑推理，请返回None
-    """
-    # 4. 调用 LLM
-    # 我们依然只传 prompt，不需要把整个 profile 对象传进去，避免干扰
-    messages = [SystemMessage(content=system_prompt)]
-    
-    extractor = llm.with_structured_output(CustomerProfile)
-    new_data = extractor.invoke(messages)
-    
-    # 5. Python 守门员逻辑 (The Gatekeeper)
-    final_profile = current_profile.model_copy()
-    
-    # --- 逻辑 A：普通字段 (非空覆盖) ---
-    if new_data.user_role is not None:
-        final_profile.user_role = new_data.user_role
-    if new_data.educationStage is not None:
-        final_profile.educationStage = new_data.educationStage
-    if new_data.destination_preference is not None:
-        final_profile.destination_preference = new_data.destination_preference
-    if new_data.budget.amount != -1:
-        final_profile.budget.amount = new_data.budget.amount
-    if new_data.budget.period != BudgetPeriod.UNKNOWN:
-        final_profile.budget.period = new_data.budget.period
-        
-    if new_data.academic_background:
-        if final_profile.academic_background:
-            # 如果原来有，就拼在后面
-            final_profile.academic_background += f"；{new_data.academic_background}"
-        else:
-            # 如果原来没有，直接赋值
-            final_profile.academic_background = new_data.academic_background
-
-    print(f"最终画像: {final_profile.model_dump_json(exclude_none=True)}")
-
-    return {"profile": final_profile}

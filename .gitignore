@@ -8,3 +8,4 @@ logs/
 products_intro.xlsx
 deploy.sh
 tests/
+.vscode/

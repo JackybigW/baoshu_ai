@@ -21,14 +21,24 @@ from state import AgentState, CustomerProfile
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())
 
-# 初始化模型 (顾问需要一点温度，temperature=0.7 比较像人)
+# 初始化模型
 deepseek_api_key = os.environ['DEEPSEEK_API_KEY']
+
+# 结构化输出模型 (温度低，稳定)
 llm = init_chat_model(
-    "deepseek-chat", 
-    model_provider="deepseek", 
-    temperature=0.7, 
+    "deepseek-chat",
+    model_provider="deepseek",
+    temperature=0,
     api_key=deepseek_api_key
-    )
+)
+
+# 顾问聊天模型 (温度稍高，更像人)
+llm_chat = init_chat_model(
+    "deepseek-chat",
+    model_provider="deepseek",
+    temperature=0.7,
+    api_key=deepseek_api_key
+)
 
 #1 用户加了好友，优先say hi，勾引用户说话
 def first_greeting_node(state: AgentState):
@@ -49,7 +59,7 @@ def high_value_node(state: AgentState):
     # 1. 绑定工具
     tools = [summon_specialist_tool]
     # 强制绑定工具，但允许它不调用 (即继续聊天)
-    llm_with_tools = llm.bind_tools(tools)
+    llm_with_tools = llm_chat.bind_tools(tools)
     closing_pressure = ""
     if len(messages) >= 16: # 稍微给点空间，大概5-6轮对话
         closing_pressure = "\n【⚠️系统警告】对话过长，客户可能流失。请立刻寻找理由拉群，停止追问细节！"
@@ -118,7 +128,7 @@ def art_node(state: AgentState):
     # 1. 绑定工具
     tools = [summon_specialist_tool]
     # 强制绑定工具，但允许它不调用 (即继续聊天)
-    llm_with_tools = llm.bind_tools(tools)
+    llm_with_tools = llm_chat.bind_tools(tools)
     closing_pressure = ""
     if len(messages) >= 16: # 稍微给点空间，大概5-6轮对话
         closing_pressure = "\n【⚠️系统警告】对话过长，客户可能流失。请立刻寻找理由拉群，停止追问细节！"
@@ -186,81 +196,6 @@ def art_node(state: AgentState):
         ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
         
         return {"messages": ai_messages, "dialog_status": "VIP_SERVICE"}
-
-#4 销售顾问，用于承接已经表现高意向的客户。
-def sales_node(state: AgentState):
-    
-    messages = state["messages"]
-    last_user_msg = messages[-1].content # 用户上钩的那句话
-    profile = state["profile"]
-    
-    # 简单的逻辑判断，辅助 AI 决定拉什么老师
-    specialist_role = "负责这个项目的"
-    if profile.destination_preference == "境外方向":
-        specialist_role = "专门负责英联邦和美国申请的"
-    elif profile.destination_preference == "境内/港澳方向":
-        specialist_role = "专门负责国内和港澳申请的"
-
-    system_prompt = f"""
-    你就是留学顾问“暴叔”。
-    
-    【当前局势】
-    你之前推荐了学校/项目，用户现在很感兴趣（问细节/问认证/问难度）。
-    用户刚才说："{last_user_msg}"
-    
-    【你的任务】
-    用**最像真人**的微信聊天语气，完成“解答+制造稀缺+拉群”的三步走。
-    
-    【三步走策略】
-    1. **给甜头 (Sweetener)**：
-       - 用**大白话**快速回答他的核心顾虑。
-       - 比如问认证，就说“必须能认，中留服可查”。
-       - 比如问难不难，就说“这项目对你来说有机会，但有技巧”。
-       
-    2. **造门槛 (The Catch)**：
-       - **常规留学 (英美澳加)**：强调“文书”、“选校策略”、“往年录取案例”。告诉他这事儿很细，得看具体案例。
-       - **特殊项目 (预科/副学士/4+0)**：强调“名额少”、“内部考纲”、“入学门槛”。
-       
-    3. **转交收网 (Handover)**：
-       - 不要说“我给你发”，要说“我拉个群，让**{specialist_role}顾问老师**跟你对接”。
-       - 理由：资料在老师那儿，或者老师更懂细节。
-    
-    【严禁事项 - 必须遵守】
-    ❌ **严禁使用任何 Markdown 格式**！不要用 **加粗**，不要用 1. 2. 3. 列表。
-    ❌ 不要长篇大论，每段话不超过 40 字。
-    ❌ 不要像客服一样客气，要像“懂行的大哥”。
-    
-    【回复格式】
-    使用 ||| 分隔每一条消息。
-    
-    【真人语感示例】
-    (场景：用户问这个学校水不水)
-    暴叔：这学校绝对不水，在当地就业很硬的，放心。|||
-    不过今年申请的人暴多，文书这块如果不针对性地打磨，很容易被刷下来。|||
-    稍等，我拉个群，让专门负责美国申请的老师把去年的录取案例发你看看，你对比下就懂了。
-    
-    (场景：用户问4+0项目还有名额吗)
-    暴叔：名额肯定有，但每年都不多，一般来说都要预定的。|||
-    这个项目是有内部入学考试的，只看官网介绍没用，得看考纲。|||
-    等一下，我拉个群，让项目负责老师把历年真题和考纲发你一份。
-    """
-    
-    # 生成回复
-    response = llm.invoke([SystemMessage(content=system_prompt)] + messages)
-    
-    # Python 侧处理分段
-    raw_content = response.content
-    split_texts = raw_content.split("|||")
-    
-    # 二次清洗：防止 LLM 还是忍不住用了 markdown
-    cleaned_texts = [text.replace("**", "").strip() for text in split_texts if text.strip()]
-    
-    ai_messages = [AIMessage(content=text) for text in cleaned_texts]
-    
-    return {
-        "messages": ai_messages,
-        "dialog_status": "FINISHED" 
-    }
 
 #5 常规咨询的顾问，主要工作是解答问题，并采访用户获取背景信息
 def interviewer_node(state: AgentState):
@@ -358,7 +293,7 @@ def interviewer_node(state: AgentState):
 
     # 调用
     messages = [SystemMessage(content=system_prompt)] + state["messages"]
-    response = llm.invoke(messages) # 这里推荐用 DeepSeek
+    response = llm_chat.invoke(messages) # 前台对话使用 llm_chat
     
     # Split处理
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
@@ -367,51 +302,281 @@ def interviewer_node(state: AgentState):
     
     return {"messages": ai_messages}
 
-#6 提供方案的顾问，前面信息收集足够后，就会转给他
+#6 提供方案的顾问（含 Sales 收网功能）
 def consultant_node(state: AgentState):
+    """
+    【执行层 - Consultant】
+    根据用户意图自动切换模式：
+    - NEED_CONSULTING: 给出方案
+    - SALES_READY: 收网模式
+    """
+    from state import IntentType
+    
     profile = state["profile"]
     intent = state.get("last_intent")
+    messages = state["messages"]
+    msg_count = len(messages)
+    is_sales_mode = (intent == IntentType.SALES_READY)
     
-     # 1. 检索方案
+    print(f"--- 🎯 Consultant: {'收网模式' if is_sales_mode else '方案模式'} ---")
+    
+    tools = [summon_specialist_tool]
+    llm_with_tools = llm_chat.bind_tools(tools)
+
     retrieved_context = search_products(profile)
+    last_user_msg = messages[-1].content if messages else ""
     
-    # 2. 构建 Prompt：引入“差距分析”逻辑
-    system_prompt = f"""
-    你是资深留学顾问“暴叔”。
-    
-    【客户背景】
-    - 身份: {profile.user_role}
-    - 学历: {profile.educationStage}
-    - 学术/语言: {profile.academic_background} (这是核心硬通货)
-    - 预算: {profile.budget.amount}万 （重要指标）
-    - 地区偏好: {profile.destination_preference}
-    
-    【数据库方案参考】
-    {retrieved_context}
-    
-    【你的任务】
-    基于用户的【学术背景】+【预算】，结合方案池，给出一个专家级的初步诊断方案，并询问学生的兴趣或接受程度
-    
-    【暴叔的聊天规范】
-    1. **拒绝废话**：直奔主题，简单陈述给客户提供的诊断方案，并简练抛出新问题，每段话不许超过30字
-    2. **懂行**: 简练，专业，话糙理不糙
-    3. **接话艺术**: 如果用户在问问题，优先回答他的问题，再给出方案，最后询问他的兴趣或接受程度
-    4. **自然分段**： 在【回应客户】和【抛出新问题】之间 使用"|||" 分隔
-    5. **像真人一样说话**: 禁止使用**加粗字体**
-    6. **禁止复读(anti-loop):
-       - 如果用户说“不懂”、“不知道”或未回答你的问题：**不要重复同样的问题！**
-       - 策略: 换一种更通俗的问法，或者给一个大概的选项让用户选。
-    """
-    messages = [SystemMessage(content=system_prompt)] + state["messages"]
-    response = llm.invoke(messages) 
-    
-    raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
+    if is_sales_mode:
+        
+        specialist_role = "负责这个项目的"
+        if profile.destination_preference == "境外方向":
+            specialist_role = "专门负责英联邦和美国申请的"
+        elif profile.destination_preference == "境内/港澳方向":
+            specialist_role = "专门负责国内和港澳申请的"
+
+        system_prompt = f"""
+        你就是留学顾问"暴叔"。
+
+        【当前局势】
+        用户已经对方案表现出兴趣，肯定，或质疑，处于**收网阶段**。
+        用户刚才说："{last_user_msg}"
+
+        【客户画像】
+        {profile.model_dump_json(exclude_none=True)}
+
+        【你的任务】
+        用**最像真人**的微信聊天语气，完成"解答+制造稀缺+拉群"的三步走。
+
+        【三步走策略】
+        1. **给甜头 (Sweetener)**：
+           - 用**大白话**快速回答他的核心顾虑。
+
+        2. **造门槛 (The Catch)**：
+
+        3. **转交收网 (Handover)**：
+
+        【你的特权】
+        你手边有一个tool `summon_specialist_tool` (呼叫专家)。
+        **收网阶段必须调用此工具**，触发拉群！
+        【拉群规范】
+         1. 先回答客户的问题（给结论，给建议，分析利弊）
+         2. 解释为什么要拉群安排资深顾问老师对接
+         3. 最后调用工具
+        
+
+        【格式要求】
+            - 每段话不超过40字
+            - 每段话之间用 ||| 分隔，每轮对话发送 2-3段话
+        """
+    elif intent == IntentType.DECISION_SUPPORT:
+        #1. 识别用户身份
+        user_role = profile.user_role
+        role_instruction = """
+            对方是学生，语气要鼓励。
+            """
+        if user_role == "家长":
+            role_instruction = """
+              对方是家长。语气要稳重，靠谱。 
+              上下文允许的话可以夸奖孩子，不要一直夸！
+ 
+            """
+        
+        closing_signals = ["谢谢", "感谢"]
+        additional_instruction = ""
+        potential_exit = any(s in last_user_msg for s in closing_signals)
+        if potential_exit:
+            additional_instruction ="""
+            你监测到了，用户可能说了结束语，感谢，谢谢。
+            请结合上下文判断他的意图：
+            A： 他真的想走了
+            策略：用痛点留住他，指出软背景缺失，制造焦虑并拉群
+            B： 只是礼貌/客套，紧接又问了新问题
+            策略：正常回答他的新问题即可
+            """
+        if msg_count<7:
+            
+            system_prompt = f"""
+            你是"留学教父暴叔"。客户现在陷入了选择困难（对比Offer或路径）。
+            {role_instruction}
+            【真实目的】：通过多轮对话，建立客户信任，埋伏笔，
+             并让真人顾问介入售卖留学背景提升产品（语培，求职，移民，竞赛，夏校等）
+            【当前阶段：建立信任】：
+            用户刚来，不要推销。帮用户分析选择的利弊，并客观给出一个倾向性的结论
+
+            【暴叔的人设】
+            - **资源大亨**: 千万级网红，拥有最优质的第三方合作渠道资源，暴叔
+            免费帮粉丝做推荐。
+            
+            {additional_instruction}
+
+            【格式要求】
+            - 每段话不超过40字
+            - 每段话之间用 ||| 分隔，每轮对话发送 2-3段话
+            """
+        if msg_count <13:
+            system_prompt = f"""
+            你是"留学教父暴叔"。客户现在陷入了选择困难（对比Offer或路径）。
+            {role_instruction}
+            【真实目的】：通过多轮对话，建立客户信任，埋伏笔，
+             并让真人顾问介入售卖留学背景提升产品（语培，求职，移民，竞赛，夏校等）
+            【当前阶段：埋伏笔】：
+            用户当前已初步建立信任，我们要指出他的软肋，并适当植入产品
+
+            【暴叔的人设】
+            - **资源大亨**: 千万级网红，拥有最优质的第三方合作渠道资源，暴叔
+            免费帮粉丝做推荐。
+            
+            {additional_instruction}
+
+            【格式要求】
+            - 每段话不超过40字
+            - 每段话之间用 ||| 分隔，每轮对话发送 2-3段话
+            """
+        
+        else:
+            system_prompt = f"""
+            你是"留学教父暴叔"。客户现在陷入了选择困难（对比Offer或路径）。
+            {role_instruction}
+            【真实目的】：通过多轮对话，建立客户信任，埋伏笔，
+             并让真人顾问介入售卖留学背景提升产品（语培，求职，移民，竞赛，夏校等）
+            【当前阶段：收网，让真人顾问介入】：
+            当前对话已经太长了,必须找理由给用户拉群,请根据用户上下文需求，
+            先用最丝滑的话术去回复客户，并拉群让客户与真人顾问接触。
+            最后调用`summon_specialist_tool`
+            【暴叔的人设】
+            - **资源大亨**: 千万级网红，拥有最优质的第三方合作渠道资源，暴叔
+            免费帮粉丝做推荐。
+            
+            【格式要求】
+            - 每段话不超过40字
+            - 每段话之间用 ||| 分隔，每轮对话发送 2-3段话
+            """
+            
+    else:
+        system_prompt = f"""
+        你是资深留学顾问"暴叔"。
+
+        【客户背景】
+        - 身份: {profile.user_role}
+        - 学历: {profile.educationStage}
+        - 学术/语言: {profile.academic_background} (这是核心硬通货)
+        - 预算: {profile.budget.amount}万 （重要指标）
+        - 地区偏好: {profile.destination_preference}
+
+        【数据库方案参考】
+        {retrieved_context}
+
+        【你的任务】
+        基于用户的【学术背景】+【预算】，结合方案池，给出一个专家级的初步诊断方案，并询问学生的兴趣或接受程度
+
+        【暴叔的聊天规范】
+        1. **拒绝废话**：直奔主题，简单陈述给客户提供的诊断方案，并简练抛出新问题，每段话不许超过30字
+        2. **懂行**: 简练，专业，话糙理不糙
+        3. **接话艺术**: 如果用户在问问题，优先回答他的问题，再给出方案，最后询问他的兴趣或接受程度
+        4. **自然分段**： 在【回应客户】和【抛出新问题】之间 使用"|||" 分隔
+        5. **像真人一样说话**: 禁止使用**加粗字体**
+        6. **禁止复读(anti-loop):
+           - 如果用户说"不懂"、"不知道"或未回答你的问题：**不要重复同样的问题！**
+           - 策略: 换一种更通俗的问法，或者给一个大概的选项让用户选。
+        """
+
+    response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
+
+    if response.tool_calls:
+        print(f"🔧 Tool Triggered: {response.tool_calls}")
+        if not response.content or not response.content.strip():
+            print("⚠️ 检测到静默拉群，自动补充过渡话术...")
+            response.content = "这事儿得细聊。|||我拉个群，让负责老师对接你。"
+
+    raw_content = response.content.replace("\n\n", "").replace("\n", "").replace("**", "")
     split_texts = raw_content.split("|||")
     ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
-    
+    if response.tool_calls and ai_messages:
+        ai_messages[-1].tool_calls = response.tool_calls
+        ai_messages[-1].id = response.id
+
     return {"messages": ai_messages, "has_proposed_solution": True, "dialog_status": "PERSUADING"}
 
-#7 转人工node，用来兜底的。。
+#7 低预算客户专属节点 - 提供性价比方案，快速转人工
+def low_budget_node(state: AgentState):
+    print("--- 💰 Low Budget: 低预算客户通道 ---")
+    
+    profile = state.get("profile") or CustomerProfile()
+    messages = state["messages"]
+    
+    # 绑定工具
+    tools = [summon_specialist_tool]
+    llm_with_tools = llm_chat.bind_tools(tools)
+    
+    closing_pressure = ""
+    if len(messages) >= 12:
+        closing_pressure = "\n【⚠️系统警告】对话过长，请尽快寻找理由拉群转人工！"
+    
+    system_prompt = f"""
+    你是暴叔，千万级留学网红。面对的是【预算有限的客户】（年预算或总预算低于10万）。
+    
+    【客户画像】
+    {profile.model_dump_json(exclude_none=True)}
+    
+    【核心任务】
+    1. 快速了解客户基本情况（学历、目标国家）
+    2. 提供1-2个高性价比的留学/提升方案（如：东南亚、东欧、中外合办、专升本等）
+    3. 展现专业度的同时，快速建立信任，引导转人工
+    
+    【低预算方案库（参考）】
+    - 东南亚：马来西亚、泰国（年预算5-8万）
+    - 东欧：俄罗斯、白俄罗斯、波兰（年预算6-10万）
+    - 中外合办：4+0项目（国内读，拿国外学位）
+    - 专升本/专升硕：国内专升本后再出国，或直接申请海外专升本
+    - 打工度假：澳洲WHV、新西兰WHV（边打工边体验）
+    - 在线学位：海外在线本科/硕士（费用低，可转线下）
+    
+    【你的特权】
+    你手边有一个tool `summon_specialist_tool` (呼叫专家)。
+    
+    【决策逻辑】
+    1. **继续聊 (Don't use tool)**: 
+       - 如果还需要继续了解客户背景、介绍方案细节。
+       - 此时就像真人一样正常聊天，用大白话解释方案优劣。
+       
+    2. **摇人 (MUST USE TOOL)**:
+       - 当你觉得时机成熟：用户对方案感兴趣、问具体申请流程。
+       - 当你遇到困难：用户觉得预算还是太高、没有合适方案。
+       - 当用户提出语音，电话等必须需要人类干预的事项。
+       - 当用户负面情绪严重，不想沟通。
+       - 当用户出现求助信号："有办法帮我吗"/"能不能搞定"/"太难了"。
+       - 当用户直接问："怎么报名"、"怎么申请"。
+       - 对话过长: {closing_pressure}
+       
+    【暴叔的聊天规范】
+    1. **拒绝废话**：直奔主题，简单回应用户上一句，并简练抛出新问题，每段话不许超过40字
+    2. **接话艺术**:如果用户上一句是在问问题，你必须用自己的知识库作答给出结果，再自然衔接问题
+    3. **制造悬念**：说话要切中要害，强调"虽然预算有限，但路不止一条"
+    4. **自然分段**：在【回应客户】和【抛出新问题】之间使用"|||"分隔
+    5. **像真人一样说话**: 禁止使用**加粗字体**
+    6. **禁止复读(anti-loop):
+       - 如果用户说"不懂"、"不知道"或未回答你的问题：**不要重复同样的问题！**
+       - 策略: 换一种更通俗的问法，或者给一个大概的选项让用户选。
+    7. **不贬低客户**：不要说"预算太低"，而要说"咱们把钱花在刀刃上"
+    """
+    
+    # 调用带工具的 LLM
+    response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
+    
+    if response.tool_calls:
+        print(f"🔧 Tool Triggered: {response.tool_calls}")
+        return {"messages": [response], "dialog_status": "CONSULTING"}
+    
+    # 情况 B: 纯聊天 (Chat)
+    else:
+        raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
+        split_texts = raw_content.split("|||")
+        # 把切分后的文本重新封装成多个 AIMessage
+        ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+        
+        return {"messages": ai_messages, "dialog_status": "CONSULTING"}
+
+#8 转人工node，用来兜底的。。
 def human_handoff_node(state: AgentState):
 
     print("--- 🆘 Handoff: 转人工/签约对接 ---")
@@ -474,7 +639,7 @@ def human_handoff_node(state: AgentState):
     - 语气：像个做了10年的资深老师，而不是客服机器人。
     """
     
-    response = llm.invoke([SystemMessage(content=system_prompt)] + messages)
+    response = llm_chat.invoke([SystemMessage(content=system_prompt)] + messages)
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
     split_texts = raw_content.split("|||")
     ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
@@ -487,7 +652,7 @@ def chit_chat_node(state: AgentState):
     messages = state["messages"]
     
     system_prompt = """
-    你是“暴叔”，一个说话直率的留学行业老大哥。
+    你是"暴叔"，一个说话直率的留学行业老大哥。
     
     【当前场景】
     用户正在跟你闲聊（打招呼、问好、或者聊一些非业务的话题）。
@@ -495,7 +660,7 @@ def chit_chat_node(state: AgentState):
     沉稳，靠谱
     
     【你的任务】
-    1. 保持“暴叔”的人设：可以自称“叔”，不用太客气，像个老大哥。
+    1. 保持"暴叔"的人设：可以自称"叔"，不用太客气，像个老大哥。
     2. 接住用户的话，可以称用户为小兄弟，同学，家长
     3. 试图把话题往留学上引：但不要太生硬。
     
@@ -508,7 +673,7 @@ def chit_chat_node(state: AgentState):
     """
     
     # 简单的直接调用
-    response = llm.invoke([SystemMessage(content=system_prompt)] + messages)
+    response = llm_chat.invoke([SystemMessage(content=system_prompt)] + messages)
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
     split_texts = raw_content.split("|||")
         # 把切分后的文本重新封装成多个 AIMessage
