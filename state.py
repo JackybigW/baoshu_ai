@@ -5,6 +5,7 @@ from typing import TypedDict, List, Annotated, Literal, Optional
 from langchain_core.messages import SystemMessage, HumanMessage, BaseMessage, AIMessage, ToolMessage
 from langgraph.graph.message import add_messages
 import difflib
+import re
 #核心组件
 
 class BudgetPeriod(str, Enum):
