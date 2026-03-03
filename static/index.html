@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>暴叔留学顾问 (AI版)</title>
     <style>
-        /* --- 样式区优化：移除头像，调整布局 --- */
+        /* --- 样式保持原样 --- */
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { background-color: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; height: 100vh; display: flex; justify-content: center; }
 
@@ -20,7 +20,6 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* 顶部导航栏升级 */
         header {
             background-color: #ededed;
             height: 50px;
@@ -55,7 +54,6 @@
         .message { margin-bottom: 12px; display: flex; align-items: flex-start; }
         .message.user { flex-direction: row-reverse; }
         
-        /* 恢复暴叔头像样式 */
         .avatar {
             width: 40px; height: 40px; border-radius: 6px; flex-shrink: 0;
             background-size: cover; background-position: center;
@@ -64,7 +62,7 @@
         .avatar.bao { background-image: url('uncle_bao.png'); background-color: #fff; }
 
         .bubble {
-            max-width: 75%; /* 有了头像后，暴叔这边的气泡稍微收窄一点 */
+            max-width: 75%;
             padding: 10px 14px;
             border-radius: 6px;
             font-size: 16px;
@@ -79,7 +77,6 @@
             border-top: 6px solid transparent; border-bottom: 6px solid transparent; border-right: 6px solid #ffffff;
         }
 
-        /* 用户侧保持无头像，增加一点边距美感 */
         .message.user .bubble { background-color: #95ec69; margin-right: 15px; color: #000; }
         .message.user .bubble::before {
             content: ""; position: absolute; right: -6px; top: 14px; width: 0; height: 0;
@@ -102,9 +99,8 @@
             margin-left: 10px; height: 40px; padding: 0 15px; background-color: #07c160; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 500; cursor: pointer;
         }
         button#send-btn:active { background-color: #06ad56; }
-        button#send-btn:disabled { background-color: #a5eec2; cursor: not-allowed; }
 
-        .typing { font-size: 12px; color: #888; margin-left: 15px; margin-bottom: 10px; display: none; }
+        .typing { font-size: 12px; color: #888; margin-left: 15px; margin-bottom: 10px; visibility: hidden; }
     </style>
 </head>
 <body>
@@ -117,7 +113,7 @@
     </header>
     
     <div id="chat-box"></div>
-    <div class="typing" id="typing-indicator">暴叔正在输入...</div>
+    <div class="typing" id="typing-indicator">暴叔正在思考中...</div>
 
     <footer>
         <input type="text" id="input-msg" placeholder="发消息..." autocomplete="off">
@@ -128,6 +124,7 @@
 <script>
     let sessionId = null;
     let chatHistory = [];
+    let isAILoading = 0; // 计数器，支持多个请求重叠
     
     const chatBox = document.getElementById('chat-box');
     const inputField = document.getElementById('input-msg');
@@ -155,7 +152,6 @@
         msgDiv.className = `message ${role}`;
         const formattedText = text.replace(/\n/g, '<br>');
         
-        // 核心改动：暴叔侧有头像，用户侧无头像
         if (role === 'bao') {
             msgDiv.innerHTML = `<div class="avatar bao"></div><div class="bubble">${formattedText}</div>`;
         } else {
@@ -164,18 +160,19 @@
         
         chatBox.appendChild(msgDiv);
         
-        setTimeout(() => {
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }, 50);
+        // 自动滚动到底部
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function handleUserSend() {
         const text = inputField.value.trim();
         if (!text) return;
+        
+        // 1. 立即上屏
         appendMessage('user', text);
         inputField.value = '';
-        inputField.disabled = true;
-        sendBtn.disabled = true;
+        
+        // 2. 发送给后台 (不再锁定输入框)
         callBackend(text);
     }
 
@@ -202,42 +199,55 @@
         URL.revokeObjectURL(url);
     }
 
-    function triggerAiGreeting() { callBackend(""); }
+    function triggerAiGreeting() { 
+        callBackend(""); 
+    }
 
     async function callBackend(messageText) {
-        typingIndicator.style.display = 'block';
+        // 更新加载状态
+        isAILoading++;
+        typingIndicator.style.visibility = 'visible';
+
         try {
             const response = await fetch('/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: messageText, session_id: sessionId })
             });
+            
             if (!response.ok) throw new Error(`Server error: ${response.status}`);
+            
             const data = await response.json();
             if (data.session_id) sessionId = data.session_id;
 
-            // --- 核心优化：支持多气泡一次性发送 ---
             const fullResponse = data.response || "";
-            // 根据 ||| 切割，过滤掉空内容
+            
+            // --- 核心修复：如果是被合并的请求，直接返回，不处理 UI ---
+            if (fullResponse === "__MERGED__") {
+                return;
+            }
+
             const messages = fullResponse.split('|||').filter(m => m.trim() !== "");
             
-            // 依次弹出气泡，增加微小的延迟感，模拟真实聊天
             for (let i = 0; i < messages.length; i++) {
-                if (i > 0) await new Promise(resolve => setTimeout(resolve, 600)); // 每个气泡间隔 600ms
+                if (i > 0) await new Promise(resolve => setTimeout(resolve, 600));
                 appendMessage('bao', messages[i].trim());
             }
 
         } catch (error) {
             console.error("通信失败:", error);
-            appendMessage('bao', "抱歉，刚才信号不太好，您可以再试一次。");
+            // 只有在用户主动发消息失败时才报错，开场白失败就不提示了
+            if (messageText) {
+                appendMessage('bao', "抱歉，刚才信号不太好，您可以再试一次。");
+            }
         } finally {
-            inputField.disabled = false;
-            sendBtn.disabled = false;
-            typingIndicator.style.display = 'none';
-            if(messageText) inputField.focus();
+            isAILoading--;
+            if (isAILoading <= 0) {
+                isAILoading = 0;
+                typingIndicator.style.visibility = 'hidden';
+            }
         }
     }
-</script>
 </script>
 
 </body>
