@@ -1,53 +1,62 @@
 import asyncio
-import json
 from typing import Dict, Any, Optional
 import redis.asyncio as redis
 from utils.logger import logger
 
 class MessageBuffer:
-    def __init__(self, host="localhost", port=6379, db=0, wait_time=2.0):
+    """
+    高级真人行为缓冲区：支持消息随时入队，AI 串行处理。
+    """
+    def __init__(self, host="localhost", port=6379, db=0, wait_time=2.5):
         self.redis = redis.Redis(host=host, port=port, db=db, decode_responses=True)
         self.wait_time = wait_time 
         self.active_tasks: Dict[str, asyncio.Task] = {}
 
-    async def add_message(self, session_id: str, message: str) -> bool:
-        # 如果当前有处理锁，说明 AI 正在说话，直接拦截，不让插话
-        if await self.redis.get(f"lock:{session_id}"):
-            return False
-
+    async def add_message(self, session_id: str, message: str):
+        """
+        不论 AI 是否在忙，统统存入 Redis。
+        """
         if message.strip():
             await self.redis.rpush(f"buffer:{session_id}", message.strip())
             await self.redis.expire(f"buffer:{session_id}", 600)
 
-        # 刷新计时器
+        # 只要有新消息进来，就刷新（或启动）2.5s 的倒计时
         if session_id in self.active_tasks:
             self.active_tasks[session_id].cancel()
         
-        self.active_tasks[session_id] = asyncio.create_task(self._timer_callback(session_id))
-        return True
+        self.active_tasks[session_id] = asyncio.create_task(
+            self._timer_callback(session_id)
+        )
 
     async def _timer_callback(self, session_id: str):
         try:
             await asyncio.sleep(self.wait_time)
-            # 标记为就绪
+            # 静默期结束，标记为“可取走”
             await self.redis.set(f"ready:{session_id}", "1", ex=60)
-            logger.info(f"⏳ Buffer Ready ({session_id})")
+            logger.info(f"⏳ Buffer Ready ({session_id}): 用户停顿，准备处理新消息")
         except asyncio.CancelledError:
             pass
 
     async def get_merged_message(self, session_id: str) -> Optional[str]:
         """
-        原子化领取任务：
-        使用 delete 操作。Redis 保证只有一个请求能得到返回值为 1。
+        尝试领取任务。
+        规则：必须满足 (1) 没人在跑 (lock不存在) 且 (2) 消息已就绪 (ready存在)
         """
-        # 尝试删除 ready 键
+        # 1. 检查是否有别人正在跑
+        if await self.redis.get(f"lock:{session_id}"):
+            return None
+
+        # 2. 检查消息是否已经过了 2.5s 的静默期
         if await self.redis.delete(f"ready:{session_id}") == 1:
-            # 我是胜出者，负责取走所有消息
+            # 只有删除成功的那个请求才是 Winner
             messages = await self.redis.lrange(f"buffer:{session_id}", 0, -1)
+            if not messages: return None
+            
             await self.redis.delete(f"buffer:{session_id}")
-            # 设置处理锁，防止 AI 运行期间新的消息进来把逻辑搞乱
+            # 设置处理锁，保护本次 AI 运行
             await self.redis.set(f"lock:{session_id}", "1", ex=60)
             return "\n".join(messages)
+        
         return None
 
     async def release_lock(self, session_id: str):
