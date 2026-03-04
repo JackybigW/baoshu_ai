@@ -9,6 +9,8 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 # -------------------------------------------------
 
+from typing import List, Optional, Any, Union, Dict, Sequence
+from pydantic import BaseModel
 from langchain_core.messages import SystemMessage
 from state import AgentState, IntentResult, CustomerProfile, BudgetPeriod
 from utils.llm_factory import get_backend_llm

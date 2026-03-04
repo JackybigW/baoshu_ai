@@ -10,6 +10,8 @@ sys.path.append(parent_dir)
 
 # -------------------------------------------------
 
+from typing import List, Optional, Any, Union, Dict, Sequence, Literal
+from pydantic import BaseModel
 from langchain_core.messages import SystemMessage,  AIMessage, ToolMessage
 from state import AgentState, CustomerProfile 
 from utils.llm_factory import get_frontend_llm
