@@ -21,33 +21,34 @@ def core_router(state: AgentState):
     profile = state["profile"]
     status = state.get("dialog_status")
 
-    # 1. 最高优先级
+    # 1. 绝对最高优先级：保命逻辑（人工、破冰、闲聊）
     if intent == IntentType.TRANSFER_TO_HUMAN:
         return "human_handoff"
     if intent in [IntentType.GREETING, IntentType.CHIT_CHAT]:
         return "chit_chat"
 
-    # 2. 身份赛道分流
+    # 2. 业务功能优先级：成交信号 > 专家建议 > 身份赛道
+    # 只要触发了成交意图或决策辅助，不论身份（VIP/艺术/穷），统一进 consultant 收网版
+    if intent == IntentType.SALES_READY:
+        return "consultant"
+    if intent == IntentType.DECISION_SUPPORT:
+        return "consultant"
+
+    # 3. 身份赛道锁定（此时意图是普通咨询或赛道意图）
     if intent == IntentType.HIGH_VALUE or status == "VIP_SERVICE":
         return "high_value"
         
     if intent == IntentType.ART_CONSULTING:
         return "art_director"
         
-    if intent == IntentType.LOW_BUDGET:  # 直接看意图，干净清爽
+    if intent == IntentType.LOW_BUDGET: 
         return "low_budget"
 
-    # 3. 业务补漏 (针对 intent 是 NEED_CONSULTING 的情况)
-    # 如果意图没识别出穷鬼，但画像里确实没钱，补刀：
+    # 4. 业务补漏
     if profile.budget.amount > 0 and profile.budget.amount < 10:
         return "low_budget"
     
-    if intent == IntentType.DECISION_SUPPORT:
-        return "consultant"
-    if intent == IntentType.SALES_READY:
-        return "consultant"
-
-    # 4. 常规流程
+    # 5. 常规资料补全
     if not profile.is_complete:
         return "interviewer"
 

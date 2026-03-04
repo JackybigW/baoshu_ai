@@ -53,8 +53,9 @@ def high_value_node(state: AgentState):
     last_user_msg = state["messages"][-1]
     tools = [summon_specialist_tool]
     
-    # 🔥 核心优化：动态工具控制
-    if is_sales_mode or msg_count >= 13:
+    # 🔥 核心控制：阶段一 (msg_count < 7) 禁用工具，强制文字咨询
+    # 阶段二、阶段三及 Sales Ready 模式开启工具，允许摇人
+    if is_sales_mode or msg_count >= 7:
         active_llm = llm_chat.bind_tools(tools)
         can_use_tool = True
     else:
