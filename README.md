@@ -31,9 +31,11 @@ graph LR
         Router --> HV[高净值顾问 Agent]
         Router --> ART[艺术留学顾问 Agent]
         Router --> CS[销售收网顾问 Agent]
+        Router --> LB[低预算引导 Agent]
         Router --> IV[背景调查采访节点]
     end
 
+    Execution_Layer <--> RAG[(暴叔内部产品库<br/><i>Excel-based RAG</i>)]
     Execution_Layer --> Handoff{人工转接信号<br/><i>工具调用</i>}
     Handoff --> Agent_Assigned((真人顾问对接))
 
@@ -46,11 +48,12 @@ graph LR
     style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
     style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    style RAG fill:#e1f5fe,stroke:#01579b,stroke-dasharray: 5 5
     style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
 ```
-> 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层完全由纯逻辑驱动，杜绝了 LLM 的路由幻觉；内置工业级 Redis 缓冲区处理高并发“连珠炮”输入。
+> 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层完全由纯逻辑驱动，杜绝了 LLM 的路由幻觉；**内置 Excel-based RAG 技术**确保业务方案 100% 准确；具备工业级 Redis 缓冲区处理高并发输入。
 > 
-> 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=LpQWIzJznfixXQSMAQTJa,1qBQc0xilYw4aE3KGnLVZw)**
+> 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=EpGJDygMF3VKeaSMbmEL_,NqkNwaSOb9fzmAe1o4n6Yg)**
 
 ### 核心设计哲学：
 1. **Parallel Perception (并行感知)**：通过 LangGraph 的并行节点，同时启动 `Intent Classifier` 与 `Entity Extractor`，利用并发能力降低 LLM 整体响应延迟。

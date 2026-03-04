@@ -31,9 +31,11 @@ graph LR
         Router --> HV[High-Value Agent]
         Router --> ART[Art Director Agent]
         Router --> CS[Closing Consultant]
+        Router --> LB[Low Budget Agent]
         Router --> IV[Profile Interviewer]
     end
 
+    Execution_Layer <--> RAG[(Knowledge Base<br/><i>Excel-based RAG</i>)]
     Execution_Layer --> Handoff{Human Handoff<br/><i>Tool Call</i>}
     Handoff --> Agent_Assigned((Human Consultant))
 
@@ -46,11 +48,12 @@ graph LR
     style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
     style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    style RAG fill:#e1f5fe,stroke:#01579b,stroke-dasharray: 5 5
     style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
 ```
-> 💡 **Highlights**: Features a decoupled 3-layer design. Parallel perception significantly reduces latency; the decision layer is driven by pure logic to eliminate LLM "routing hallucinations"; and an industrial-grade Redis buffer handles high-frequency burst inputs.
+> 💡 **Highlights**: Features a decoupled 3-layer design. Parallel perception significantly reduces latency; the decision layer is driven by pure logic to eliminate LLM "routing hallucinations"; **Integrated Excel-based RAG** ensures 100% accurate product data; and an industrial-grade Redis buffer handles burst inputs.
 > 
-> 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=CYEqHumywMgFYCqHs450Q,yKZ7iWNzugZOGMHYBiIRkw)**
+> 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=EpGJDygMF3VKeaSMbmEL_,NqkNwaSOb9fzmAe1o4n6Yg)**
 
 ### Core Design Philosophy:
 1. **Parallel Perception**: Uses LangGraph parallel nodes to run `Intent Classifier` and `Entity Extractor` concurrently, slashing E2E latency.
