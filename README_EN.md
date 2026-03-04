@@ -30,7 +30,7 @@ graph LR
     subgraph Execution_Layer [Execution Layer - Specialized Agents]
         Router --> HV[High-Value Agent]
         Router --> ART[Art Director Agent]
-        Router --> CS[Closing Consultant]
+        Router --> CS[Sales Strategist]
         Router --> LB[Low Budget Agent]
         Router --> IV[Profile Interviewer]
     end

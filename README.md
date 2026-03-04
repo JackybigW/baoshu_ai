@@ -30,9 +30,9 @@ graph LR
     subgraph Execution_Layer [执行层 - 专家 Agent 矩阵]
         Router --> HV[高净值顾问 Agent]
         Router --> ART[艺术留学顾问 Agent]
-        Router --> CS[销售收网顾问 Agent]
+        Router --> CS[销售转化专家]
         Router --> LB[低预算引导 Agent]
-        Router --> IV[背景调查采访节点]
+        Router --> IV[背景调查采访]
     end
 
     Execution_Layer <--> RAG[(暴叔内部产品库<br/><i>Excel-based RAG</i>)]
