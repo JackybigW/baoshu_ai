@@ -11,6 +11,11 @@ deploy.sh
 # 移除 tests/ 的忽略，因为面试官需要看到测试用例
 # tests/ 
 
+# 隐藏测试报告和本地 Debug 脚本
+tests/reports/
+test_debug.py
+.pytest_cache/
+
 .vscode/
 GEMINI.md
 .gemini/
