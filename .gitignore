@@ -9,3 +9,7 @@ products_intro.xlsx
 deploy.sh
 tests/
 .vscode/
+GEMINI.md
+.gemini/
+gha-creds-*.json
+3.3_plan.txt
