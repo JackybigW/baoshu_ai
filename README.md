@@ -53,7 +53,7 @@ graph LR
 ```
 > 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层完全由纯逻辑驱动，杜绝了 LLM 的路由幻觉；**内置 Excel-based RAG 技术**确保业务方案 100% 准确；具备工业级 Redis 缓冲区处理高并发输入。
 > 
-> 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=96TY_Pv_tfG-OyUMO8lmA,l74F7gKkvnhttPbSdNw2mw)**
+> 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=A6CcDNVfFHk4DncdvNgCu,-qNeeuqr6Acz1JkoaJRZ4g)**
 
 ### 核心设计哲学：
 1. **Parallel Perception (并行感知)**：通过 LangGraph 的并行节点，同时启动 `Intent Classifier` 与 `Entity Extractor`，利用并发能力降低 LLM 整体响应延迟。

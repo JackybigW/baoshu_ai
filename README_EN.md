@@ -53,7 +53,7 @@ graph LR
 ```
 > 💡 **Highlights**: Features a decoupled 3-layer design. Parallel perception significantly reduces latency; the decision layer is driven by pure logic to eliminate LLM "routing hallucinations"; **Integrated Excel-based RAG** ensures 100% accurate product data; and an industrial-grade Redis buffer handles burst inputs.
 > 
-> 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=96TY_Pv_tfG-OyUMO8lmA,l74F7gKkvnhttPbSdNw2mw)**
+> 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=A6CcDNVfFHk4DncdvNgCu,-qNeeuqr6Acz1JkoaJRZ4g)**
 
 ### Core Design Philosophy:
 1. **Parallel Perception**: Uses LangGraph parallel nodes to run `Intent Classifier` and `Entity Extractor` concurrently, slashing E2E latency.
