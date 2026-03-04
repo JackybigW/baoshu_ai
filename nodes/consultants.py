@@ -2,7 +2,7 @@
 import os
 import sys
 import re
-from nodes.tools import summon_specialist_tool,search_products
+
 # 🛠️ 【防报错补丁】
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -13,7 +13,8 @@ sys.path.append(parent_dir)
 from typing import List, Optional, Any, Union, Dict, Sequence, Literal
 from pydantic import BaseModel
 from langchain_core.messages import SystemMessage,  AIMessage, ToolMessage
-from state import AgentState, CustomerProfile 
+from state import AgentState, CustomerProfile, IntentType
+from nodes.tools import summon_specialist_tool, search_products
 from utils.llm_factory import get_frontend_llm
 from utils.logger import logger
 
@@ -25,8 +26,7 @@ llm_chat = get_frontend_llm(temperature=0.7)
 
 #1 用户加了好友，优先say hi，勾引用户说话
 def first_greeting_node(state: AgentState):
-    logger.info("---
- 👋 Greeting: AI 主动破冰 ---")
+    logger.info("--- 👋 Greeting: AI 主动破冰 ---")
     return {
         "messages": [AIMessage(content="您好，欢迎咨询！ 跟上暴叔的节奏～")],
         "dialog_status": "START", # 标记状态
@@ -35,8 +35,7 @@ def first_greeting_node(state: AgentState):
 
 #2 VIP会员通道（目的是快速勾引客户，快速转人工，不让ai多废话，说多错多）
 def high_value_node(state: AgentState):
-    logger.info("---
- 🎩 High Value: 握有实权的合伙人 (Agentic版) ---")
+    logger.info("--- 🎩 High Value: 握有实权的合伙人 (Agentic版) ---")
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
@@ -72,6 +71,7 @@ def high_value_node(state: AgentState):
        - 当用户提出语音，电话等必须需要人类干预的事项（"可以的，您留一个电话，我马上让顾问联系您")。
        - 当用户负面情绪严重，不想沟通。（“ 看情况回答，并自然安排资深顾问老师联系）
        - 当用户出现求助信号：“有办法帮我吗” /“能不能搞定”/“太难了” （爽快答应！ 并表示具体细节由专业老师跟你详细沟通）
+       - 当用户出现求助信号：“有办法帮我吗” /“能不能搞定”/“太难了” （爽快答应！ 并表示具体细节由专业老师跟你详细沟通）
        - 当用户提出灰产要求："能不能保录"、"操作成绩"、"买文凭"、"走后门"、"特殊渠道"。
        - 对话过长: {closing_pressure}
        
@@ -90,7 +90,7 @@ def high_value_node(state: AgentState):
     response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
     
     if response.tool_calls:
-        print(f"🔧 Tool Triggered: {response.tool_calls}")
+        logger.info(f"🔧 Tool Triggered: {response.tool_calls}")
         return {"messages": [response], "dialog_status": "VIP_SERVICE"}
     
     # 情况 B: 纯聊天 (Chat)
@@ -105,8 +105,7 @@ def high_value_node(state: AgentState):
 
 #3 艺术留学顾问（艺术留学和普通留学不兼容，需分开）
 def art_node(state: AgentState):
-    logger.info("---
- 🎩 Art Director: 艺术总监 ---")
+    logger.info("--- 🎩 Art Director: 艺术总监 ---")
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
@@ -170,7 +169,7 @@ def art_node(state: AgentState):
     response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
     
     if response.tool_calls:
-        print(f"🔧 Tool Triggered: {response.tool_calls}")
+        logger.info(f"🔧 Tool Triggered: {response.tool_calls}")
         return {"messages": [response], "dialog_status": "VIP_SERVICE"}
     
     # 情况 B: 纯聊天 (Chat)
@@ -185,7 +184,7 @@ def art_node(state: AgentState):
 
 #5 常规咨询的顾问，主要工作是解答问题，并采访用户获取背景信息
 def interviewer_node(state: AgentState):
-   
+    logger.info("--- 🎤 Interviewer ---")
     profile = state.get("profile") or CustomerProfile()
     missing = profile.missing_fields
     # 获取上下文
@@ -296,15 +295,13 @@ def consultant_node(state: AgentState):
     - NEED_CONSULTING: 给出方案
     - SALES_READY: 收网模式
     """
-    from state import IntentType
-    
     profile = state["profile"]
     intent = state.get("last_intent")
     messages = state["messages"]
     msg_count = len(messages)
     is_sales_mode = (intent == IntentType.SALES_READY)
     
-    print(f"--- 🎯 Consultant: {'收网模式' if is_sales_mode else '方案模式'} ---")
+    logger.info(f"--- 🎯 Consultant: {'收网模式' if is_sales_mode else '方案模式'} ---")
     
     tools = [summon_specialist_tool]
     llm_with_tools = llm_chat.bind_tools(tools)
@@ -469,9 +466,9 @@ def consultant_node(state: AgentState):
     response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
 
     if response.tool_calls:
-        print(f"🔧 Tool Triggered: {response.tool_calls}")
+        logger.info(f"🔧 Tool Triggered: {response.tool_calls}")
         if not response.content or not response.content.strip():
-            print("⚠️ 检测到静默拉群，自动补充过渡话术...")
+            logger.warning("⚠️ 检测到静默拉群，自动补充过渡话术...")
             response.content = "这事儿得细聊。|||我拉个群，让负责老师对接你。"
 
     raw_content = response.content.replace("\n\n", "").replace("\n", "").replace("**", "")
@@ -485,8 +482,7 @@ def consultant_node(state: AgentState):
 
 #7 低预算客户专属节点 - 提供性价比方案，快速转人工
 def low_budget_node(state: AgentState):
-    logger.info("---
- 💰 Low Budget: 低预算客户通道 ---")
+    logger.info("--- 💰 Low Budget ---")
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
@@ -552,7 +548,7 @@ def low_budget_node(state: AgentState):
     response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
     
     if response.tool_calls:
-        print(f"🔧 Tool Triggered: {response.tool_calls}")
+        logger.info(f"🔧 Tool Triggered: {response.tool_calls}")
         return {"messages": [response], "dialog_status": "PERSUADING"}
     
     # 情况 B: 纯聊天 (Chat)
@@ -567,14 +563,13 @@ def low_budget_node(state: AgentState):
 #8 转人工node，用来兜底的。。
 def human_handoff_node(state: AgentState):
 
-    logger.info("---
- 🆘 Handoff: 转人工/签约对接 ---")
+    logger.info("--- 🆘 Handoff ---")
     
     messages = state["messages"]
     profile = state.get("profile") or CustomerProfile()
     last_msg = messages[-1]
     if isinstance(last_msg, AIMessage) and last_msg.tool_calls:
-        print(">>> 检测到未闭环的 Tool Call，正在构造 ToolMessage...")
+        logger.info(">>> 检测到未闭环的 Tool Call，正在构造 ToolMessage...")
         
         tool_msgs = []
         for tc in last_msg.tool_calls:
@@ -584,11 +579,6 @@ def human_handoff_node(state: AgentState):
                 content="Specialist has been summoned successfully. Group chat created."
             ))
             
-        # 逻辑：
-        # High Value 刚才已经说了 "我让顾问联系你..." (text content)
-        # 所以 Handoff 节点只需要把这个 ToolMessage 塞进历史记录，让状态完整即可。
-        # 不需要再让 AI 说话了，否则会显得啰嗦。
-        
         return {"messages": tool_msgs, "dialog_status": "FINISHED"}
     
     system_prompt = f"""
@@ -631,8 +621,7 @@ def human_handoff_node(state: AgentState):
 
 #2.28增加
 def chit_chat_node(state: AgentState):
-    logger.info("---
- ☕ Chit Chat: 纯闲聊模式 ---")
+    logger.info("--- ☕ Chit Chat ---")
     messages = state["messages"]
     
     system_prompt = """
@@ -655,8 +644,7 @@ def chit_chat_node(state: AgentState):
     response = llm_chat.invoke([SystemMessage(content=system_prompt)] + messages)
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
     split_texts = raw_content.split("|||")
-        # 把切分后的文本重新封装成多个 AIMessage
+    # 把切分后的文本重新封装成多个 AIMessage
     ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
     
     return {"messages": ai_messages} # 闲聊不改变 dialog_status，保持原样即可
-    
