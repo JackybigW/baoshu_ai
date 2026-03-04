@@ -13,22 +13,22 @@
 ## 🎨 System Architecture
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'primaryColor': '#e1f5fe', 'edgeLabelBackground':'#ffffff'}}}%%
 graph LR
-    subgraph Input_Layer [Input & Control]
-        User((User Message)) --> Buffer[Redis Message Buffer<br/><b>De-bounce & Merge</b>]
+    %% Layers
+    subgraph Input [Input Layer]
+        User((User Input)) --> Buffer[Redis De-bounce]
     end
 
-    subgraph Perception_Layer [Perception Layer - Parallel Processing]
-        Buffer --> Classifier{Intent Classifier<br/><i>LLM</i>}
-        Buffer --> Extractor{Entity Extractor<br/><i>Structured Pydantic</i>}
+    subgraph Perception [Perception Layer]
+        Buffer --> Classifier{Intent Classify}
+        Buffer --> Extractor{Profile Extract}
     end
 
-    subgraph Decision_Layer [Decision Layer - Logic Routing]
-        Classifier & Extractor --> Router{Core Logic Router<br/><b>Pure Python</b>}
+    subgraph Decision [Decision Layer]
+        Classifier & Extractor --> Router{Core Router}
     end
 
-    subgraph Execution_Layer [Execution Layer - Specialized Agents]
+    subgraph Execution [Execution Layer]
         Router --> HV[High-Value Agent]
         Router --> ART[Art Director Agent]
         Router --> CS[Sales Strategist]
@@ -36,25 +36,23 @@ graph LR
         Router --> IV[Profile Interviewer]
     end
 
-    Execution_Layer <--> RAG[Knowledge Base<br/><b>Excel-based RAG</b>]
-    Execution_Layer --> Handoff{Human Handoff<br/><i>Tool Call</i>}
-    Handoff --> Agent_Assigned((Human Consultant))
+    %% Core Components
+    Execution <--> RAG[[Knowledge Base<br/>Excel RAG]]
+    Execution --> Handoff{Handoff}
+    Handoff --> Human((Human Consultant))
 
-    subgraph Persistence [Persistence Layer]
-        Router -.-> DB[(State Storage<br/>Memory / SQLite)]
-    end
-
-    %% Styling
-    style Input_Layer fill:#f9f9f9,stroke:#333,stroke-width:1px
-    style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
-    style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
-    style RAG fill:#c3fae8,stroke:#0d9488,stroke-width:3px,color:#000,font-size:18px
-    style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
-    style User fill:#a5d8ff,stroke:#2563eb
-    style Agent_Assigned fill:#ffd8a8,stroke:#ea580c
+    %% Tech Minimalist Styles
+    style Input fill:#ffffff,stroke:#333,stroke-width:1px
+    style Perception fill:#f8f9fa,stroke:#333,stroke-width:1px
+    style Decision fill:#f8f9fa,stroke:#333,stroke-width:1px
+    style Execution fill:#f8f9fa,stroke:#333,stroke-width:1px
+    
+    %% Asset Emphasis
+    style RAG fill:#1e293b,color:#fff,stroke:#0f172a,stroke-width:2px
+    style User fill:#333,color:#fff
+    style Human fill:#333,color:#fff
 ```
-> 💡 **Highlights**: Features a decoupled 3-layer design. Parallel perception significantly reduces latency; the decision layer is driven by pure logic to eliminate LLM "routing hallucinations"; **Integrated Excel-based RAG** ensures 100% accurate product data; and an industrial-grade Redis buffer handles burst inputs.
+> 💡 **Highlights**: Features a decoupled 3-layer design. Parallel perception significantly reduces latency; the decision layer is driven by pure logic; **Integrated Excel-based RAG** ensures 100% accurate product data.
 > 
 > 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=n0bsAOmocdUPILGPSbVjR,XJlQG1lfA2KD2fOtM8PTgQ)**
 

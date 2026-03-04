@@ -13,48 +13,46 @@
 ## 🎨 核心架构 (System Architecture)
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'primaryColor': '#e1f5fe', 'edgeLabelBackground':'#ffffff'}}}%%
 graph LR
-    subgraph Input_Layer [输入与控制]
-        User((用户消息)) --> Buffer[Redis 消息缓冲区<br/><b>防抖与语义合并</b>]
+    %% 层级定义
+    subgraph Input [输入控制层]
+        User((用户输入)) --> Buffer[Redis 消息防抖]
     end
 
-    subgraph Perception_Layer [感知层 - 并行处理]
-        Buffer --> Classifier{意图分类器<br/><i>LLM</i>}
-        Buffer --> Extractor{信息提取器<br/><i>结构化 Pydantic</i>}
+    subgraph Perception [并行感知层]
+        Buffer --> Classifier{意图分类}
+        Buffer --> Extractor{画像提取}
     end
 
-    subgraph Decision_Layer [决策层 - 逻辑路由]
-        Classifier & Extractor --> Router{核心逻辑路由器<br/><b>纯 Python 驱动</b>}
+    subgraph Decision [逻辑决策层]
+        Classifier & Extractor --> Router{核心路由器}
     end
 
-    subgraph Execution_Layer [执行层 - 专家 Agent 矩阵]
-        Router --> HV[高净值顾问 Agent]
-        Router --> ART[艺术留学顾问 Agent]
+    subgraph Execution [专家执行层]
+        Router --> HV[高净值顾问]
+        Router --> ART[艺术留学顾问]
         Router --> CS[销售转化专家]
-        Router --> LB[低预算引导 Agent]
-        Router --> IV[背景调查采访]
+        Router --> LB[低预算引导]
+        Router --> IV[资料调查采访]
     end
 
-    Execution_Layer <--> RAG[暴叔内部产品库<br/><b>Excel-based RAG</b>]
-    Execution_Layer --> Handoff{人工转接信号<br/><i>工具调用</i>}
-    Handoff --> Agent_Assigned((真人顾问对接))
+    %% 核心组件连接
+    Execution <--> RAG[[暴叔私有产品库<br/>Excel RAG]]
+    Execution --> Handoff{人工转接}
+    Handoff --> Human((真人顾问))
 
-    subgraph Persistence [持久化层]
-        Router -.-> DB[(状态存档<br/>Memory / SQLite)]
-    end
-
-    %% Styling
-    style Input_Layer fill:#f9f9f9,stroke:#333,stroke-width:1px
-    style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
-    style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
-    style RAG fill:#c3fae8,stroke:#0d9488,stroke-width:3px,color:#000,font-size:18px
-    style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
-    style User fill:#a5d8ff,stroke:#2563eb
-    style Agent_Assigned fill:#ffd8a8,stroke:#ea580c
+    %% 极简极客风样式
+    style Input fill:#ffffff,stroke:#333,stroke-width:1px
+    style Perception fill:#f8f9fa,stroke:#333,stroke-width:1px
+    style Decision fill:#f8f9fa,stroke:#333,stroke-width:1px
+    style Execution fill:#f8f9fa,stroke:#333,stroke-width:1px
+    
+    %% 核心资产强调
+    style RAG fill:#1e293b,color:#fff,stroke:#0f172a,stroke-width:2px
+    style User fill:#333,color:#fff
+    style Human fill:#333,color:#fff
 ```
-> 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层完全由纯逻辑驱动，杜绝了 LLM 的路由幻觉；**内置 Excel-based RAG 技术**确保业务方案 100% 准确；具备工业级 Redis 缓冲区处理高并发输入。
+> 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层由纯逻辑驱动，杜绝路由幻觉；**内置 Excel-based RAG 技术**确保方案 100% 准确。
 > 
 > 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=yu1qPVjV9NXIMSOQmWhtW,4OwlzA5NRWPVN0CzI4Fd5w)**
 
