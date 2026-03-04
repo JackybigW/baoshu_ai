@@ -323,7 +323,9 @@ class IntentResult(BaseModel):
 # %%
 # Excel 数据加载
 try:
-    df_db = pd.read_excel("products_intro.xlsx")
+    # 修正路径：文件现在在 data 子目录下
+    excel_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "products_intro.xlsx")
+    df_db = pd.read_excel(excel_path)
     num_cols = df_db.select_dtypes(include=['number']).columns
     df_db[num_cols] = df_db[num_cols].fillna(0)
     obj_cols = df_db.select_dtypes(include=['object', 'string']).columns

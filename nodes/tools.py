@@ -44,7 +44,7 @@ try:
     project_root = os.path.dirname(current_dir) 
 
     # 3. 拼凑出 Excel 的绝对路径
-    excel_path = os.path.join(project_root, "products_intro.xlsx")
+    excel_path = os.path.join(project_root, "data", "products_intro.xlsx")
     
     df_db = pd.read_excel(excel_path)
 
