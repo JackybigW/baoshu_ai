@@ -128,6 +128,13 @@ def high_value_node(state: AgentState):
         2. 适当暗示暴叔手里资源优秀可弯道超车，以及团队的专业程度，会辅佐客户留学申请。
         3. 引起用户的焦虑感和好奇心。
         【客户画像】: {profile.model_dump_json(exclude_none=True)}
+        【你的特权】
+        你手边有一个tool `summon_specialist_tool` (呼叫专家)。
+        当前是埋伏笔阶段，只有在用户肯定方案，或者要求语音通话时使用
+        【拉群规范】
+         1. 先回答客户的问题（给结论，给建议，分析利弊）
+         2. 解释为什么要拉群安排资深顾问老师对接
+         3. 最后调用工具
         """
     else:
         system_prompt = f"""
@@ -143,12 +150,12 @@ def high_value_node(state: AgentState):
 
     response = active_llm.invoke([SystemMessage(content=system_prompt)] + messages)
 
-    # 结构化处理回复 (确保不回"好的"这种废话)
+    # 结构化处理回复 (防静默逻辑只在允许使用工具时生效)
     if can_use_tool and response.tool_calls:
         logger.info(f"🔧 High Value Tool Triggered: {response.tool_calls}")
         if not response.content or len(response.content.strip()) < 5:
             logger.warning("⚠️ 检测到回复过短，自动补偿 VIP 话术...")
-            response.content = "这件事儿细节挺多，电话里一句两句说不完。|||我拉个群，把我专门带这个赛道的合伙人拉进来，咱们拉个语音细盘一下。"
+            response.content = "这件事儿细节挺多，一句两句说不完。|||我直接拉个群，安排最资深的顾问老师来跟你一对一对接。"
 
     raw_content = response.content.replace("\n\n", "").replace("\n", "").replace("**", "")
     split_texts = raw_content.split("|||")
@@ -526,7 +533,7 @@ def consultant_node(state: AgentState):
         logger.info(f"🔧 Tool Triggered: {response.tool_calls}")
         if not response.content or not response.content.strip():
             logger.warning("⚠️ 检测到静默拉群，自动补充过渡话术...")
-            response.content = "这事儿得细聊。|||我拉个群，让负责老师对接你。"
+            response.content = "这件事儿细节挺多，一句两句说不完。|||我直接拉个群，安排最资深的顾问老师来跟你一对一对接。"
 
     raw_content = response.content.replace("\n\n", "").replace("\n", "").replace("**", "")
     split_texts = raw_content.split("|||")
