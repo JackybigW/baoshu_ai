@@ -10,12 +10,45 @@
 
 ## 🎨 核心架构 (System Architecture)
 
-<!-- 这里是预留给你的视觉大图位置 -->
-<p align="center">
-  <img src="static/uncle_bao.png" width="200" alt="Logo" />
-  <br>
-  <i>(建议此处替换为你在 Excalidraw 绘制的架构图 architecture_visual.png)</i>
-</p>
+```mermaid
+graph LR
+    subgraph Input_Layer [Input & Control]
+        User((User Message)) --> Buffer[Redis Message Buffer<br/><i>De-bounce & Merge</i>]
+    end
+
+    subgraph Perception_Layer [Perception Layer - Parallel Processing]
+        Buffer --> Classifier{Intent Classifier<br/><i>LLM</i>}
+        Buffer --> Extractor{Entity Extractor<br/><i>Structured Pydantic</i>}
+    end
+
+    subgraph Decision_Layer [Decision Layer - Logic Routing]
+        Classifier & Extractor --> Router{Core Logic Router<br/><i>Pure Python</i>}
+    end
+
+    subgraph Execution_Layer [Execution Layer - Specialized Agents]
+        Router --> HV[High-Value Agent]
+        Router --> ART[Art Director Agent]
+        Router --> CS[Closing Consultant]
+        Router --> IV[Profile Interviewer]
+    end
+
+    Execution_Layer --> Handoff{Human Handoff<br/><i>Tool Call</i>}
+    Handoff --> Agent_Assigned((Human Consultant))
+
+    subgraph Persistence [Persistence Layer]
+        Router -.-> DB[(Memory / SQLite<br/>Checkpointer)]
+    end
+
+    %% Styling
+    style Input_Layer fill:#f5f5f5,stroke:#333
+    style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
+    style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
+```
+> 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层完全由纯逻辑驱动，杜绝了 LLM 的路由幻觉；内置工业级 Redis 缓冲区处理高并发“连珠炮”输入。
+> 
+> 🔗 **[查看高清手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=CYEqHumywMgFYCqHs450Q,yKZ7iWNzugZOGMHYBiIRkw)**
 
 ### 核心设计哲学：
 1. **Parallel Perception (并行感知)**：通过 LangGraph 的并行节点，同时启动 `Intent Classifier` 与 `Entity Extractor`，利用并发能力降低 LLM 整体响应延迟。
