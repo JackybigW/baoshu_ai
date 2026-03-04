@@ -9,27 +9,12 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
 # -------------------------------------------------
 
-from langchain.chat_models import init_chat_model
 from langchain_core.messages import SystemMessage
 from state import AgentState, IntentResult, CustomerProfile, BudgetPeriod
-from dotenv import load_dotenv, find_dotenv
+from utils.llm_factory import get_backend_llm
 
-_ = load_dotenv(find_dotenv())
-deepseek_api_key = os.environ['DEEPSEEK_API_KEY']
-
-llm = init_chat_model(
-    "deepseek-chat",
-    model_provider="deepseek",
-    temperature=0,
-    api_key=deepseek_api_key
-)
-
-llm_chat = init_chat_model(
-    "deepseek-chat",
-    model_provider="deepseek",
-    temperature=0.7,
-    api_key=deepseek_api_key
-)
+llm = get_backend_llm()
+llm_chat = get_backend_llm() # 感知层统一使用 backend 配置
 
 
 def classifier_node(state: AgentState):

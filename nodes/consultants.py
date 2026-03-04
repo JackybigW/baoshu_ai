@@ -10,35 +10,15 @@ sys.path.append(parent_dir)
 
 # -------------------------------------------------
 
-# 核心聊天组件
-from langchain.chat_models import init_chat_model
 from langchain_core.messages import SystemMessage,  AIMessage, ToolMessage
-
-# 状态与画像
 from state import AgentState, CustomerProfile 
-
-# 环境变量
-from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv())
-
-# 初始化模型
-deepseek_api_key = os.environ['DEEPSEEK_API_KEY']
+from utils.llm_factory import get_frontend_llm
 
 # 结构化输出模型 (温度低，稳定)
-llm = init_chat_model(
-    "deepseek-chat",
-    model_provider="deepseek",
-    temperature=0,
-    api_key=deepseek_api_key
-)
+llm = get_frontend_llm(temperature=0)
 
 # 顾问聊天模型 (温度稍高，更像人)
-llm_chat = init_chat_model(
-    "deepseek-chat",
-    model_provider="deepseek",
-    temperature=0.7,
-    api_key=deepseek_api_key
-)
+llm_chat = get_frontend_llm(temperature=0.7)
 
 #1 用户加了好友，优先say hi，勾引用户说话
 def first_greeting_node(state: AgentState):
