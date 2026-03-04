@@ -13,9 +13,10 @@
 ## 🎨 System Architecture
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'primaryColor': '#e1f5fe', 'edgeLabelBackground':'#ffffff'}}}%%
 graph LR
     subgraph Input_Layer [Input & Control]
-        User((User Message)) --> Buffer[Redis Message Buffer<br/><i>De-bounce & Merge</i>]
+        User((User Message)) --> Buffer[Redis Message Buffer<br/><b>De-bounce & Merge</b>]
     end
 
     subgraph Perception_Layer [Perception Layer - Parallel Processing]
@@ -24,7 +25,7 @@ graph LR
     end
 
     subgraph Decision_Layer [Decision Layer - Logic Routing]
-        Classifier & Extractor --> Router{Core Logic Router<br/><i>Pure Python</i>}
+        Classifier & Extractor --> Router{Core Logic Router<br/><b>Pure Python</b>}
     end
 
     subgraph Execution_Layer [Execution Layer - Specialized Agents]
@@ -35,7 +36,7 @@ graph LR
         Router --> IV[Profile Interviewer]
     end
 
-    Execution_Layer <--> RAG[(Knowledge Base<br/><i>Excel-based RAG</i>)]
+    Execution_Layer <--> RAG[Knowledge Base<br/><b>Excel-based RAG</b>]
     Execution_Layer --> Handoff{Human Handoff<br/><i>Tool Call</i>}
     Handoff --> Agent_Assigned((Human Consultant))
 
@@ -44,16 +45,18 @@ graph LR
     end
 
     %% Styling
-    style Input_Layer fill:#f5f5f5,stroke:#333
+    style Input_Layer fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
     style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
-    style RAG fill:#e1f5fe,stroke:#01579b,stroke-dasharray: 5 5
+    style RAG fill:#c3fae8,stroke:#0d9488,stroke-width:3px,color:#000,font-size:18px
     style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
+    style User fill:#a5d8ff,stroke:#2563eb
+    style Agent_Assigned fill:#ffd8a8,stroke:#ea580c
 ```
 > 💡 **Highlights**: Features a decoupled 3-layer design. Parallel perception significantly reduces latency; the decision layer is driven by pure logic to eliminate LLM "routing hallucinations"; **Integrated Excel-based RAG** ensures 100% accurate product data; and an industrial-grade Redis buffer handles burst inputs.
 > 
-> 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=nu_OVv-ve-7In_qNpM3br,SC-l0EEpgTxYaJB8TgcjlQ)**
+> 🔗 **[View High-Res Hand-Drawn Diagram (Excalidraw)](https://excalidraw.com/#json=n0bsAOmocdUPILGPSbVjR,XJlQG1lfA2KD2fOtM8PTgQ)**
 
 ### Core Design Philosophy:
 1. **Parallel Perception**: Uses LangGraph parallel nodes to run `Intent Classifier` and `Entity Extractor` concurrently, slashing E2E latency.

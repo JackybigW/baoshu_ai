@@ -13,9 +13,10 @@
 ## 🎨 核心架构 (System Architecture)
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '16px', 'primaryColor': '#e1f5fe', 'edgeLabelBackground':'#ffffff'}}}%%
 graph LR
     subgraph Input_Layer [输入与控制]
-        User((用户消息)) --> Buffer[Redis 消息缓冲区<br/><i>防抖与语义合并</i>]
+        User((用户消息)) --> Buffer[Redis 消息缓冲区<br/><b>防抖与语义合并</b>]
     end
 
     subgraph Perception_Layer [感知层 - 并行处理]
@@ -24,7 +25,7 @@ graph LR
     end
 
     subgraph Decision_Layer [决策层 - 逻辑路由]
-        Classifier & Extractor --> Router{核心逻辑路由器<br/><i>纯 Python 驱动</i>}
+        Classifier & Extractor --> Router{核心逻辑路由器<br/><b>纯 Python 驱动</b>}
     end
 
     subgraph Execution_Layer [执行层 - 专家 Agent 矩阵]
@@ -35,7 +36,7 @@ graph LR
         Router --> IV[背景调查采访]
     end
 
-    Execution_Layer <--> RAG[(暴叔内部产品库<br/><i>Excel-based RAG</i>)]
+    Execution_Layer <--> RAG[暴叔内部产品库<br/><b>Excel-based RAG</b>]
     Execution_Layer --> Handoff{人工转接信号<br/><i>工具调用</i>}
     Handoff --> Agent_Assigned((真人顾问对接))
 
@@ -44,16 +45,18 @@ graph LR
     end
 
     %% Styling
-    style Input_Layer fill:#f5f5f5,stroke:#333
+    style Input_Layer fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Perception_Layer fill:#e1f5fe,stroke:#01579b,stroke-width:2px
     style Decision_Layer fill:#fff9c4,stroke:#f59e0b,stroke-width:2px
     style Execution_Layer fill:#f1f8e9,stroke:#33691e,stroke-width:2px
-    style RAG fill:#e1f5fe,stroke:#01579b,stroke-dasharray: 5 5
+    style RAG fill:#c3fae8,stroke:#0d9488,stroke-width:3px,color:#000,font-size:18px
     style Persistence fill:#f3e5f5,stroke:#7b1fa2,stroke-dasharray: 5 5
+    style User fill:#a5d8ff,stroke:#2563eb
+    style Agent_Assigned fill:#ffd8a8,stroke:#ea580c
 ```
 > 💡 **架构亮点**：采用三层解耦设计，感知层并行化极大降低了延迟；决策层完全由纯逻辑驱动，杜绝了 LLM 的路由幻觉；**内置 Excel-based RAG 技术**确保业务方案 100% 准确；具备工业级 Redis 缓冲区处理高并发输入。
 > 
-> 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=0aZOoM6B3-sNN1EOG1fOt,xXZS_Z-w1Nn6cV2Sp8AAhQ)**
+> 🔗 **[查看高清中文手绘版架构图 (Excalidraw)](https://excalidraw.com/#json=yu1qPVjV9NXIMSOQmWhtW,4OwlzA5NRWPVN0CzI4Fd5w)**
 
 ### 核心设计哲学：
 1. **Parallel Perception (并行感知)**：通过 LangGraph 的并行节点，同时启动 `Intent Classifier` 与 `Entity Extractor`，利用并发能力降低 LLM 整体响应延迟。
