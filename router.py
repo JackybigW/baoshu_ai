@@ -8,12 +8,14 @@ sys.path.append(parent_dir)
 from state import AgentState, IntentType
 
 
+from utils.logger import logger
+
 def core_router(state: AgentState):
     """
     【决策层 - 核心路由器】
     纯逻辑判断，根据 state 决定下一步走向。不调用 LLM。
     """
-    print("--- 🎯 Decision: 核心路由 ---")
+    logger.info("--- 🎯 Decision: 核心路由 ---")
 
     intent = state.get("last_intent")
     profile = state["profile"]

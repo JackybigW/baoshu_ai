@@ -14,6 +14,7 @@ from pydantic import BaseModel
 from langchain_core.messages import SystemMessage
 from state import AgentState, IntentResult, CustomerProfile, BudgetPeriod
 from utils.llm_factory import get_backend_llm
+from utils.logger import logger
 
 llm = get_backend_llm()
 llm_chat = get_backend_llm() # 感知层统一使用 backend 配置
@@ -24,7 +25,7 @@ def classifier_node(state: AgentState):
     【感知层 - 意图分类器】
     分析用户消息，判断意图类型。与 extractor 并行运行。
     """
-    print("--- 🧠 Perception: 意图分类 ---")
+    logger.info("--- 🧠 Perception: 意图分类 ---")
     recent_msg = state["messages"][-12:]
     current_status = state.get("dialog_status")
     profile = state.get("profile")
@@ -104,9 +105,10 @@ def classifier_node(state: AgentState):
     # 只有当 LLM 判定为"普通咨询"时，才去检查上一轮
     if final_intent == "NEED_CONSULTING":
         if last_intent in sticky_intents:
-            print(f"--- 🔒 触发身份继承: {last_intent} (忽略本次普通判定) ---")
+            logger.info(f"--- 🔒 触发身份继承: {last_intent} (忽略本次普通判定) ---")
             final_intent = last_intent
 
+    logger.info(f"🎯 Classifier Result: {final_intent}")
     updates = {"last_intent": final_intent}
 
     if final_intent == "HIGH_VALUE":
@@ -126,7 +128,7 @@ def extractor_node(state: AgentState):
     从用户消息中提取结构化画像信息。
     与 classifier 并行运行。
     """
-    print("--- 🕵️ Perception: 信息提取 ---")
+    logger.info("--- 🕵️ Perception: 信息提取 ---")
 
     # 1. 读取旧档案
     current_profile = state.get("profile")
@@ -204,6 +206,6 @@ def extractor_node(state: AgentState):
         else:
             final_profile.language_level = new_data.language_level
 
-    print(f"最终画像: {final_profile.model_dump_json(exclude_none=True)}")
+    logger.info(f"最终画像: {final_profile.model_dump_json(exclude_none=True)}")
 
     return {"profile": final_profile}

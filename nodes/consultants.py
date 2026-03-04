@@ -15,6 +15,7 @@ from pydantic import BaseModel
 from langchain_core.messages import SystemMessage,  AIMessage, ToolMessage
 from state import AgentState, CustomerProfile 
 from utils.llm_factory import get_frontend_llm
+from utils.logger import logger
 
 # 结构化输出模型 (温度低，稳定)
 llm = get_frontend_llm(temperature=0)
@@ -24,7 +25,8 @@ llm_chat = get_frontend_llm(temperature=0.7)
 
 #1 用户加了好友，优先say hi，勾引用户说话
 def first_greeting_node(state: AgentState):
-    print("--- 👋 Greeting: AI 主动破冰 ---")
+    logger.info("---
+ 👋 Greeting: AI 主动破冰 ---")
     return {
         "messages": [AIMessage(content="您好，欢迎咨询！ 跟上暴叔的节奏～")],
         "dialog_status": "START", # 标记状态
@@ -33,7 +35,8 @@ def first_greeting_node(state: AgentState):
 
 #2 VIP会员通道（目的是快速勾引客户，快速转人工，不让ai多废话，说多错多）
 def high_value_node(state: AgentState):
-    print("--- 🎩 High Value: 握有实权的合伙人 (Agentic版) ---")
+    logger.info("---
+ 🎩 High Value: 握有实权的合伙人 (Agentic版) ---")
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
@@ -102,7 +105,8 @@ def high_value_node(state: AgentState):
 
 #3 艺术留学顾问（艺术留学和普通留学不兼容，需分开）
 def art_node(state: AgentState):
-    print("--- 🎩 Art Director: 艺术总监 ---")
+    logger.info("---
+ 🎩 Art Director: 艺术总监 ---")
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
@@ -481,7 +485,8 @@ def consultant_node(state: AgentState):
 
 #7 低预算客户专属节点 - 提供性价比方案，快速转人工
 def low_budget_node(state: AgentState):
-    print("--- 💰 Low Budget: 低预算客户通道 ---")
+    logger.info("---
+ 💰 Low Budget: 低预算客户通道 ---")
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
@@ -562,7 +567,8 @@ def low_budget_node(state: AgentState):
 #8 转人工node，用来兜底的。。
 def human_handoff_node(state: AgentState):
 
-    print("--- 🆘 Handoff: 转人工/签约对接 ---")
+    logger.info("---
+ 🆘 Handoff: 转人工/签约对接 ---")
     
     messages = state["messages"]
     profile = state.get("profile") or CustomerProfile()
@@ -625,7 +631,8 @@ def human_handoff_node(state: AgentState):
 
 #2.28增加
 def chit_chat_node(state: AgentState):
-    print("--- ☕ Chit Chat: 纯闲聊模式 ---")
+    logger.info("---
+ ☕ Chit Chat: 纯闲聊模式 ---")
     messages = state["messages"]
     
     system_prompt = """
