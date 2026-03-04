@@ -7,6 +7,7 @@ from langchain_core.messages import HumanMessage, AIMessage
 from dotenv import load_dotenv, find_dotenv
 import uuid
 import asyncio
+import os
 from typing import Optional
 from utils.logger import logger
 from utils.buffer import MessageBuffer
