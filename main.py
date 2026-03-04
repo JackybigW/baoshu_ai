@@ -18,10 +18,14 @@ class ChatRequest(BaseModel):
     message: str = "" 
     session_id: Optional[str] = None
 
+# 允许的跨域来源，生产环境中应该在 .env 中配置 ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
+
 api = FastAPI()
 api.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

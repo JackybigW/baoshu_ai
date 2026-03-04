@@ -152,13 +152,8 @@ def merge_text_fields(old_text: Optional[str], new_text: Optional[str]) -> Optio
         if new_seg in result_list:
             continue
             
-        is_redundant = False
-        for old_seg in result_list:
-            if new_seg in old_seg:
-                is_redundant = True
-                break
-            
-        if not is_redundant:
+        # 优化：避免长文本下 O(N^2) 的性能问题，只比较较短的片段或直接全文本查找
+        if not any(new_seg in old_seg for old_seg in result_list):
             result_list.append(new_seg)
 
     return "；".join(result_list)

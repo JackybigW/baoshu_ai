@@ -20,6 +20,8 @@ llm = get_backend_llm()
 llm_chat = get_backend_llm() # 感知层统一使用 backend 配置
 
 
+from config.settings import DEBT_KEYWORDS, STICKY_INTENTS
+
 def classifier_node(state: AgentState):
     """
     【感知层 - 意图分类器】
@@ -49,7 +51,7 @@ def classifier_node(state: AgentState):
         2. 💰 **SALES_READY (销售机会)**:
            - 用户表现出对方案/项目的质疑
            - 用户表现出对方案/项目的兴趣
-           - 用户表现出对方案/项目的赞扬，肯定
+           - 用户表现出对方案/项目的赞扬，肯定（可以的，好的，没问题）
            - 用户询问具体的申请流程、签约细节、内部通道操作等
            - **逻辑**：此时是最好的销售切入点
 
@@ -87,8 +89,7 @@ def classifier_node(state: AgentState):
     
     # Python 守门员：负债关键词检测
     user_content = recent_msg[-1].content if recent_msg else ""
-    debt_keywords = ["贷", "负债", "欠款", "欠债", "还债", "借钱", "还钱", "周转", "抵押", "上岸"]
-    if any(k in user_content for k in debt_keywords):
+    if any(k in user_content for k in DEBT_KEYWORDS):
         if final_intent != "TRANSFER_TO_HUMAN":  # 转人工优先级最高，不拦截
             print(f"--- ⚠️ (Python矫正) 检测到负债关键词，强制修正为 LOW_BUDGET ---")
             final_intent = "LOW_BUDGET"
@@ -99,11 +100,9 @@ def classifier_node(state: AgentState):
             final_intent = "LOW_BUDGET"
     
     # 身份继承逻辑 (Sticky Intents)
-    sticky_intents = ["ART_CONSULTING", "HIGH_VALUE", "LOW_BUDGET", "SALES_READY"]
-    
     # 只有当 LLM 判定为"普通咨询"时，才去检查上一轮
     if final_intent == "NEED_CONSULTING":
-        if last_intent in sticky_intents:
+        if last_intent in STICKY_INTENTS:
             logger.info(f"--- 🔒 触发身份继承: {last_intent} (忽略本次普通判定) ---")
             final_intent = last_intent
 

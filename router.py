@@ -55,28 +55,11 @@ def core_router(state: AgentState):
     return "consultant"
 
 
-def route_high_value(state: AgentState):
+def common_tool_router(state: AgentState):
     """
-    【决策层 - VIP 路由】
-    检查 High Value Node 是否触发了摇人工具。
-    """
-    from langgraph.graph import END
-    messages = state["messages"]
-    last_msg = messages[-1]
-
-    # 检查是否有工具调用请求
-    if hasattr(last_msg, "tool_calls") and len(last_msg.tool_calls) > 0:
-        print(">>> 🔘 检测到 VIP 摇人信号，转入人工对接...")
-        return "human_handoff"
-
-    # 没有摇人 -> 结束当前轮次，等待用户回复
-    return END
-
-
-def route_low_budget(state: AgentState):
-    """
-    【决策层 - 低预算路由】
-    检查 Low Budget Node 是否触发了摇人工具。
+    【决策层 - 通用执行节点路由】
+    检查各 Consultant 节点是否触发了摇人工具。
+    如果触发了，统一路由到 human_handoff。
     """
     from langgraph.graph import END
     messages = state["messages"]
@@ -84,43 +67,7 @@ def route_low_budget(state: AgentState):
 
     # 检查是否有工具调用请求
     if hasattr(last_msg, "tool_calls") and len(last_msg.tool_calls) > 0:
-        print(">>> 🔘 检测到 Low Budget 摇人信号，转入人工对接...")
-        return "human_handoff"
-
-    # 没有摇人 -> 结束当前轮次，等待用户回复
-    return END
-
-
-def route_art_director(state: AgentState):
-    """
-    【决策层 - 艺术留学路由】
-    检查 Art Node 是否触发了摇人工具。
-    """
-    from langgraph.graph import END
-    messages = state["messages"]
-    last_msg = messages[-1]
-
-    # 检查是否有工具调用请求
-    if hasattr(last_msg, "tool_calls") and len(last_msg.tool_calls) > 0:
-        print(">>> 🔘 检测到 Art 摇人信号，转入人工对接...")
-        return "human_handoff"
-
-    # 没有摇人 -> 结束当前轮次，等待用户回复
-    return END
-
-
-def route_consultant(state: AgentState):
-    """
-    【决策层 - Consultant 路由】
-    检查 Consultant Node 是否触发了摇人工具。
-    """
-    from langgraph.graph import END
-    messages = state["messages"]
-    last_msg = messages[-1]
-
-    # 检查是否有工具调用请求
-    if hasattr(last_msg, "tool_calls") and len(last_msg.tool_calls) > 0:
-        print(">>> 🔘 检测到 Consultant 摇人信号，转入人工对接...")
+        logger.info(">>> 🔘 检测到摇人信号，转入人工对接...")
         return "human_handoff"
 
     # 没有摇人 -> 结束当前轮次，等待用户回复

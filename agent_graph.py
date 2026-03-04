@@ -15,7 +15,7 @@ from nodes.perception import classifier_node, extractor_node
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from router import core_router, route_high_value, route_low_budget, route_art_director, route_consultant
+from router import core_router, common_tool_router
 
 # 执行层节点
 from nodes.consultants import (
@@ -122,7 +122,7 @@ workflow.add_edge("interviewer", END)
 # Consultant (自含 Sales 逻辑)
 workflow.add_conditional_edges(
     "consultant",
-    route_consultant,
+    common_tool_router,
     {
         "human_handoff": "human_handoff",
         END: END
@@ -132,7 +132,7 @@ workflow.add_conditional_edges(
 # High Value
 workflow.add_conditional_edges(
     "high_value",
-    route_high_value,
+    common_tool_router,
     {
         "human_handoff": "human_handoff",
         END: END
@@ -142,7 +142,7 @@ workflow.add_conditional_edges(
 # Low Budget
 workflow.add_conditional_edges(
     "low_budget",
-    route_low_budget,
+    common_tool_router,
     {
         "human_handoff": "human_handoff",
         END: END
@@ -152,7 +152,7 @@ workflow.add_conditional_edges(
 # Art Director
 workflow.add_conditional_edges(
     "art_director",
-    route_art_director,
+    common_tool_router,
     {
         "human_handoff": "human_handoff",
         END: END
