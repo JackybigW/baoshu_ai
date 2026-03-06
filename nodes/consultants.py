@@ -41,129 +41,67 @@ def first_greeting_node(state: AgentState):
         "last_intent": "GREETING"
     }
 
-#2 VIP会员通道（重构版：动态时期感知）
+#2 VIP会员通道（目的是快速勾引客户，快速转人工）
 def high_value_node(state: AgentState):
-    """
-    【执行层 - High Value】
-    针对高净值/VIP客户，采用与 Consultant 一致的动态三阶段逻辑：
-    1. 信任建立 -> 2. 软肋植入 -> 3. 强力收网 (拉群)
-    """
-    from state import IntentType
-    
+    """VIP会员通道（目的是快速勾引客户，快速转人工）"""
+    logger.info("--- 🎩 High Value: 握有实权的合伙人 ---")
+
     profile = state.get("profile") or CustomerProfile()
-    intent = state.get("last_intent")
     messages = state["messages"]
-    msg_count = len(messages)
-    is_sales_mode = (intent == IntentType.SALES_READY)
-    
-    logger.info(f"--- 🎩 High Value: {'收网模式' if is_sales_mode else '动态阶段模式'} (Count: {msg_count}) ---")
-    last_user_msg = state["messages"][-1]
+
     tools = [summon_specialist_tool]
-    
-    # 🔥 核心控制：阶段一 (msg_count < 7) 禁用工具，强制文字咨询
-    # 阶段二、阶段三及 Sales Ready 模式开启工具，允许摇人
-    if is_sales_mode or msg_count >= 7:
-        active_llm = llm_chat.bind_tools(tools)
-        can_use_tool = True
-    else:
-        active_llm = llm_chat
-        can_use_tool = False
-    
-    # 核心人设：懂行的暴叔，资源大亨，对 VIP 客户极度负责
-    persona = HIGH_VALUE_PERSONA
+    llm_with_tools = llm_chat.bind_tools(tools)
+    closing_pressure = ""
+    if len(messages) >= 16:
+        closing_pressure = "\n【⚠️系统警告】对话过长，请尽快寻找理由拉群转人工！"
 
-    if is_sales_mode:
-        system_prompt = f"""
-        你是留学顾问暴叔
+    system_prompt = f"""
+    你是暴叔，千万级留学网红。面对的是【VIP高净值客户】。
 
-        【当前局势】
-        用户已经对方案表现出兴趣，肯定，或质疑，处于**收网阶段**。
-        用户刚才说："{last_user_msg}"
+    【客户画像】
+    {profile.model_dump_json(exclude_none=True)}
+    【核心任务】
+    像一个真人老手一样与客户沟通，解答疑问，建立信任。
+    目的是展现专业度，最终把客户转交给真人留学顾问
 
-        【客户画像】
-        {profile.model_dump_json(exclude_none=True)}
+    【你的特权】
+    你手边有一个tool `summon_specialist_tool` (呼叫专家)。
 
-        【你的任务】
-        用**最像真人**的微信聊天语气，完成"解答+制造稀缺+拉群"的三步走。
+    【决策逻辑】
+    1. **继续聊 (Don't use tool)**:
+       - 如果还需要继续获取信息、建立信任、或者解答疑问。
+       - 此时就像真人一样正常聊天。
 
-        【三步走策略】
-        1. **给甜头 (Sweetener)**：
-           - 用**大白话**快速回答他的核心顾虑。
+    2. **摇人 (MUST USE TOOL)**:
+       - 当你觉得时机成熟：用户意向高、同意方案。
+       - 当你遇到困难：用户始终不满意你提供的方案或者你没有方案提供给用户
+       - 当用户提出语音，电话等必须需要人类干预的事项。
+       - 当用户负面情绪严重，不想沟通。
+       - 当用户出现求助信号："有办法帮我吗" /"能不能搞定"/"太难了"
+       - 当用户提出灰产要求："能不能保录"、"操作成绩"、"买文凭"、"走后门"、"特殊渠道"。
+       - 对话过长: {closing_pressure}
 
-        2. **造门槛 (The Catch)**：
+    【暴叔的聊天规范】
+    1. **拒绝废话**：直奔主题，简单回应用户上一句，并简练抛出新问题，每段话不许超过40字
+    2. **接话艺术**:如果用户上一句是在问问题，你必须用自己的知识库作答给出结果，再自然衔接问题
+    3. **制造悬念**：说话要切中要害，对数据敏感
+    4. **自然分段**： 在【回应客户】和【抛出新问题】之间 使用"|||" 分隔
+    5. **像真人一样说话**: 禁止使用**加粗字体**
+    6. **禁止复读(anti-loop):
+       - 如果用户说"不懂"、"不知道"或未回答你的问题：**不要重复同样的问题！**
+       - 策略: 换一种更通俗的问法，或者给一个大概的选项让用户选。
+    """
 
-        3. **转交收网 (Handover)**：
+    response = llm_with_tools.invoke([SystemMessage(content=system_prompt)] + messages)
 
-        【你的特权】
-        你手边有一个tool `summon_specialist_tool` (呼叫专家)。
-        **收网阶段必须调用此工具**，触发拉群！
-        【拉群规范】
-         1. 先回答客户的问题（给结论，给建议，分析利弊）
-         2. 解释为什么要拉群安排资深顾问老师对接
-         3. 最后调用工具
-         【格式要求】
-            - 每段话不超过40字
-            - 每段话之间用 ||| 分隔，每轮对话发送 2-3段话
-        """
-    elif msg_count < 7:
-        system_prompt = f"""
-        {persona}
-        【当前阶段：建立信任】
-        用户刚开始咨询。
-        【任务】: 
-        1. 表现出对 VIP 画像的精准理解。
-        2. 结合画像悉心解答用户的问题，并给客观建议
-        3. 严禁此时推销！目的是建立“暴叔很懂行”的第一印象。
-        【客户画像】: {profile.model_dump_json(exclude_none=True)}
-        """
-    elif msg_count < 13:
-        system_prompt = f"""
-        {persona}
-        【当前阶段：埋伏笔】
-        用户已初步建立信任。
-        【任务】: 
-        1. 结合画像适当暗示其申请中的致命隐患。
-        2. 适当暗示暴叔手里资源优秀可弯道超车，以及团队的专业程度，会辅佐客户留学申请。
-        3. 引起用户的焦虑感和好奇心。
-        【客户画像】: {profile.model_dump_json(exclude_none=True)}
-        【你的特权】
-        你手边有一个tool `summon_specialist_tool` (呼叫专家)。
-        当前是埋伏笔阶段，只有在用户肯定方案，或者要求语音通话时使用
-        【拉群规范】
-         1. 先回答客户的问题（给结论，给建议，分析利弊）
-         2. 解释为什么要拉群安排资深顾问老师对接
-         3. 最后调用工具
-        """
-    else:
-        system_prompt = f"""
-        {persona}
-        【客户画像】: {profile.model_dump_json(exclude_none=True)}
-        
-        【当前阶段：收网，让真人顾问介入】：
-            当前对话已经太长了,必须找理由给用户拉群,请根据用户上下文需求，
-            先用最丝滑的话术去回复客户，并拉群让客户与真人顾问接触。
-            最后调用`summon_specialist_tool`
-        
-        """
-
-    response = active_llm.invoke([SystemMessage(content=system_prompt)] + messages)
-
-    # 结构化处理回复 (防静默逻辑只在允许使用工具时生效)
-    if can_use_tool and response.tool_calls:
+    if response.tool_calls:
         logger.info(f"🔧 High Value Tool Triggered: {response.tool_calls}")
-        if not response.content or len(response.content.strip()) < 5:
-            logger.warning("⚠️ 检测到回复过短，自动补偿 VIP 话术...")
-            response.content = "这件事儿细节挺多，一句两句说不完。|||我直接拉个群，安排最资深的顾问老师来跟你一对一对接。"
-
-    raw_content = response.content.replace("\n\n", "").replace("\n", "").replace("**", "")
-    split_texts = raw_content.split("|||")
-    ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
-    
-    if can_use_tool and response.tool_calls and ai_messages:
-        ai_messages[-1].tool_calls = response.tool_calls
-        ai_messages[-1].id = response.id
-
-    return {"messages": ai_messages, "dialog_status": "VIP_SERVICE"}
+        return {"messages": [response], "dialog_status": "VIP_SERVICE"}
+    else:
+        raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
+        split_texts = raw_content.split("|||")
+        ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+        return {"messages": ai_messages, "dialog_status": "VIP_SERVICE"}
 
 #3 艺术留学顾问（艺术留学和普通留学不兼容，需分开）
 def art_node(state: AgentState):
