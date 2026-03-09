@@ -1,7 +1,9 @@
 import base64
 import hashlib
 import struct
+
 from Crypto.Cipher import AES
+
 
 class WeComCrypto:
     def __init__(self, token: str, encoding_aes_key: str, corpid: str):
@@ -26,13 +28,13 @@ class WeComCrypto:
         """
         cryptor = AES.new(self.key, AES.MODE_CBC, self.key[:16])
         decrypted_bytes = cryptor.decrypt(base64.b64decode(encrypted_text))
-        
+
         # Remove PKCS#7 padding
         pad = decrypted_bytes[-1]
         decrypted_bytes = decrypted_bytes[:-pad]
-        
+
         # Discard 16-bye random prefix, then read 4-byte network-order integer for XML length
         msg_len = struct.unpack("!I", decrypted_bytes[16:20])[0]
         # Extract the pure XML payload based on the parsed length
-        xml_content = decrypted_bytes[20:20+msg_len].decode("utf-8")
+        xml_content = decrypted_bytes[20:20 + msg_len].decode("utf-8")
         return xml_content

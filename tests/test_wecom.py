@@ -5,21 +5,21 @@ WeCom Integration Unit Tests
 2. 测试 GET /api/wecom/callback (URL 验证握手)
 3. 测试 POST /api/wecom/callback (事件接收+去重)
 """
-import os
-import sys
-import time
-import struct
 import base64
 import hashlib
+import os
+import struct
+import sys
+import time
+
 import pytest
-import asyncio
-from unittest.mock import AsyncMock, patch, MagicMock
 
 # 确保项目根目录在 path 中
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from utils.wecom_crypto import WeComCrypto
 from Crypto.Cipher import AES
+
+from utils.wecom_crypto import WeComCrypto
 
 # ==========================================
 # 测试用的固定凭证 (与 .env 无关，纯模拟)
@@ -193,8 +193,6 @@ class TestWeComEndpoints:
         """
         验证 P0 修复: 如果用 raw XML body (而不是 Encrypt 字段) 做验签，必须失败。
         """
-        from lxml import etree
-
         inner_xml = "<xml><Event>kf_msg_or_event</Event><Token>abc</Token></xml>"
         outer_body, msg_signature, timestamp, nonce, _ = build_encrypted_xml(
             crypto_instance, inner_xml

@@ -1,5 +1,7 @@
-import httpx
 import asyncio
+
+import httpx
+
 from utils.logger import logger
 
 
