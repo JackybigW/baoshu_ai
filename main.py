@@ -1,7 +1,8 @@
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage, AIMessage
 from dotenv import load_dotenv, find_dotenv
@@ -9,8 +10,12 @@ import uuid
 import asyncio
 import os
 from typing import Optional
+from lxml import etree
+import redis.asyncio as aioredis
 from utils.logger import logger
 from utils.buffer import MessageBuffer
+from utils.wecom_crypto import WeComCrypto
+from utils.wecom_api import WeComAPI
 
 _ = load_dotenv(find_dotenv(), override=True)
 from agent_graph import app 
@@ -33,6 +38,19 @@ api.add_middleware(
 
 # 2.5s 仍然是黄金等待期
 buffer = MessageBuffer(wait_time=2.5)
+
+# ==========================================
+# 企业微信客服 - 初始化
+# ==========================================
+WECOM_CORPID = os.getenv("WECOM_CORPID", "")
+WECOM_SECRET = os.getenv("WECOM_SECRET", "")
+WECOM_TOKEN = os.getenv("WECOM_TOKEN", "")
+WECOM_AES_KEY = os.getenv("WECOM_AES_KEY", "")
+WECOM_KF_ID = os.getenv("WECOM_KF_ID", "")
+
+wecom_redis = aioredis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+crypto = WeComCrypto(WECOM_TOKEN, WECOM_AES_KEY, WECOM_CORPID)
+wecom_api = WeComAPI(WECOM_CORPID, WECOM_SECRET, WECOM_KF_ID, wecom_redis)
 
 @api.post("/chat")
 async def chat_endpoint(req: ChatRequest):
@@ -98,6 +116,139 @@ async def chat_endpoint(req: ChatRequest):
         await asyncio.sleep(0.5)
 
     return {"response": "__MERGED__", "session_id": session_id}
+
+# ==========================================
+# 企业微信客服 - 回调接口
+# ==========================================
+
+@api.get("/api/wecom/callback")
+async def wecom_verify_url(msg_signature: str, timestamp: str, nonce: str, echostr: str):
+    """
+    企微后台保存「接收消息服务器 URL」时发来的 GET 探活验证请求。
+    签名参与元素: [Token, timestamp, nonce, echostr]
+    通过后必须返回 AES 解密后的纯明文。
+    """
+    if crypto.verify_signature(msg_signature, timestamp, nonce, echostr):
+        decrypted_echo = crypto.decrypt(echostr)
+        logger.info("✅ WeCom URL verification passed")
+        return PlainTextResponse(content=decrypted_echo)
+    logger.warning("❌ WeCom URL verification FAILED")
+    return PlainTextResponse(content="signature error", status_code=403)
+
+
+@api.post("/api/wecom/callback")
+async def wecom_receive_event(
+    request: Request,
+    msg_signature: str,
+    timestamp: str,
+    nonce: str,
+    background_tasks: BackgroundTasks
+):
+    """
+    企微客服消息/事件的 POST 回调。
+    核心铁律：50ms 内返回空字符串，否则触发 5 秒超时重试风暴。
+    """
+    body = await request.body()
+
+    try:
+        # 1. 先解析外层 XML，提取 <Encrypt> 密文
+        xml_tree = etree.fromstring(body)
+        encrypt_text = xml_tree.find("Encrypt").text
+
+        # 2. 用 Encrypt 字段做签名校验（P0 修复：不是 raw body）
+        if not crypto.verify_signature(msg_signature, timestamp, nonce, encrypt_text):
+            logger.warning("❌ WeCom POST signature verification FAILED")
+            return PlainTextResponse(content="")
+
+        # 3. AES 解密 → 内层 XML
+        xml_content = crypto.decrypt(encrypt_text)
+        decrypted_tree = etree.fromstring(xml_content.encode("utf-8"))
+
+        event_type = decrypted_tree.findtext("Event", default="")
+
+        if event_type == "kf_msg_or_event":
+            sync_token = decrypted_tree.findtext("Token", default="")
+
+            # 4. Redis SETNX 防抖：拦截企微 5 秒超时重试
+            lock_key = f"wecom:lock:{sync_token}"
+            is_new = await wecom_redis.setnx(lock_key, "1")
+            if is_new:
+                await wecom_redis.expire(lock_key, 300)
+                # 5. 派发后台异步任务，立即释放 HTTP 连接
+                background_tasks.add_task(_wecom_background_worker, sync_token)
+                logger.info(f"📩 WeCom event dispatched (token={sync_token[:8]}...)")
+            else:
+                logger.info(f"🔁 WeCom duplicate event skipped (token={sync_token[:8]}...)")
+
+    except Exception as e:
+        logger.error(f"❌ WeCom callback parsing error: {e}")
+
+    # 铁律：不论发生什么，都必须返回空字符串
+    return PlainTextResponse(content="")
+
+
+async def _wecom_background_worker(sync_token: str):
+    """
+    后台异步 Worker：
+    1. 用 sync_token 拉取真实的 JSON 消息 (sync_msg)
+    2. 送入 LangGraph 推理
+    3. 用 send_msg 推送 AI 回复
+    """
+    try:
+        msg_data = await wecom_api.sync_wecom_messages(sync_token)
+
+        for msg in msg_data.get("msg_list", []):
+            # origin=3 表示消息来自外部微信客户
+            if msg.get("origin") == 3 and msg.get("msgtype") == "text":
+                ext_userid = msg.get("external_userid", "")
+                user_text = msg.get("text", {}).get("content", "").strip()
+                if not ext_userid or not user_text:
+                    continue
+
+                # 检查是否已转人工
+                if await wecom_redis.get(f"state:{ext_userid}:human_transferred"):
+                    logger.info(f"🚫 Skipping AI for {ext_userid}: already transferred to human")
+                    continue
+
+                logger.info(f"🚀 WeCom Processing ({ext_userid}): {user_text}")
+
+                # 调用 LangGraph（与 /chat 复用同一个 graph）
+                config = {"configurable": {"thread_id": ext_userid}}
+                inputs = {"messages": [HumanMessage(content=user_text)]}
+                output = await asyncio.to_thread(app.invoke, inputs, config=config)
+
+                # 如果 LangGraph 判定转人工，设置 Redis 隔离标记
+                if output.get("dialog_status") == "FINISHED":
+                    await wecom_redis.set(
+                        f"state:{ext_userid}:human_transferred", "1", ex=86400  # 24h
+                    )
+                    logger.info(f"🔒 Human transfer flag set for {ext_userid}")
+
+                # 提取 AI 回复
+                all_messages = output.get("messages", [])
+                ai_contents = []
+                last_human_index = -1
+                for i in range(len(all_messages) - 1, -1, -1):
+                    if isinstance(all_messages[i], HumanMessage):
+                        last_human_index = i
+                        break
+                for i in range(last_human_index + 1, len(all_messages)):
+                    m = all_messages[i]
+                    if isinstance(m, AIMessage) and m.content:
+                        ai_contents.append(m.content.strip())
+
+                if ai_contents:
+                    # 企微客服：逐条发送分段消息（模拟真人打字节奏）
+                    for segment in ai_contents:
+                        if segment:
+                            await wecom_api.send_wecom_message(ext_userid, segment)
+                            await asyncio.sleep(0.5)  # 模拟间隔
+                else:
+                    await wecom_api.send_wecom_message(ext_userid, "您好，请问有什么可以帮您？")
+
+    except Exception as e:
+        logger.error(f"❌ WeCom background worker error: {e}")
+
 
 api.mount("/", StaticFiles(directory="static", html=True), name="static")
 
