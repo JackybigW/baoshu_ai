@@ -56,16 +56,47 @@ class WeComAPI:
 
     async def sync_wecom_messages(self, sync_token: str) -> dict:
         """
-        Fetches the actual text/content of the message using the cursor token
-        provided in the event webhook.
+        Fetches NEW messages incrementally using Redis-stored cursor.
+        - First call (no cursor): passes the webhook `token` to bootstrap
+        - Subsequent calls: passes stored `cursor` to only get new messages
+        After each call, stores `next_cursor` in Redis for the next round.
         """
         access_token = await self.get_access_token()
+
+        # Build payload with cursor for incremental fetching
+        cursor_key = f"wecom:sync_cursor:{self.kf_id}"
+        stored_cursor = await self.redis.get(cursor_key)
+
+        payload = {"open_kfid": self.kf_id, "limit": 1000}
+        if stored_cursor:
+            # Subsequent call: use stored cursor, skip the event token
+            payload["cursor"] = stored_cursor
+            logger.info(f"📡 sync_msg: using stored cursor={stored_cursor[:12]}...")
+        else:
+            # First call: use the webhook token to bootstrap
+            payload["token"] = sync_token
+            logger.info(f"📡 sync_msg: bootstrapping with token={sync_token[:12]}...")
+
         url = f"https://qyapi.weixin.qq.com/cgi-bin/kf/sync_msg?access_token={access_token}"
-        payload = {"token": sync_token, "limit": 1000}
 
         async with httpx.AsyncClient(timeout=10.0) as client:
             resp = await client.post(url, json=payload)
-            return resp.json()
+            data = resp.json()
+
+            # Store next_cursor for future incremental pulls
+            next_cursor = data.get("next_cursor")
+            if next_cursor:
+                await self.redis.set(cursor_key, next_cursor)
+
+            msg_count = len(data.get("msg_list", []))
+            logger.info(f"📡 sync_msg response: errcode={data.get('errcode')}, "
+                        f"msg_count={msg_count}, has_next_cursor={bool(next_cursor)}")
+            if data.get("errcode") != 0:
+                logger.error(f"❌ sync_msg API error: {data}")
+
+            # Flag for caller: is this a bootstrap (first) call?
+            data["_is_bootstrap"] = not bool(stored_cursor)
+            return data
 
     async def send_wecom_message(self, external_userid: str, text: str) -> dict:
         """
