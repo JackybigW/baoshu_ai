@@ -1,5 +1,5 @@
 import asyncio
-from typing import Dict, Any, Optional
+from typing import Dict, Optional
 import redis.asyncio as redis
 from utils.logger import logger
 
@@ -37,7 +37,7 @@ class MessageBuffer:
         except asyncio.CancelledError:
             pass
 
-    async def get_merged_message(self, session_id: str) -> Optional[str]:
+    async def get_message_batch(self, session_id: str) -> Optional[dict[str, list[str] | str]]:
         """
         尝试领取任务。
         规则：必须满足 (1) 没人在跑 (lock不存在) 且 (2) 消息已就绪 (ready存在)
@@ -50,12 +50,16 @@ class MessageBuffer:
         if await self.redis.delete(f"ready:{session_id}") == 1:
             # 只有删除成功的那个请求才是 Winner
             messages = await self.redis.lrange(f"buffer:{session_id}", 0, -1)
-            if not messages: return None
+            if not messages:
+                return None
             
             await self.redis.delete(f"buffer:{session_id}")
             # 设置处理锁，保护本次 AI 运行
             await self.redis.set(f"lock:{session_id}", "1", ex=60)
-            return "\n".join(messages)
+            return {
+                "messages": messages,
+                "combined_text": "\n".join(messages),
+            }
         
         return None
 
