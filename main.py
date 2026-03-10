@@ -202,15 +202,45 @@ async def _wecom_background_worker(sync_token: str):
     2. 送入 LangGraph 推理
     3. 用 send_msg 推送 AI 回复
     """
+    logger.info(f"🔧 [Worker START] sync_token={sync_token[:12]}...")
     try:
         msg_data = await wecom_api.sync_wecom_messages(sync_token)
+        logger.info(f"🔧 [Worker] sync_msg returned keys: {list(msg_data.keys())}")
 
-        for msg in msg_data.get("msg_list", []):
+        msg_list = msg_data.get("msg_list", [])
+        is_bootstrap = msg_data.get("_is_bootstrap", False)
+
+        if not msg_list:
+            logger.info("🔧 [Worker] msg_list is empty, nothing to process")
+            return
+
+        # On bootstrap: sync_msg returns ALL history. Only process the LAST
+        # user message (the one that just triggered this webhook).
+        if is_bootstrap and len(msg_list) > 1:
+            last_user_msg = None
+            for m in reversed(msg_list):
+                if m.get("origin") == 3 and m.get("msgtype") == "text":
+                    last_user_msg = m
+                    break
+            if last_user_msg:
+                logger.info(f"🔧 [Worker] Bootstrap: skipping {len(msg_list) - 1} "
+                            f"historical msgs, processing only the latest")
+                msg_list = [last_user_msg]
+            else:
+                logger.info("🔧 [Worker] Bootstrap: no user text msg found, skipping all")
+                return
+
+        for idx, msg in enumerate(msg_list):
+            origin = msg.get("origin")
+            msgtype = msg.get("msgtype")
+            logger.info(f"🔧 [Worker] msg[{idx}]: origin={origin}, msgtype={msgtype}")
+
             # origin=3 表示消息来自外部微信客户
-            if msg.get("origin") == 3 and msg.get("msgtype") == "text":
+            if origin == 3 and msgtype == "text":
                 ext_userid = msg.get("external_userid", "")
                 user_text = msg.get("text", {}).get("content", "").strip()
                 if not ext_userid or not user_text:
+                    logger.info("🔧 [Worker] Skipping: empty userid or text")
                     continue
 
                 # 检查是否已转人工
@@ -245,17 +275,24 @@ async def _wecom_background_worker(sync_token: str):
                     if isinstance(m, AIMessage) and m.content:
                         ai_contents.append(m.content.strip())
 
+                logger.info(f"🔧 [Worker] AI reply segments: {len(ai_contents)}")
+
                 if ai_contents:
-                    # 企微客服：逐条发送分段消息（模拟真人打字节奏）
                     for segment in ai_contents:
                         if segment:
-                            await wecom_api.send_wecom_message(ext_userid, segment)
-                            await asyncio.sleep(0.5)  # 模拟间隔
+                            result = await wecom_api.send_wecom_message(ext_userid, segment)
+                            logger.info(f"📤 send_msg result: {result}")
+                            await asyncio.sleep(0.5)
                 else:
-                    await wecom_api.send_wecom_message(ext_userid, "您好，请问有什么可以帮您？")
+                    result = await wecom_api.send_wecom_message(ext_userid, "您好，请问有什么可以帮您？")
+                    logger.info(f"📤 send_msg fallback result: {result}")
+            else:
+                logger.info(f"🔧 [Worker] Skipping msg: origin={origin}, msgtype={msgtype}")
 
     except Exception as e:
-        logger.error(f"❌ WeCom background worker error: {e}")
+        logger.error(f"❌ WeCom background worker error: {e}", exc_info=True)
+
+    logger.info(f"🔧 [Worker END] sync_token={sync_token[:12]}...")
 
 
 api.mount("/", StaticFiles(directory="static", html=True), name="static")
