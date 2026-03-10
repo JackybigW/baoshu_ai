@@ -68,6 +68,7 @@ graph LR
 *   **Orchestration**: [LangGraph](https://github.com/langchain-ai/langgraph) (基于 DAG 的有向无环图状态管理)
 *   **LLMs**: OpenAI / DeepSeek / Gemini (全链路灾备支持)
 *   **Backend**: FastAPI (异步高性能 Web 服务)
+*   **Persistence**: PostgreSQL (客户会话、消息、画像快照持久化)
 *   **Data Integrity**: Pydantic v2 (严苛的数据校验与清洗)
 *   **Concurrency**: Redis-based Message Buffer (处理用户频繁短句输入的防抖合并机制)
 
@@ -90,7 +91,9 @@ graph LR
 
 ```text
 ├── agent_graph.py     # 核心 DAG 图定义（并行感知实现）
+├── db/                # PostgreSQL schema 与存储层
 ├── router.py          # 确定性业务分流逻辑
+├── scripts/           # 数据库初始化与服务器安装脚本
 ├── state.py           # 核心数据结构与 Pydantic 状态合并
 ├── config/            # 提示词资产与全局配置
 ├── nodes/             # 执行层：各赛道专家 Agent 逻辑实现
@@ -117,3 +120,25 @@ graph LR
    ```bash
    python main.py
    ```
+
+## 🗄️ PostgreSQL 持久化
+
+如果需要把会话、消息和画像快照持久化到 Postgres，请在 `.env` 中配置：
+
+```bash
+DATABASE_URL=postgresql://baoshu_ai_app:password@127.0.0.1:5432/baoshu_ai
+POSTGRES_POOL_MIN=1
+POSTGRES_POOL_MAX=5
+```
+
+初始化表结构：
+
+```bash
+python scripts/init_postgres.py
+```
+
+服务器首次安装 Postgres 可使用：
+
+```bash
+DB_PASSWORD='replace_me' bash scripts/setup_postgres_server.sh
+```

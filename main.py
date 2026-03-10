@@ -1,6 +1,7 @@
 import asyncio
 import os
 import uuid
+from contextlib import asynccontextmanager
 from typing import Optional
 
 import redis.asyncio as aioredis
@@ -20,6 +21,7 @@ from utils.wecom_api import WeComAPI
 from utils.wecom_crypto import WeComCrypto
 
 _ = load_dotenv(find_dotenv(), override=True)
+from db import db_store
 from agent_graph import app
 
 
@@ -31,7 +33,16 @@ class ChatRequest(BaseModel):
 # 允许的跨域来源
 allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
-api = FastAPI()
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    await db_store.connect()
+    try:
+        yield
+    finally:
+        await db_store.close()
+
+
+api = FastAPI(lifespan=lifespan)
 api.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
@@ -63,6 +74,43 @@ wecom_api = WeComAPI(WECOM_CORPID, WECOM_SECRET, WECOM_KF_ID, wecom_redis)
 
 # 企微消息缓冲 debounce 任务表 {ext_userid: asyncio.Task}
 _wecom_debounce_tasks: dict = {}
+
+
+def _extract_ai_contents(all_messages) -> list[str]:
+    ai_contents = []
+    last_human_index = -1
+    for i in range(len(all_messages) - 1, -1, -1):
+        if isinstance(all_messages[i], HumanMessage):
+            last_human_index = i
+            break
+
+    for i in range(last_human_index + 1, len(all_messages)):
+        message = all_messages[i]
+        if isinstance(message, AIMessage) and message.content:
+            ai_contents.append(message.content.strip())
+    return ai_contents
+
+
+async def _persist_turn(
+    *,
+    channel: str,
+    session_key: str,
+    user_messages: list[str],
+    ai_messages: list[str],
+    output_state: dict,
+    external_userid: Optional[str] = None,
+):
+    try:
+        await db_store.persist_turn(
+            channel=channel,
+            session_key=session_key,
+            user_messages=user_messages,
+            ai_messages=ai_messages,
+            output_state=output_state,
+            external_userid=external_userid,
+        )
+    except Exception as exc:
+        logger.error(f"❌ Postgres persist error: {exc}", exc_info=True)
 
 
 @api.get("/api/wecom/callback")
@@ -249,16 +297,17 @@ async def _wecom_debounce_fire(ext_userid: str):
 
         # 4. 提取 AI 回复
         all_messages = output.get("messages", [])
-        ai_contents = []
-        last_human_index = -1
-        for i in range(len(all_messages) - 1, -1, -1):
-            if isinstance(all_messages[i], HumanMessage):
-                last_human_index = i
-                break
-        for i in range(last_human_index + 1, len(all_messages)):
-            m = all_messages[i]
-            if isinstance(m, AIMessage) and m.content:
-                ai_contents.append(m.content.strip())
+        ai_contents = _extract_ai_contents(all_messages)
+        persisted_ai_messages = ai_contents or ["您好，请问有什么可以帮您？"]
+        persisted_user_messages = [msg.strip() for msg in messages if msg.strip()]
+        await _persist_turn(
+            channel="wecom",
+            session_key=ext_userid,
+            user_messages=persisted_user_messages,
+            ai_messages=persisted_ai_messages,
+            output_state=output,
+            external_userid=ext_userid,
+        )
 
         # 5. 发送 AI 回复（动态打字延迟）
         if ai_contents:
@@ -311,7 +360,15 @@ async def chat_endpoint(req: ChatRequest):
     if not message_text:
         config = {"configurable": {"thread_id": session_id}}
         output = await asyncio.to_thread(app.invoke, {"messages": []}, config=config)
-        return {"response": output["messages"][-1].content, "session_id": session_id}
+        response_text = output["messages"][-1].content
+        await _persist_turn(
+            channel="web",
+            session_key=session_id,
+            user_messages=[],
+            ai_messages=[response_text],
+            output_state=output,
+        )
+        return {"response": response_text, "session_id": session_id}
 
     # 2. 直接入队，不再拦截插嘴
     await buffer.add_message(session_id, message_text)
@@ -321,11 +378,13 @@ async def chat_endpoint(req: ChatRequest):
     start_time = asyncio.get_event_loop().time()
 
     while (asyncio.get_event_loop().time() - start_time) < max_wait:
-        combined_text = await buffer.get_merged_message(session_id)
+        batch = await buffer.get_message_batch(session_id)
 
-        if combined_text:
+        if batch:
             # 我是这一波消息的执行者（Winner）
             try:
+                raw_user_messages = [msg.strip() for msg in batch["messages"] if msg.strip()]
+                combined_text = batch["combined_text"].strip()
                 logger.info(f"🚀 AI Winner Processing ({session_id}): {combined_text}")
                 config = {"configurable": {"thread_id": session_id}}
                 inputs = {"messages": [HumanMessage(content=combined_text)]}
@@ -333,16 +392,15 @@ async def chat_endpoint(req: ChatRequest):
                 output = await asyncio.to_thread(app.invoke, inputs, config=config)
 
                 all_messages = output.get("messages", [])
-                ai_contents = []
-                last_human_index = -1
-                for i in range(len(all_messages) - 1, -1, -1):
-                    if isinstance(all_messages[i], HumanMessage):
-                        last_human_index = i
-                        break
-                for i in range(last_human_index + 1, len(all_messages)):
-                    msg = all_messages[i]
-                    if isinstance(msg, AIMessage) and msg.content:
-                        ai_contents.append(msg.content.strip())
+                ai_contents = _extract_ai_contents(all_messages)
+                persisted_ai_messages = ai_contents or ["好的。"]
+                await _persist_turn(
+                    channel="web",
+                    session_key=session_id,
+                    user_messages=raw_user_messages,
+                    ai_messages=persisted_ai_messages,
+                    output_state=output,
+                )
 
                 response_text = "|||".join(ai_contents) if ai_contents else "好的。"
                 await buffer.release_lock(session_id)  # AI 跑完，释放锁
