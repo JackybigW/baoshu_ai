@@ -52,9 +52,251 @@ WECOM_TOKEN = os.getenv("WECOM_TOKEN", "")
 WECOM_AES_KEY = os.getenv("WECOM_AES_KEY", "")
 WECOM_KF_ID = os.getenv("WECOM_KF_ID", "")
 
+# 真人感参数（可通过 .env 调整）
+WECOM_BUFFER_WAIT = float(os.getenv("WECOM_BUFFER_WAIT", "3.5"))
+WECOM_TYPING_SPEED = float(os.getenv("WECOM_TYPING_SPEED", "0.15"))
+WECOM_TYPING_MAX = float(os.getenv("WECOM_TYPING_MAX", "8.0"))
+
 wecom_redis = aioredis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 crypto = WeComCrypto(WECOM_TOKEN, WECOM_AES_KEY, WECOM_CORPID)
 wecom_api = WeComAPI(WECOM_CORPID, WECOM_SECRET, WECOM_KF_ID, wecom_redis)
+
+# 企微消息缓冲 debounce 任务表 {ext_userid: asyncio.Task}
+_wecom_debounce_tasks: dict = {}
+
+
+@api.get("/api/wecom/callback")
+async def wecom_verify_url(
+    msg_signature: str, timestamp: str, nonce: str, echostr: str
+):
+    """企微 GET 探活验证。"""
+    if crypto.verify_signature(msg_signature, timestamp, nonce, echostr):
+        decrypted_echo = crypto.decrypt(echostr)
+        logger.info("✅ WeCom URL verification passed")
+        return PlainTextResponse(content=decrypted_echo)
+    logger.warning("❌ WeCom URL verification FAILED")
+    return PlainTextResponse(content="signature error", status_code=403)
+
+
+@api.post("/api/wecom/callback")
+async def wecom_receive_event(
+    request: Request,
+    msg_signature: str,
+    timestamp: str,
+    nonce: str,
+    background_tasks: BackgroundTasks
+):
+    """
+    企微客服 POST 回调。50ms 内必须返回空字符串。
+    新逻辑：sync_msg → 提取用户消息 → 存入 Redis buffer → debounce 合并
+    """
+    body = await request.body()
+
+    try:
+        xml_tree = etree.fromstring(body)
+        encrypt_text = xml_tree.find("Encrypt").text
+
+        if not crypto.verify_signature(msg_signature, timestamp, nonce, encrypt_text):
+            logger.warning("❌ WeCom POST signature verification FAILED")
+            return PlainTextResponse(content="")
+
+        xml_content = crypto.decrypt(encrypt_text)
+        decrypted_tree = etree.fromstring(xml_content.encode("utf-8"))
+        event_type = decrypted_tree.findtext("Event", default="")
+
+        if event_type == "kf_msg_or_event":
+            sync_token = decrypted_tree.findtext("Token", default="")
+
+            lock_key = f"wecom:lock:{sync_token}"
+            is_new = await wecom_redis.setnx(lock_key, "1")
+            if is_new:
+                await wecom_redis.expire(lock_key, 300)
+                background_tasks.add_task(_wecom_fetch_and_buffer, sync_token)
+                logger.info(f"📩 WeCom event dispatched (token={sync_token[:8]}...)")
+            else:
+                logger.info(f"🔁 WeCom duplicate event skipped (token={sync_token[:8]}...)")
+
+    except Exception as e:
+        logger.error(f"❌ WeCom callback parsing error: {e}")
+
+    return PlainTextResponse(content="")
+
+
+async def _wecom_fetch_and_buffer(sync_token: str):
+    """
+    Step 1: sync_msg 拉取用户消息
+    Step 2: 存入 Redis buffer + 启动/重置 debounce 定时器
+    不做任何 LangGraph 推理，只负责"收"。
+    """
+    try:
+        msg_data = await wecom_api.sync_wecom_messages(sync_token)
+        msg_list = msg_data.get("msg_list", [])
+        is_bootstrap = msg_data.get("_is_bootstrap", False)
+
+        if not msg_list:
+            return
+
+        # Bootstrap: 只取最后一条用户消息
+        if is_bootstrap and len(msg_list) > 1:
+            last_user_msg = None
+            for m in reversed(msg_list):
+                if m.get("origin") == 3 and m.get("msgtype") == "text":
+                    last_user_msg = m
+                    break
+            if last_user_msg:
+                logger.info(
+                    f"🔧 Bootstrap: skipping {len(msg_list) - 1} historical msgs"
+                )
+                msg_list = [last_user_msg]
+            else:
+                return
+
+        for msg in msg_list:
+            origin = msg.get("origin")
+            msgtype = msg.get("msgtype")
+            ext_userid = msg.get("external_userid", "")
+            
+            # 兼容：有些 event 类型的 external_userid 在 event 字典里
+            if not ext_userid and "event" in msg:
+                ext_userid = msg["event"].get("external_userid", "")
+            
+            user_text = None
+            
+            if origin == 3 and msgtype == "text":
+                user_text = msg.get("text", {}).get("content", "").strip()
+            # 处理用户进入客服会话事件，触发打招呼逻辑
+            elif msgtype == "event" and msg.get("event", {}).get("event_type") == "enter_session":
+                user_text = ""
+                
+            if not ext_userid or user_text is None:
+                continue
+
+            if await wecom_redis.get(f"state:{ext_userid}:human_transferred"):
+                logger.info(f"🚫 Skipping AI for {ext_userid}: already transferred")
+                continue
+
+            # 存入 Redis buffer
+            buf_key = f"wecom:buffer:{ext_userid}"
+            await wecom_redis.rpush(buf_key, user_text)
+            await wecom_redis.expire(buf_key, 600)
+            logger.info(f"📥 Buffered ({ext_userid}): {user_text if user_text else '[ENTER_SESSION]'} ")
+
+            # 启动/重置 debounce 定时器
+            _reset_debounce_timer(ext_userid)
+
+    except Exception as e:
+        logger.error(f"❌ WeCom fetch_and_buffer error: {e}", exc_info=True)
+
+
+def _reset_debounce_timer(ext_userid: str):
+    """取消旧定时器，启动新的 N 秒倒计时。每条新消息重置。"""
+    global _wecom_debounce_tasks
+    if ext_userid in _wecom_debounce_tasks:
+        _wecom_debounce_tasks[ext_userid].cancel()
+
+    _wecom_debounce_tasks[ext_userid] = asyncio.create_task(
+        _wecom_debounce_fire(ext_userid)
+    )
+
+
+async def _wecom_debounce_fire(ext_userid: str):
+    """
+    等用户停顿 WECOM_BUFFER_WAIT 秒后触发：
+    合并 buffered 消息 → LangGraph → 发送 AI 回复（动态打字延迟）
+    """
+    try:
+        await asyncio.sleep(WECOM_BUFFER_WAIT)
+    except asyncio.CancelledError:
+        return  # 被新消息重置了
+
+    # Redis 分布式锁防并发处理
+    process_lock = f"wecom:process_lock:{ext_userid}"
+    acquired = await wecom_redis.set(process_lock, "1", nx=True, ex=180)
+    if not acquired:
+        logger.info(f"🔁 Another worker already processing {ext_userid}")
+        return
+
+    try:
+        # 1. 取走所有 buffered 消息
+        buf_key = f"wecom:buffer:{ext_userid}"
+        messages = await wecom_redis.lrange(buf_key, 0, -1)
+        await wecom_redis.delete(buf_key)
+
+        if not messages:
+            return
+
+        combined_text = "\n".join(m for m in messages if m).strip()
+        logger.info(
+            f"🚀 WeCom Processing ({ext_userid}): "
+            f"{len(messages)} msgs merged → {combined_text[:60] if combined_text else '[ENTER_SESSION]'}..."
+        )
+
+        # 2. 调用 LangGraph (复用 /chat 开场白逻辑)
+        config = {"configurable": {"thread_id": ext_userid}}
+        if not combined_text:
+            inputs = {"messages": []}
+        else:
+            inputs = {"messages": [HumanMessage(content=combined_text)]}
+            
+        output = await asyncio.to_thread(app.invoke, inputs, config=config)
+
+        # 3. 如果 LangGraph 判定转人工
+        if output.get("dialog_status") == "FINISHED":
+            await wecom_redis.set(
+                f"state:{ext_userid}:human_transferred", "1", ex=86400
+            )
+            logger.info(f"🔒 Human transfer flag set for {ext_userid}")
+
+        # 4. 提取 AI 回复
+        all_messages = output.get("messages", [])
+        ai_contents = []
+        last_human_index = -1
+        for i in range(len(all_messages) - 1, -1, -1):
+            if isinstance(all_messages[i], HumanMessage):
+                last_human_index = i
+                break
+        for i in range(last_human_index + 1, len(all_messages)):
+            m = all_messages[i]
+            if isinstance(m, AIMessage) and m.content:
+                ai_contents.append(m.content.strip())
+
+        # 5. 发送 AI 回复（动态打字延迟）
+        if ai_contents:
+            for idx, segment in enumerate(ai_contents):
+                if segment:
+                    result = await wecom_api.send_wecom_message(ext_userid, segment)
+                    logger.info(f"📤 send_msg result: {result}")
+                    # 非最后一段：动态间隔模拟真人打字
+                    if idx < len(ai_contents) - 1:
+                        next_segment = ai_contents[idx + 1]
+                        delay = min(
+                            max(len(next_segment) * WECOM_TYPING_SPEED, 2.0), WECOM_TYPING_MAX
+                        )
+                        logger.info(
+                            f"⏱️ Typing delay: {delay:.1f}s "
+                            f"for next {len(next_segment)} chars"
+                        )
+                        await asyncio.sleep(delay)
+        else:
+            await wecom_api.send_wecom_message(ext_userid, "您好，请问有什么可以帮您？")
+
+    except Exception as e:
+        logger.error(f"❌ WeCom debounce worker error: {e}", exc_info=True)
+    finally:
+        await wecom_redis.delete(process_lock)
+        _wecom_debounce_tasks.pop(ext_userid, None)
+
+        # 检查 AI 打字期间，用户是否又发了新消息 (插嘴)
+        # 如果有，立刻重新触发 debounce，保证新消息不被卡死
+        leftover = await wecom_redis.llen(f"wecom:buffer:{ext_userid}")
+        if leftover > 0:
+            logger.info(f"🔄 Interleaved messages detected for {ext_userid} ({leftover} queued). Retriggering...")
+            _reset_debounce_timer(ext_userid)
+
+    logger.info(f"🔧 [Worker END] {ext_userid}")
+
+
+
 
 
 @api.post("/chat")
@@ -123,176 +365,6 @@ async def chat_endpoint(req: ChatRequest):
         await asyncio.sleep(0.5)
 
     return {"response": "__MERGED__", "session_id": session_id}
-
-# ==========================================
-# 企业微信客服 - 回调接口
-# ==========================================
-
-
-@api.get("/api/wecom/callback")
-async def wecom_verify_url(msg_signature: str, timestamp: str, nonce: str, echostr: str):
-    """
-    企微后台保存「接收消息服务器 URL」时发来的 GET 探活验证请求。
-    签名参与元素: [Token, timestamp, nonce, echostr]
-    通过后必须返回 AES 解密后的纯明文。
-    """
-    if crypto.verify_signature(msg_signature, timestamp, nonce, echostr):
-        decrypted_echo = crypto.decrypt(echostr)
-        logger.info("✅ WeCom URL verification passed")
-        return PlainTextResponse(content=decrypted_echo)
-    logger.warning("❌ WeCom URL verification FAILED")
-    return PlainTextResponse(content="signature error", status_code=403)
-
-
-@api.post("/api/wecom/callback")
-async def wecom_receive_event(
-    request: Request,
-    msg_signature: str,
-    timestamp: str,
-    nonce: str,
-    background_tasks: BackgroundTasks
-):
-    """
-    企微客服消息/事件的 POST 回调。
-    核心铁律：50ms 内返回空字符串，否则触发 5 秒超时重试风暴。
-    """
-    body = await request.body()
-
-    try:
-        # 1. 先解析外层 XML，提取 <Encrypt> 密文
-        xml_tree = etree.fromstring(body)
-        encrypt_text = xml_tree.find("Encrypt").text
-
-        # 2. 用 Encrypt 字段做签名校验（P0 修复：不是 raw body）
-        if not crypto.verify_signature(msg_signature, timestamp, nonce, encrypt_text):
-            logger.warning("❌ WeCom POST signature verification FAILED")
-            return PlainTextResponse(content="")
-
-        # 3. AES 解密 → 内层 XML
-        xml_content = crypto.decrypt(encrypt_text)
-        decrypted_tree = etree.fromstring(xml_content.encode("utf-8"))
-
-        event_type = decrypted_tree.findtext("Event", default="")
-
-        if event_type == "kf_msg_or_event":
-            sync_token = decrypted_tree.findtext("Token", default="")
-
-            # 4. Redis SETNX 防抖：拦截企微 5 秒超时重试
-            lock_key = f"wecom:lock:{sync_token}"
-            is_new = await wecom_redis.setnx(lock_key, "1")
-            if is_new:
-                await wecom_redis.expire(lock_key, 300)
-                # 5. 派发后台异步任务，立即释放 HTTP 连接
-                background_tasks.add_task(_wecom_background_worker, sync_token)
-                logger.info(f"📩 WeCom event dispatched (token={sync_token[:8]}...)")
-            else:
-                logger.info(f"🔁 WeCom duplicate event skipped (token={sync_token[:8]}...)")
-
-    except Exception as e:
-        logger.error(f"❌ WeCom callback parsing error: {e}")
-
-    # 铁律：不论发生什么，都必须返回空字符串
-    return PlainTextResponse(content="")
-
-
-async def _wecom_background_worker(sync_token: str):
-    """
-    后台异步 Worker：
-    1. 用 sync_token 拉取真实的 JSON 消息 (sync_msg)
-    2. 送入 LangGraph 推理
-    3. 用 send_msg 推送 AI 回复
-    """
-    logger.info(f"🔧 [Worker START] sync_token={sync_token[:12]}...")
-    try:
-        msg_data = await wecom_api.sync_wecom_messages(sync_token)
-        logger.info(f"🔧 [Worker] sync_msg returned keys: {list(msg_data.keys())}")
-
-        msg_list = msg_data.get("msg_list", [])
-        is_bootstrap = msg_data.get("_is_bootstrap", False)
-
-        if not msg_list:
-            logger.info("🔧 [Worker] msg_list is empty, nothing to process")
-            return
-
-        # On bootstrap: sync_msg returns ALL history. Only process the LAST
-        # user message (the one that just triggered this webhook).
-        if is_bootstrap and len(msg_list) > 1:
-            last_user_msg = None
-            for m in reversed(msg_list):
-                if m.get("origin") == 3 and m.get("msgtype") == "text":
-                    last_user_msg = m
-                    break
-            if last_user_msg:
-                logger.info(f"🔧 [Worker] Bootstrap: skipping {len(msg_list) - 1} "
-                            f"historical msgs, processing only the latest")
-                msg_list = [last_user_msg]
-            else:
-                logger.info("🔧 [Worker] Bootstrap: no user text msg found, skipping all")
-                return
-
-        for idx, msg in enumerate(msg_list):
-            origin = msg.get("origin")
-            msgtype = msg.get("msgtype")
-            logger.info(f"🔧 [Worker] msg[{idx}]: origin={origin}, msgtype={msgtype}")
-
-            # origin=3 表示消息来自外部微信客户
-            if origin == 3 and msgtype == "text":
-                ext_userid = msg.get("external_userid", "")
-                user_text = msg.get("text", {}).get("content", "").strip()
-                if not ext_userid or not user_text:
-                    logger.info("🔧 [Worker] Skipping: empty userid or text")
-                    continue
-
-                # 检查是否已转人工
-                if await wecom_redis.get(f"state:{ext_userid}:human_transferred"):
-                    logger.info(f"🚫 Skipping AI for {ext_userid}: already transferred to human")
-                    continue
-
-                logger.info(f"🚀 WeCom Processing ({ext_userid}): {user_text}")
-
-                # 调用 LangGraph（与 /chat 复用同一个 graph）
-                config = {"configurable": {"thread_id": ext_userid}}
-                inputs = {"messages": [HumanMessage(content=user_text)]}
-                output = await asyncio.to_thread(app.invoke, inputs, config=config)
-
-                # 如果 LangGraph 判定转人工，设置 Redis 隔离标记
-                if output.get("dialog_status") == "FINISHED":
-                    await wecom_redis.set(
-                        f"state:{ext_userid}:human_transferred", "1", ex=86400  # 24h
-                    )
-                    logger.info(f"🔒 Human transfer flag set for {ext_userid}")
-
-                # 提取 AI 回复
-                all_messages = output.get("messages", [])
-                ai_contents = []
-                last_human_index = -1
-                for i in range(len(all_messages) - 1, -1, -1):
-                    if isinstance(all_messages[i], HumanMessage):
-                        last_human_index = i
-                        break
-                for i in range(last_human_index + 1, len(all_messages)):
-                    m = all_messages[i]
-                    if isinstance(m, AIMessage) and m.content:
-                        ai_contents.append(m.content.strip())
-
-                logger.info(f"🔧 [Worker] AI reply segments: {len(ai_contents)}")
-
-                if ai_contents:
-                    for segment in ai_contents:
-                        if segment:
-                            result = await wecom_api.send_wecom_message(ext_userid, segment)
-                            logger.info(f"📤 send_msg result: {result}")
-                            await asyncio.sleep(0.5)
-                else:
-                    result = await wecom_api.send_wecom_message(ext_userid, "您好，请问有什么可以帮您？")
-                    logger.info(f"📤 send_msg fallback result: {result}")
-            else:
-                logger.info(f"🔧 [Worker] Skipping msg: origin={origin}, msgtype={msgtype}")
-
-    except Exception as e:
-        logger.error(f"❌ WeCom background worker error: {e}", exc_info=True)
-
-    logger.info(f"🔧 [Worker END] sync_token={sync_token[:12]}...")
 
 
 api.mount("/", StaticFiles(directory="static", html=True), name="static")
