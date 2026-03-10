@@ -2,6 +2,12 @@
 __pycache__
 老nodes.py
 
+# Secrets & SSL certs
+*.key
+*.pem
+*.crt
+*_nginx/
+
 # 忽略日志文件夹
 logs/
 *.log
