@@ -177,3 +177,24 @@ class DatabaseStore:
                 session_key,
             )
         return [dict(row) for row in rows]
+
+    async def has_transcript(self, session_key: str) -> bool:
+        if not self.enabled:
+            return False
+
+        if self.pool is None:
+            await self.connect()
+        if self.pool is None:
+            return False
+
+        async with self.pool.acquire() as conn:
+            count = await conn.fetchval(
+                """
+                SELECT COUNT(1)
+                FROM messages AS m
+                JOIN conversations AS c ON c.id = m.conversation_id
+                WHERE c.session_key = $1
+                """,
+                session_key,
+            )
+        return bool(count)
