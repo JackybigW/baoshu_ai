@@ -70,6 +70,11 @@ WECOM_KF_ID = os.getenv("WECOM_KF_ID", "")
 WECOM_BUFFER_WAIT = float(os.getenv("WECOM_BUFFER_WAIT", "3.5"))
 WECOM_TYPING_SPEED = float(os.getenv("WECOM_TYPING_SPEED", "0.15"))
 WECOM_TYPING_MAX = float(os.getenv("WECOM_TYPING_MAX", "8.0"))
+WECOM_PAUSE_AFTER_HANDOFF = os.getenv("WECOM_PAUSE_AFTER_HANDOFF", "0").lower() in {
+    "1",
+    "true",
+    "yes",
+}
 
 wecom_redis = aioredis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 crypto = WeComCrypto(WECOM_TOKEN, WECOM_AES_KEY, WECOM_CORPID)
@@ -114,6 +119,12 @@ async def _persist_turn(
         )
     except Exception as exc:
         logger.error(f"❌ Postgres persist error: {exc}", exc_info=True)
+
+
+async def _handoff_pause_enabled(ext_userid: str) -> bool:
+    if not WECOM_PAUSE_AFTER_HANDOFF:
+        return False
+    return bool(await wecom_redis.get(f"state:{ext_userid}:human_transferred"))
 
 
 @api.get("/api/wecom/callback")
@@ -220,7 +231,7 @@ async def _wecom_fetch_and_buffer(sync_token: str):
             elif msgtype == "event" and event.get("event_type") == "enter_session":
                 if not ext_userid:
                     continue
-                if await wecom_redis.get(f"state:{ext_userid}:human_transferred"):
+                if await _handoff_pause_enabled(ext_userid):
                     logger.info(f"🚫 Skipping welcome AI for {ext_userid}: already transferred")
                     continue
 
@@ -231,7 +242,7 @@ async def _wecom_fetch_and_buffer(sync_token: str):
             if not ext_userid or user_text is None:
                 continue
 
-            if await wecom_redis.get(f"state:{ext_userid}:human_transferred"):
+            if await _handoff_pause_enabled(ext_userid):
                 logger.info(f"🚫 Skipping AI for {ext_userid}: already transferred")
                 continue
 
@@ -349,7 +360,7 @@ async def _wecom_debounce_fire(ext_userid: str):
         output = await asyncio.to_thread(app.invoke, inputs, config=config)
 
         # 3. 如果 LangGraph 判定转人工
-        if output.get("dialog_status") == "FINISHED":
+        if output.get("dialog_status") == "FINISHED" and WECOM_PAUSE_AFTER_HANDOFF:
             await wecom_redis.set(
                 f"state:{ext_userid}:human_transferred", "1", ex=86400
             )
