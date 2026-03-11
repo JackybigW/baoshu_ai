@@ -4,9 +4,18 @@
 # 🔥 核心特性：感知层 classifier 和 extractor 并行执行
 # ==========================================
 
+import os
+import threading
+from typing import Any, Optional
+
 from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.postgres import PostgresSaver
+from langgraph.graph import END, StateGraph
+from psycopg.rows import dict_row
+from psycopg_pool import ConnectionPool
+
 from state import AgentState
-from langgraph.graph import StateGraph, END
+from utils.logger import logger
 
 # 感知层
 from nodes.perception import classifier_node, extractor_node
@@ -163,8 +172,106 @@ workflow.add_conditional_edges(
 workflow.add_edge("chit_chat", END)
 workflow.add_edge("human_handoff", END)
 
-# ==========================================
-# 编译
-# ==========================================
-memory = MemorySaver()
-app = workflow.compile(checkpointer=memory)
+class GraphAppProxy:
+    def __init__(self) -> None:
+        self._graph = None
+
+    def set_graph(self, graph: Any) -> None:
+        self._graph = graph
+
+    def clear(self) -> None:
+        self._graph = None
+
+    def invoke(self, *args: Any, **kwargs: Any) -> Any:
+        if self._graph is None:
+            initialize_graph()
+        return self._graph.invoke(*args, **kwargs)
+
+    def __getattr__(self, name: str) -> Any:
+        if self._graph is None:
+            initialize_graph()
+        return getattr(self._graph, name)
+
+
+_graph_lock = threading.Lock()
+_checkpointer = None
+_checkpoint_pool: Optional[ConnectionPool] = None
+_graph_backend = "memory"
+app = GraphAppProxy()
+
+
+def _resolve_checkpoint_database_url(database_url: Optional[str] = None) -> str:
+    if database_url is not None:
+        return database_url.strip()
+    return (
+        os.getenv("LANGGRAPH_CHECKPOINT_DATABASE_URL", "").strip()
+        or os.getenv("DATABASE_URL", "").strip()
+    )
+
+
+def _build_postgres_checkpointer(database_url: str) -> tuple[PostgresSaver, ConnectionPool]:
+    min_size = int(os.getenv("LANGGRAPH_CHECKPOINT_POOL_MIN", os.getenv("POSTGRES_POOL_MIN", "1")))
+    max_size = int(os.getenv("LANGGRAPH_CHECKPOINT_POOL_MAX", os.getenv("POSTGRES_POOL_MAX", "5")))
+    pool = ConnectionPool(
+        conninfo=database_url,
+        kwargs={
+            "autocommit": True,
+            "prepare_threshold": 0,
+            "row_factory": dict_row,
+        },
+        min_size=min_size,
+        max_size=max_size,
+        open=False,
+        name="baoshu_ai_langgraph",
+    )
+    pool.open(wait=True)
+    checkpointer = PostgresSaver(pool)
+    checkpointer.setup()
+    return checkpointer, pool
+
+
+def initialize_graph(database_url: Optional[str] = None) -> None:
+    global _checkpointer, _checkpoint_pool, _graph_backend
+    if app._graph is not None:
+        return
+
+    with _graph_lock:
+        if app._graph is not None:
+            return
+
+        checkpoint_db_url = _resolve_checkpoint_database_url(database_url)
+        try:
+            if checkpoint_db_url:
+                _checkpointer, _checkpoint_pool = _build_postgres_checkpointer(checkpoint_db_url)
+                _graph_backend = "postgres"
+                logger.info("🧠 LangGraph checkpointer: PostgresSaver")
+            else:
+                _checkpointer = MemorySaver()
+                _checkpoint_pool = None
+                _graph_backend = "memory"
+                logger.warning("🧠 LangGraph checkpointer fallback: MemorySaver (DATABASE_URL 未配置)")
+
+            app.set_graph(workflow.compile(checkpointer=_checkpointer))
+        except Exception:
+            if _checkpoint_pool is not None:
+                _checkpoint_pool.close()
+            _checkpointer = None
+            _checkpoint_pool = None
+            _graph_backend = "memory"
+            app.clear()
+            raise
+
+
+def close_graph() -> None:
+    global _checkpointer, _checkpoint_pool, _graph_backend
+    with _graph_lock:
+        if _checkpoint_pool is not None:
+            _checkpoint_pool.close()
+        _checkpointer = None
+        _checkpoint_pool = None
+        _graph_backend = "memory"
+        app.clear()
+
+
+def get_graph_backend() -> str:
+    return _graph_backend
