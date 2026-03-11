@@ -98,6 +98,11 @@ def classifier_node(state: AgentState):
     if profile and profile.budget.amount > 0 and profile.budget.amount < 10:
         if final_intent not in ["TRANSFER_TO_HUMAN", "ART_CONSULTING"]:  # 艺术生允许穷
             final_intent = "LOW_BUDGET"
+
+    # 预算达到常规咨询区间时，兜底纠正掉误判的低预算。
+    if profile and profile.budget.amount >= 15 and final_intent == "LOW_BUDGET":
+        logger.info("--- 🛡️ Python矫正: 预算>=15，LOW_BUDGET -> NEED_CONSULTING ---")
+        final_intent = "NEED_CONSULTING"
     
     # 身份继承逻辑 (Sticky Intents)
     # 只有当 LLM 判定为"普通咨询"时，才去检查上一轮

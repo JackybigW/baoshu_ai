@@ -224,7 +224,19 @@ class IntentResult(BaseModel):
         if "SALES" in clean_v: return "SALES_READY"
         if "HIGH" in clean_v: return "HIGH_VALUE"
         if "ART" in clean_v: return "ART_CONSULTING"
-        if "LOW" in clean_v or "BUDGET" in clean_v: return "LOW_BUDGET"
+
+        low_budget_aliases = {
+            "LOW_BUDGET",
+            "LOW-BUDGET",
+            "LOW BUDGET",
+            "TIGHT_BUDGET",
+            "TIGHT-BUDGET",
+            "BUDGET_LIMITED",
+            "BUDGET-LIMITED",
+            "BUDGET LIMITED",
+        }
+        if clean_v in low_budget_aliases:
+            return "LOW_BUDGET"
         
         if "DECISION" in clean_v or "COMPARE" in clean_v or "OFFER" in clean_v:
             return "DECISION_SUPPORT"
