@@ -22,7 +22,7 @@ from utils.wecom_crypto import WeComCrypto
 
 _ = load_dotenv(find_dotenv(), override=True)
 from db import db_store
-from agent_graph import app
+from agent_graph import app, close_graph, get_graph_backend, initialize_graph
 
 
 class ChatRequest(BaseModel):
@@ -35,11 +35,14 @@ allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    await db_store.connect()
     try:
+        initialize_graph()
+        logger.info(f"🧠 LangGraph backend ready: {get_graph_backend()}")
+        await db_store.connect()
         yield
     finally:
         await db_store.close()
+        close_graph()
 
 
 api = FastAPI(lifespan=lifespan)
