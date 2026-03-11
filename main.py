@@ -261,6 +261,10 @@ async def _wecom_handle_enter_session(ext_userid: str, welcome_code: str):
         return
 
     try:
+        if await db_store.has_transcript(ext_userid):
+            logger.info(f"⏭️ Skip enter_session welcome for existing conversation: {ext_userid}")
+            return
+
         logger.info(f"👋 Handling enter_session welcome for {ext_userid}")
         config = {"configurable": {"thread_id": ext_userid}}
         output = await asyncio.to_thread(app.invoke, {"messages": []}, config=config)
