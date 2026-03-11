@@ -54,9 +54,6 @@ api.add_middleware(
     allow_headers=["*"],
 )
 
-# 2.5s 仍然是黄金等待期
-buffer = MessageBuffer(wait_time=2.5)
-
 # ==========================================
 # 企业微信客服 - 初始化
 # ==========================================
@@ -75,6 +72,11 @@ WECOM_PAUSE_AFTER_HANDOFF = os.getenv("WECOM_PAUSE_AFTER_HANDOFF", "0").lower() 
     "true",
     "yes",
 }
+WEB_BUFFER_WAIT = float(os.getenv("WEB_BUFFER_WAIT", str(WECOM_BUFFER_WAIT)))
+WEB_TYPING_SPEED = float(os.getenv("WEB_TYPING_SPEED", str(WECOM_TYPING_SPEED)))
+WEB_TYPING_MAX = float(os.getenv("WEB_TYPING_MAX", str(WECOM_TYPING_MAX)))
+
+buffer = MessageBuffer(wait_time=WEB_BUFFER_WAIT)
 
 wecom_redis = aioredis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 crypto = WeComCrypto(WECOM_TOKEN, WECOM_AES_KEY, WECOM_CORPID)
@@ -125,6 +127,15 @@ async def _handoff_pause_enabled(ext_userid: str) -> bool:
     if not WECOM_PAUSE_AFTER_HANDOFF:
         return False
     return bool(await wecom_redis.get(f"state:{ext_userid}:human_transferred"))
+
+
+@api.get("/api/chat-config")
+async def chat_config():
+    return {
+        "web_buffer_wait": WEB_BUFFER_WAIT,
+        "typing_speed": WEB_TYPING_SPEED,
+        "typing_max": WEB_TYPING_MAX,
+    }
 
 
 @api.get("/api/wecom/callback")

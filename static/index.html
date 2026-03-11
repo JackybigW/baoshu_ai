@@ -122,8 +122,14 @@
 </div>
 
 <script>
+    const STORAGE_KEY = 'baoshu_web_chat_state_v1';
     let sessionId = null;
     let chatHistory = [];
+    let chatConfig = {
+        web_buffer_wait: 3.5,
+        typing_speed: 0.15,
+        typing_max: 8.0,
+    };
     let isAILoading = 0; // 计数器，支持多个请求重叠
     
     const chatBox = document.getElementById('chat-box');
@@ -131,8 +137,12 @@
     const sendBtn = document.getElementById('send-btn');
     const typingIndicator = document.getElementById('typing-indicator');
 
-    window.onload = function() {
-        triggerAiGreeting();
+    window.onload = async function() {
+        hydrateFromStorage();
+        await loadChatConfig();
+        if (!sessionId || chatHistory.length === 0) {
+            triggerAiGreeting();
+        }
     };
 
     inputField.addEventListener("keypress", function(event) {
@@ -159,9 +169,61 @@
         }
         
         chatBox.appendChild(msgDiv);
+        persistState();
         
         // 自动滚动到底部
         chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function persistState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            sessionId,
+            chatHistory,
+        }));
+    }
+
+    function hydrateFromStorage() {
+        const rawState = localStorage.getItem(STORAGE_KEY);
+        if (!rawState) return;
+
+        try {
+            const savedState = JSON.parse(rawState);
+            sessionId = savedState.sessionId || null;
+            chatHistory = Array.isArray(savedState.chatHistory) ? savedState.chatHistory : [];
+
+            for (const item of chatHistory) {
+                const msgDiv = document.createElement('div');
+                const role = item.role === '我' ? 'user' : 'bao';
+                msgDiv.className = `message ${role}`;
+                const formattedText = (item.content || '').replace(/\n/g, '<br>');
+                if (role === 'bao') {
+                    msgDiv.innerHTML = `<div class="avatar bao"></div><div class="bubble">${formattedText}</div>`;
+                } else {
+                    msgDiv.innerHTML = `<div class="bubble">${formattedText}</div>`;
+                }
+                chatBox.appendChild(msgDiv);
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        } catch (error) {
+            console.error("恢复本地会话失败:", error);
+            localStorage.removeItem(STORAGE_KEY);
+            sessionId = null;
+            chatHistory = [];
+        }
+    }
+
+    async function loadChatConfig() {
+        try {
+            const response = await fetch('/api/chat-config');
+            if (!response.ok) return;
+            const data = await response.json();
+            chatConfig = {
+                ...chatConfig,
+                ...data,
+            };
+        } catch (error) {
+            console.error("加载聊天配置失败:", error);
+        }
     }
 
     function handleUserSend() {
@@ -178,6 +240,7 @@
 
     function resetChat() {
         if(confirm("确定要清空当前对话吗？")) {
+            localStorage.removeItem(STORAGE_KEY);
             location.reload();
         }
     }
@@ -218,7 +281,10 @@
             if (!response.ok) throw new Error(`Server error: ${response.status}`);
             
             const data = await response.json();
-            if (data.session_id) sessionId = data.session_id;
+            if (data.session_id) {
+                sessionId = data.session_id;
+                persistState();
+            }
 
             const fullResponse = data.response || "";
             
@@ -230,7 +296,14 @@
             const messages = fullResponse.split('|||').filter(m => m.trim() !== "");
             
             for (let i = 0; i < messages.length; i++) {
-                if (i > 0) await new Promise(resolve => setTimeout(resolve, 600));
+                if (i > 0) {
+                    const nextSegment = messages[i].trim();
+                    const delaySeconds = Math.min(
+                        Math.max(nextSegment.length * chatConfig.typing_speed, 2.0),
+                        chatConfig.typing_max
+                    );
+                    await new Promise(resolve => setTimeout(resolve, delaySeconds * 1000));
+                }
                 appendMessage('bao', messages[i].trim());
             }
 
