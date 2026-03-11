@@ -1,4 +1,5 @@
 import asyncio
+import uuid
 
 import httpx
 
@@ -116,4 +117,25 @@ class WeComAPI:
             result = resp.json()
             if result.get("errcode") != 0:
                 logger.warning(f"send_msg error: {result}")
+            return result
+
+    async def send_wecom_welcome_message(self, welcome_code: str, text: str) -> dict:
+        """
+        Sends a text welcome message in response to enter_session.
+        This uses the event-specific API instead of the normal send_msg API.
+        """
+        access_token = await self.get_access_token()
+        url = f"https://qyapi.weixin.qq.com/cgi-bin/kf/send_msg_on_event?access_token={access_token}"
+        payload = {
+            "code": welcome_code,
+            "msgid": uuid.uuid4().hex,
+            "msgtype": "text",
+            "text": {"content": text},
+        }
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.post(url, json=payload)
+            result = resp.json()
+            if result.get("errcode") != 0:
+                logger.warning(f"send_msg_on_event error: {result}")
             return result

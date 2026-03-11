@@ -203,18 +203,27 @@ async def _wecom_fetch_and_buffer(sync_token: str):
             origin = msg.get("origin")
             msgtype = msg.get("msgtype")
             ext_userid = msg.get("external_userid", "")
+            event = msg.get("event", {})
             
             # 兼容：有些 event 类型的 external_userid 在 event 字典里
-            if not ext_userid and "event" in msg:
-                ext_userid = msg["event"].get("external_userid", "")
+            if not ext_userid and event:
+                ext_userid = event.get("external_userid", "")
             
             user_text = None
             
             if origin == 3 and msgtype == "text":
                 user_text = msg.get("text", {}).get("content", "").strip()
             # 处理用户进入客服会话事件，触发打招呼逻辑
-            elif msgtype == "event" and msg.get("event", {}).get("event_type") == "enter_session":
-                user_text = ""
+            elif msgtype == "event" and event.get("event_type") == "enter_session":
+                if not ext_userid:
+                    continue
+                if await wecom_redis.get(f"state:{ext_userid}:human_transferred"):
+                    logger.info(f"🚫 Skipping welcome AI for {ext_userid}: already transferred")
+                    continue
+
+                welcome_code = event.get("welcome_code", "")
+                await _wecom_handle_enter_session(ext_userid, welcome_code)
+                continue
                 
             if not ext_userid or user_text is None:
                 continue
@@ -234,6 +243,50 @@ async def _wecom_fetch_and_buffer(sync_token: str):
 
     except Exception as e:
         logger.error(f"❌ WeCom fetch_and_buffer error: {e}", exc_info=True)
+
+
+async def _wecom_handle_enter_session(ext_userid: str, welcome_code: str):
+    """
+    enter_session 不能走普通 send_msg。
+    必须使用事件欢迎语接口，否则会返回 95018。
+    """
+    if not welcome_code:
+        logger.warning(f"⚠️ Missing welcome_code for enter_session: {ext_userid}")
+        return
+
+    process_lock = f"wecom:process_lock:{ext_userid}"
+    acquired = await wecom_redis.set(process_lock, "1", nx=True, ex=60)
+    if not acquired:
+        logger.info(f"🔁 Welcome message skipped due to active worker: {ext_userid}")
+        return
+
+    try:
+        logger.info(f"👋 Handling enter_session welcome for {ext_userid}")
+        config = {"configurable": {"thread_id": ext_userid}}
+        output = await asyncio.to_thread(app.invoke, {"messages": []}, config=config)
+
+        all_messages = output.get("messages", [])
+        ai_contents = _extract_ai_contents(all_messages)
+        welcome_text = "\n".join(text for text in ai_contents if text).strip()
+        if not welcome_text:
+            welcome_text = "您好，欢迎咨询！ 跟上暴叔的节奏～"
+
+        result = await wecom_api.send_wecom_welcome_message(welcome_code, welcome_text)
+        logger.info(f"📤 send_msg_on_event result: {result}")
+
+        if result.get("errcode") == 0:
+            await _persist_turn(
+                channel="wecom",
+                session_key=ext_userid,
+                user_messages=[],
+                ai_messages=[welcome_text],
+                output_state=output,
+                external_userid=ext_userid,
+            )
+    except Exception as e:
+        logger.error(f"❌ WeCom enter_session welcome error: {e}", exc_info=True)
+    finally:
+        await wecom_redis.delete(process_lock)
 
 
 def _reset_debounce_timer(ext_userid: str):
