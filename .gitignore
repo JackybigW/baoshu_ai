@@ -1,6 +1,8 @@
 .env
 __pycache__
 老nodes.py
+.obsidian/
+README.pdf
 
 # Secrets & SSL certs
 *.key
@@ -11,8 +13,8 @@ __pycache__
 # 忽略日志文件夹
 logs/
 *.log
-products_intro.xlsx
 deploy.sh
+data/.~*
 
 # 移除 tests/ 的忽略，因为面试官需要看到测试用例
 # tests/ 
