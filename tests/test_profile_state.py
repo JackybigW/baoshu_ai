@@ -42,6 +42,16 @@ def test_reduce_profile_merges_list_and_text_fields():
     assert merged.target_major == "商科；金融"
 
 
+def test_reduce_profile_does_not_overwrite_budget_with_unknown_amount():
+    old_profile = CustomerProfile(budget=BudgetInfo(amount=40, period=BudgetPeriod.TOTAL))
+    new_profile = CustomerProfile(budget=BudgetInfo(amount=None, period=BudgetPeriod.UNKNOWN))
+
+    merged = reduce_profile(old_profile, new_profile)
+
+    assert merged.budget.amount == 40
+    assert merged.budget.period == BudgetPeriod.TOTAL
+
+
 def test_search_products_filters_by_abroad_readiness():
     direct_profile = CustomerProfile(
         educationStage="高中",

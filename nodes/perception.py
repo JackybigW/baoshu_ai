@@ -95,12 +95,13 @@ def classifier_node(state: AgentState):
             final_intent = "LOW_BUDGET"
     
     # 如果 classifier 没识别出低预算，但画像显示低预算，强制设为 LOW_BUDGET
-    if profile and profile.budget.amount > 0 and profile.budget.amount < 10:
+    amount = profile.budget.amount if profile else None
+    if amount is not None and 0 < amount < 10:
         if final_intent not in ["TRANSFER_TO_HUMAN", "ART_CONSULTING"]:  # 艺术生允许穷
             final_intent = "LOW_BUDGET"
 
     # 预算达到常规咨询区间时，兜底纠正掉误判的低预算。
-    if profile and profile.budget.amount >= 15 and final_intent == "LOW_BUDGET":
+    if amount is not None and amount >= 15 and final_intent == "LOW_BUDGET":
         logger.info("--- 🛡️ Python矫正: 预算>=15，LOW_BUDGET -> NEED_CONSULTING ---")
         final_intent = "NEED_CONSULTING"
     
@@ -168,8 +169,8 @@ def extractor_node(state: AgentState):
     【特殊判断】
     - 区分现状与意向："想读本科"是意向(educationStage=None)，"我是大三"是现状(educationStage=本科)。
     - 判断身份：主语是"我"->学生；主语是"孩子/儿子"->家长；不包含主语-> None
-    - **预算提取**：特别注意识别低预算表达，如"5万"、"8万"、"10万以内"、"预算不多"等，金额统一提取为数字（万）
-    - **⚠️ 负债识别**：如果用户提到"负债"、"欠款"、"背着贷款"、"还债中"等，**不要提取为预算**！这是负面财务信号，不是留学预算。
+    - **预算提取时候的单位换算**：统一提取为RMB 万元，如果用户提到其他货币，如美金，日元，需替换成人民币的数字。
+    - **负债识别**：如果用户提到"负债"、"欠款"、"背着贷款"、"还债中"等，**不要提取为预算**！这是负面财务信号，不是留学预算。
     - **预算周期判断**：如果用户说"一年X万"->ANNUAL；"总共X万"->TOTAL；只说数字没说周期->UNKNOWN
     - **target_school, target_major**： 区分用户目标和用户现状，用户目标是"我想去..."，"我想读..."，用户现状是，"我在读"，"我是..."
     如果某字段既无显示信息，也无法逻辑推理，请返回None

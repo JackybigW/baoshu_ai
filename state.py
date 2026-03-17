@@ -16,11 +16,31 @@ class BudgetPeriod(str, Enum):
     UNKNOWN = "UNKNOWN"   # 未说明
 
 class BudgetInfo(BaseModel):
-    amount: int = Field(-1, description="预算金额数字(万)，未知填-1")
+    amount: Optional[int] = Field(
+        default=None,
+        description="用户的预算金额。单位为RMB万元，未知填None"
+    )
     period: BudgetPeriod = Field(
         default=BudgetPeriod.UNKNOWN,
         description="预算周期。如果用户只说了数字没说周期，必须选 UNKNOWN"
     )
+
+    @field_validator("amount", mode="before")
+    @classmethod
+    def robust_amount(cls, v):
+        if v is None:
+            return None
+        if isinstance(v, (int, float)):
+            return int(round(v))
+        if isinstance(v, str):
+            s = v.strip().lower()
+            if s in {"", "none", "null", "unknown", "无", "n/a"}:
+                return None
+            try:
+                return int(round(float(s)))
+            except ValueError:
+                return None
+        return v
 
 class CustomerProfile(BaseModel):
     """客户画像数据结构"""
@@ -71,7 +91,7 @@ class CustomerProfile(BaseModel):
         default=None,
         description="""
         用户可用于留学的外语能力，雅思托福，小语种，或是别的语言考试成绩 level.
-        如用户说自己xx不好，可以填入此栏，如果用户完全没提及语言能力，返回None。
+        如用户说自己xx不好，可以填入此栏，如果用户根本没提及语言能力，返回None。
         """
     )
 
@@ -120,6 +140,23 @@ class CustomerProfile(BaseModel):
             return "学生"
 
         return None
+    @field_validator('language_level', mode='before')
+    @classmethod
+    def robust_language(cls, v):
+        if v is None:
+            return None
+        
+        s = str(v).strip().upper()
+        if s in ['NONE', 'NULL', '']:
+            return None
+            
+        # 【体验守护者】：一旦探测到这些词，立刻打上标准标签，防止下游追问！
+        no_score_keywords = ['TBD', '待定', '未考', '没考', '暂无', '不知道', '不好', '差', '渣']
+        
+        if any(keyword in s for keyword in no_score_keywords) or s in no_score_keywords:
+            return "无语言成绩" # 给下游顾问看的一个明确 Tag
+            
+        return str(v).strip()
 
     @field_validator('destination_preference', mode='before')
     @classmethod
@@ -167,7 +204,7 @@ class CustomerProfile(BaseModel):
             missing.append("educationStage")
         elif not self.academic_background:
             missing.append("academic_background")
-        elif self.budget.amount == -1 or self.budget.period == BudgetPeriod.UNKNOWN:
+        elif self.budget.amount is None or self.budget.period == BudgetPeriod.UNKNOWN:
             missing.append("budget")
         elif not self.destination_preference:
             missing.append("destination_preference")
@@ -240,7 +277,7 @@ def reduce_profile(old_data: Optional[CustomerProfile], new_data: Optional[Custo
     if new_data.abroad_readiness is not None:
         merged.abroad_readiness = new_data.abroad_readiness
     
-    if new_data.budget.amount != -1: 
+    if new_data.budget.amount is not None: 
         merged.budget.amount = new_data.budget.amount
         
     if new_data.budget.period != BudgetPeriod.UNKNOWN: 

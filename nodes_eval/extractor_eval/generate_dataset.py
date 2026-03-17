@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 OUTPUT_PATH = Path(__file__).resolve().parent / "golden_dataset.json"
 
 
-def budget(amount: int = -1, period: str = "UNKNOWN") -> Dict[str, Any]:
+def budget(amount: Optional[int] = None, period: str = "UNKNOWN") -> Dict[str, Any]:
     return {"amount": amount, "period": period}
 
 
@@ -819,7 +819,7 @@ def build_cases() -> List[Dict[str, Any]]:
                     "expected": profile(
                         user_role="学生",
                         educationStage=variant["stage"],
-                        budget=budget(-1, "UNKNOWN"),
+                        budget=budget(None, "UNKNOWN"),
                         destination_preference=variant["dest"],
                         academic_background=variant["background"],
                     ),
