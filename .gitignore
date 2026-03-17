@@ -15,7 +15,6 @@ README.pdf
 # 忽略日志文件夹
 logs/
 *.log
-deploy.sh
 data/.~*
 
 # 移除 tests/ 的忽略，因为面试官需要看到测试用例
@@ -27,7 +26,6 @@ test_debug.py
 .pytest_cache/
 
 .vscode/
-GEMINI.md
 .gemini/
 gha-creds-*.json
 3.3_plan.txt
