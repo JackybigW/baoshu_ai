@@ -75,57 +75,48 @@ except Exception as e:
 #直接 define 一个 function 让 LLM强制用，让暴叔的方案大于LLM自己知识库的方案即可
 def search_products(profile: CustomerProfile) -> str:
     """
-    【翻译层 + 检索层】
-    将 CustomerProfile 的 'destination_preference' 映射到 Excel 的 '是否出国' 字段
+    【检索层】
+    按学历、abroad_readiness 和预算匹配 Excel 方案池
     """
     try:
-        # 初始化 Mask (全选)
         mask = pd.Series([True] * len(df_db))
-        
-        # --- A. 学历筛选 ---
+
         if profile.educationStage:
             mask &= df_db['educationStage'].str.contains(profile.educationStage, na=False)
-            
-        # --- B. 意向筛选 (逻辑映射核心修改) ---
-        user_pref = profile.destination_preference # "境外方向" / "境内/港澳方向"
-        
-        if user_pref == "境外方向":
-            # 对应原逻辑：包括常规出国 + 缓缓再出国(预科/跳板)
-            mask &= df_db['是否出国'].isin(["可以出国", "缓缓再出国"])
-            
-        elif user_pref == "境内/港澳方向":
-            # 对应原逻辑：Excel里的"不要出国"分类 (即港澳/4+0)
-            mask &= (df_db['是否出国'] == "不要出国")
-            
-        # --- C. 预算筛选 (保持不变) ---
+
+        readiness_mapping = {
+            "直接出国": ["可以出国"],
+            "需要过渡/暂缓": ["缓缓再出国", "缓缓出国"],
+            "坚决不出国": ["不要出国"],
+        }
+        if profile.abroad_readiness:
+            mask &= df_db['是否出国'].isin(readiness_mapping.get(profile.abroad_readiness, []))
+
         amount = profile.budget.amount
         period = profile.budget.period
-        
-        if amount > 0: 
+
+        if amount > 0:
             if period == BudgetPeriod.TOTAL:
-                mask &= (df_db['budgetLowerBound'] <= amount)
+                mask &= (df_db['budgetLowerBound'] <= amount) & (df_db['budgetUpperBound'] >= amount)
             elif period == BudgetPeriod.ANNUAL:
-                mask &= (df_db['annualBudgetLowerBound'] <= amount)
-                
-        # --- D. 执行筛选 ---
+                mask &= (df_db['annualBudgetLowerBound'] <= amount) & (df_db['annualBudgetUpperBound'] >= amount)
+
         results = df_db[mask]
-        
-        # --- E. 格式化输出 ---
+
         if len(results) == 0:
             return "【系统提示】：数据库中未找到符合该学历和预算的方案。请委婉告知用户目前没有完美匹配的项目，建议调整预算或考虑其他路径。"
-            
+
         output_text = f"共匹配到 {len(results)} 个方案：\n"
-        
+
         for idx, row in results.iterrows():
             proj_name = row.get('项目', '未知项目')
             proj_desc = row.get('项目说明', '')
             proj_adv = row.get('项目优势', '')
-            # 这里虽然 Excel 还是叫"是否出国"，但展示给 LLM 时我们可以不强调这个字段，或者保留给它做参考
-            proj_type = row.get('是否出国', '') 
-            
+            proj_type = row.get('是否出国', '')
+
             total_price = f"{row.get('budgetLowerBound',0)}-{row.get('budgetUpperBound','?')}万"
             annual_price = f"{row.get('annualBudgetLowerBound',0)}-{row.get('annualBudgetUpperBound','?')}万"
-            
+
             output_text += f"""
             --- 方案 {idx+1} ---
             [项目名称]: {proj_name}
@@ -148,5 +139,4 @@ def summon_specialist_tool():
     这将触发后台系统，拉取真人顾问进入群聊。
     """
     return "Specialist summoned."
-
 

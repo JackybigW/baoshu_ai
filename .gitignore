@@ -27,6 +27,7 @@ GEMINI.md
 .gemini/
 gha-creds-*.json
 3.3_plan.txt
+notes/academic_background_eval.txt
 
 # OS artifacts
 .DS_Store

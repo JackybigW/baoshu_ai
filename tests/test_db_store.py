@@ -13,7 +13,7 @@ def test_json_ready_handles_pydantic_model():
     profile = CustomerProfile(
         user_role="学生",
         educationStage="本科",
-        destination_preference="境外方向",
+        destination_preference=["美国"],
     )
     profile.budget.amount = 40
     payload = _json_ready(profile)

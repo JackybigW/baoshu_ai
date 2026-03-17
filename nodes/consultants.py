@@ -31,6 +31,21 @@ llm = get_frontend_llm(temperature=0)
 # 顾问聊天模型 (温度稍高，更像人)
 llm_chat = get_frontend_llm(temperature=0.7)
 
+
+def _format_destination_preference(profile: CustomerProfile) -> str:
+    if not profile.destination_preference:
+        return "未说明"
+    return "、".join(profile.destination_preference)
+
+
+def _resolve_specialist_role(profile: CustomerProfile) -> str:
+    destinations = "".join(profile.destination_preference or [])
+    if profile.abroad_readiness == "坚决不出国" or any(token in destinations for token in ["香港", "澳门", "港澳", "内地", "国内"]):
+        return "专门负责国内和港澳申请的"
+    if any(token in destinations for token in ["美国", "英国", "澳洲", "澳大利亚", "加拿大", "新加坡", "马来西亚"]):
+        return "专门负责英联邦和美国申请的"
+    return "负责这个项目的"
+
 #1 用户加了好友，优先say hi，勾引用户说话
 def first_greeting_node(state: AgentState):
     """首句破冰"""
@@ -147,16 +162,12 @@ def interviewer_node(state: AgentState):
     missing = profile.missing_fields
     # 获取上下文
     user_role = profile.user_role      # "学生" / "家长"
-    stage = profile.educationStage     # "高中" / "本科" ...
     if not missing:
         return {"messages": [AIMessage(content="情况都清楚了，咱们直接看方案！")]}
     
     # 1. 先拿 Pydantic 默认缺项 (通常是 "当前学历")
     target_field = profile.missing_fields[0] if profile.missing_fields else None
     
-    # 初始化拦截标记
-    force_ask_score = False
-
     # 2. 只有当用户【已经填了背景】时，才去检查有没有分
     if profile.educationStage and profile.academic_background:
         if not re.search(r'\d|[ABC][\+\-]?|Distinction|Merit|Pass|预估', profile.academic_background, re.IGNORECASE):
@@ -189,9 +200,18 @@ def interviewer_node(state: AgentState):
             
     elif target_field == "budget":
         focus_instruction = "【关注点】：家庭支持的留学预算范围（确认是每年还是总预算）。"
-        
+
     elif target_field == "destination_preference":
-        focus_instruction = "【关注点】：目的地偏好。是倾向去境外（英美澳加日韩）闯一闯，还是**境内/港澳**求稳？"
+        focus_instruction = "【关注点】：明确想去哪些国家或地区。优先问清具体国家/地区，不要只问抽象方向。"
+
+    elif target_field == "educationStage":
+        focus_instruction = "【关注点】：用户现在实际就读到哪个阶段。问当前在读/最高学历，不要问想申请的学历。"
+
+    elif target_field == "abroad_readiness":
+        focus_instruction = """
+        【关注点】：仅针对初中/高中客户，确认是想先在国内/港澳过渡，还是准备直接出国。
+        问法要自然，不要像审问；可以给用户两个常见选项让他选。
+        """
 
     # ============================================================
     # 3. 强制打招呼 (Greeting) - 保持不变
@@ -268,12 +288,7 @@ def consultant_node(state: AgentState):
     last_user_msg = messages[-1].content if messages else ""
     
     if is_sales_mode:
-        
-        specialist_role = "负责这个项目的"
-        if profile.destination_preference == "境外方向":
-            specialist_role = "专门负责英联邦和美国申请的"
-        elif profile.destination_preference == "境内/港澳方向":
-            specialist_role = "专门负责国内和港澳申请的"
+        specialist_role = _resolve_specialist_role(profile)
 
         system_prompt = f"""
         你就是留学顾问"暴叔"。
@@ -284,6 +299,8 @@ def consultant_node(state: AgentState):
 
         【客户画像】
         {profile.model_dump_json(exclude_none=True)}
+        【建议对接顾问】
+        {specialist_role}
 
         【你的任务】
         用**最像真人**的微信聊天语气，完成"解答+制造稀缺+拉群"的三步走。
@@ -402,7 +419,8 @@ def consultant_node(state: AgentState):
         - 学历: {profile.educationStage}
         - 学术/语言: {profile.academic_background} (这是核心硬通货)
         - 预算: {profile.budget.amount}万 （重要指标）
-        - 地区偏好: {profile.destination_preference}
+        - 地区偏好: {_format_destination_preference(profile)}
+        - 出国 readiness: {profile.abroad_readiness}
 
         【数据库方案参考】
         {retrieved_context}
