@@ -140,7 +140,7 @@ class TestBaoshuArchitectureV2(unittest.TestCase):
         # 构造 Sales 状态
         state = {
             "last_intent": IntentType.SALES_READY,
-            "profile": CustomerProfile(destination_preference="境外方向"),
+            "profile": CustomerProfile(destination_preference=["美国"]),
             "messages": [HumanMessage(content="这项目保真吗？有认证吗？")],
             "dialog_status": "PERSUADING"
         }

@@ -12,7 +12,7 @@ sys.path.append(parent_dir)
 from typing import List, Optional, Any, Union, Dict, Sequence
 from pydantic import BaseModel
 from langchain_core.messages import SystemMessage
-from state import AgentState, IntentResult, CustomerProfile, BudgetPeriod
+from state import AgentState, IntentResult, CustomerProfile, reduce_profile
 from utils.llm_factory import get_backend_llm
 from utils.logger import logger
 
@@ -163,7 +163,7 @@ def extractor_node(state: AgentState):
        - **当且仅当**用户没有提供上述两条信息时，利用你的常识进行推理补全。
        - **推理场景**:
          - **预算**: 对于已经在海外读书的用户，根据国家地区合理推理预算（如英国高中，70w/年, 美国高中 90w/年，日本高中 20w/年 等等）
-         - **目的地**: 根据用户当前所在地，就读院校所在地或意向国家进行合理推断。
+         - **abroad_readiness**: 仅在用户现阶段为初中/高中，且对是否先在国内/港澳过渡表达明显态度时再推理。本科/大专/研究生默认不要强行补这个字段。
 
     【特殊判断】
     - 区分现状与意向："想读本科"是意向(educationStage=None)，"我是大三"是现状(educationStage=本科)。
@@ -171,7 +171,7 @@ def extractor_node(state: AgentState):
     - **预算提取**：特别注意识别低预算表达，如"5万"、"8万"、"10万以内"、"预算不多"等，金额统一提取为数字（万）
     - **⚠️ 负债识别**：如果用户提到"负债"、"欠款"、"背着贷款"、"还债中"等，**不要提取为预算**！这是负面财务信号，不是留学预算。
     - **预算周期判断**：如果用户说"一年X万"->ANNUAL；"总共X万"->TOTAL；只说数字没说周期->UNKNOWN
-
+    - **target_school, target_major**： 区分用户目标和用户现状，用户目标是"我想去..."，"我想读..."，用户现状是，"我在读"，"我是..."
     如果某字段既无显示信息，也无法逻辑推理，请返回None
     """
     # 4. 调用 LLM
@@ -182,32 +182,7 @@ def extractor_node(state: AgentState):
     new_data = extractor.invoke(messages)
 
     # 5. Python 守门员逻辑 (The Gatekeeper)
-    final_profile = current_profile.model_copy()
-
-    # --- 逻辑 A：普通字段 (非空覆盖) ---
-    if new_data.user_role is not None:
-        final_profile.user_role = new_data.user_role
-    if new_data.educationStage is not None:
-        final_profile.educationStage = new_data.educationStage
-    if new_data.destination_preference is not None:
-        final_profile.destination_preference = new_data.destination_preference
-    if new_data.budget.amount != -1:
-        final_profile.budget.amount = new_data.budget.amount
-    if new_data.budget.period != BudgetPeriod.UNKNOWN:
-        final_profile.budget.period = new_data.budget.period
-
-    # --- 逻辑 B：文本字段 (追加合并) ---
-    if new_data.academic_background:
-        if final_profile.academic_background:
-            final_profile.academic_background += f"；{new_data.academic_background}"
-        else:
-            final_profile.academic_background = new_data.academic_background
-
-    if new_data.language_level:
-        if final_profile.language_level:
-            final_profile.language_level += f"；{new_data.language_level}"
-        else:
-            final_profile.language_level = new_data.language_level
+    final_profile = reduce_profile(current_profile, new_data)
 
     logger.info(f"最终画像: {final_profile.model_dump_json(exclude_none=True)}")
 

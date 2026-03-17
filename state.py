@@ -1,10 +1,12 @@
-from pydantic import BaseModel, Field, field_validator
-from enum import Enum
-from typing import TypedDict, List, Annotated, Literal, Optional
-from langchain_core.messages import BaseMessage
-from langgraph.graph.message import add_messages
+import ast
 import difflib
 import re
+from enum import Enum
+from typing import Annotated, List, Literal, Optional, TypedDict
+
+from langchain_core.messages import BaseMessage
+from langgraph.graph.message import add_messages
+from pydantic import BaseModel, Field, field_validator
 
 # 核心组件
 
@@ -36,96 +38,141 @@ class CustomerProfile(BaseModel):
         description="用户【当前】正在读或已毕业的最高学历。注意：不要填用户【想去读】的学历。"
     )
     budget: BudgetInfo = Field(default_factory=BudgetInfo)
-    destination_preference: Optional[Literal["境外方向","境内/港澳方向"]] = Field(
+    destination_preference: Optional[List[str]] = Field(
         default=None,
-        description="用户的留学或工作的目的地偏好"
+        description="用户明确提到的意向国家和地区，如没有明确提及返回None。"
     )
+    
+    abroad_readiness: Optional[Literal["直接出国", "需要过渡/暂缓", "坚决不出国"]] = Field(
+    default=None,
+    description="""
+    判断用户出国的心理准备度和时间线：
+    - '坚决不出国'：明确表示不想去国外，或者只接受国内/港澳。
+    - '需要过渡/暂缓'：觉得孩子太小、成绩不够、想先在国内读预科/中外合作办学，后面等ready了再出国。
+    - '直接出国'：明确要申请海外学校，不在国内过度，直接出国。
+    """
+    )
+    target_school: Optional[str] = Field(
+        default=None,
+        description="用户的留学目标院校范围，此处可以填具体的院校名称，也可以填排名的要求，如没有明确提及返回None。"
+    )
+    
+    target_major: Optional[str] = Field(
+        default = None,
+        description ="用户的留学目标专业"
+    )
+    
+    
     academic_background: Optional[str] = Field(
         default=None,
         description="用户的学术背景详情"
     )
     language_level: Optional[str] = Field(
         default=None,
-        description="用户可用于留学的外语能力"
+        description="""
+        用户可用于留学的外语能力，雅思托福，小语种，或是别的语言考试成绩 level.
+        如用户说自己xx不好，可以填入此栏，如果用户完全没提及语言能力，返回None。
+        """
     )
 
     @field_validator('educationStage', mode='before')
     @classmethod
     def robust_stage(cls, v):
-        # 1. 拦截空值 (Python None)
         if v is None:
             return None
-        
-        # 2. 拦截字符串类型的空值 (String None/Null/N/A)
-        s = str(v).strip().replace("'", "").replace('"', "") # 去掉可能的引号
+
+        s = str(v).strip().replace("'", "").replace('"', "")
         if s.lower() in ['none', 'null', 'n/a', 'unknown', '', '无']:
             return None
 
-        # 3. 模糊匹配 (Fuzzy Matching) - 加上更严谨的判断
-        # 比如防止把 "日本" 识别成 "本科" (因为都有'本')
-        
-        if "研" in s or "硕" in s or "博" in s or "Master" in s or "PhD" in s:
-            return "研究生"
-        
-        # 必须是“本”且不能是“日本”/“书本”之类，通常 context 是学历，相对安全
-        if "本" in s or "Bachelor" in s: 
-            return "本科"
-            
-        if "大专" in s or ("专" in s and "中" not in s): # 防止匹配中专
-            return "大专"
-            
-        if "中专" in s or "职" in s or "技校" in s: 
-            return "中专"
-            
-        if "高" in s: # 高中, 高三
-            return "高中"
-            
-        if "初" in s: 
-            return "初中"
-            
-        if "小" in s: 
-            return "小学"
-
-        # 4. 🔥 兜底策略：如果上面都没匹配上，且不在允许列表中，直接丢弃！
-        # 防止 LLM 输出了 "幼儿园" 或者 "博士后"，导致 Literal 校验失败报错
         allowed = ["小学","初中","职高","中专", "高中","本科","大专","研究生"]
         if s in allowed:
             return s
-            
-        # 既然洗不出来，为了不报错崩服务，强制返回 None
+
+        stage_patterns = [
+            ("研究生", [r"研究生", r"硕士", r"博士", r"\bmaster\b", r"\bphd\b", r"研[一二三]", r"硕[一二三]", r"博[一二三]"]),
+            ("本科", [r"本科", r"\bbachelor\b", r"大[一二三四五]"]),
+            ("大专", [r"大专", r"专科"]),
+            ("中专", [r"中专", r"技校"]),
+            ("职高", [r"职高"]),
+            ("高中", [r"高中", r"高[一二三]"]),
+            ("初中", [r"初中", r"初[一二三]"]),
+            ("小学", [r"小学", r"小[一二三四五六]"]),
+        ]
+        for normalized, patterns in stage_patterns:
+            if any(re.search(pattern, s, re.IGNORECASE) for pattern in patterns):
+                return normalized
+
         return None
 
     @field_validator('user_role', mode='before')
     @classmethod
     def robust_role(cls, v):
-        if v is None: return None
+        if v is None:
+            return None
         s = str(v).strip()
-        if s.lower() in ['none', 'null', 'unknown', '']: return None
-        
-        if "家长" in s or "Parent" in s or "父母" in s or "妈" in s or "爸" in s: return "家长"
-        if "学生" in s or "Student" in s or "本人" in s or "我" in s: return "学生"
-        
-        return None # 无法识别就置空，别报错
+        if s.lower() in ['none', 'null', 'unknown', '']:
+            return None
+
+        if any(token in s for token in ["家长", "父母", "妈妈", "爸爸", "母亲", "父亲"]):
+            return "家长"
+        if any(token in s for token in ["学生", "本人", "我"]) or s.lower() in ["student", "self"]:
+            return "学生"
+
+        return None
 
     @field_validator('destination_preference', mode='before')
     @classmethod
     def robust_destination(cls, v):
-        if not v: return None
-        s = str(v).upper()
-        if any(k in s for k in ["港", "澳", "内地", "国内", "CN", "HK", "MO", "MACAU"]):
-            return "境内/港澳方向"
-        if any(k in s for k in ["外", "美", "英", "澳", "加", "日", "韩", "欧", "OVERSEAS"]):
-            return "境外方向"
-        return None
+        if not v:
+            return None
+
+        raw_items: List[str] = []
+        if isinstance(v, list):
+            raw_items = [str(item).strip() for item in v]
+        else:
+            text = str(v).strip()
+            if text.lower() in ['none', 'null', 'unknown', '', '无']:
+                return None
+
+            if text.startswith("[") and text.endswith("]"):
+                try:
+                    parsed = ast.literal_eval(text)
+                except (ValueError, SyntaxError):
+                    parsed = None
+                if isinstance(parsed, list):
+                    raw_items = [str(item).strip() for item in parsed]
+
+            if not raw_items:
+                raw_items = [item.strip() for item in re.split(r'[，,、/|；;]+', text) if item.strip()]
+
+        cleaned: List[str] = []
+        for item in raw_items:
+            token = item.strip().strip('"').strip("'")
+            if not token or token.lower() in ['none', 'null', 'unknown', '无']:
+                continue
+            if token not in cleaned:
+                cleaned.append(token)
+
+        return cleaned or None
+
+    @property
+    def requires_abroad_readiness(self) -> bool:
+        return self.educationStage in {"初中", "高中"}
 
     @property
     def missing_fields(self) -> List[str]:
         missing = []
-        if not self.educationStage: missing.append("当前学历")
-        elif not self.academic_background: missing.append("学术背景")
-        elif self.budget.amount == -1: missing.append("留学预算(数字)")
-        elif self.budget.period == BudgetPeriod.UNKNOWN: missing.append("预算周期(每年/总共)")
-        elif not self.destination_preference: missing.append("目的地偏好")
+        if not self.educationStage:
+            missing.append("educationStage")
+        elif not self.academic_background:
+            missing.append("academic_background")
+        elif self.budget.amount == -1 or self.budget.period == BudgetPeriod.UNKNOWN:
+            missing.append("budget")
+        elif not self.destination_preference:
+            missing.append("destination_preference")
+        elif self.requires_abroad_readiness and not self.abroad_readiness:
+            missing.append("abroad_readiness")
         return missing
 
     @property
@@ -158,12 +205,27 @@ def merge_text_fields(old_text: Optional[str], new_text: Optional[str]) -> Optio
 
     return "；".join(result_list)
 
+
+def merge_list_fields(old_items: Optional[List[str]], new_items: Optional[List[str]]) -> Optional[List[str]]:
+    if not new_items:
+        return old_items
+    if not old_items:
+        return list(new_items)
+
+    merged = list(old_items)
+    for item in new_items:
+        if item and item not in merged:
+            merged.append(item)
+    return merged
+
 def reduce_profile(old_data: Optional[CustomerProfile], new_data: Optional[CustomerProfile]) -> CustomerProfile:
     """
     【工业级合并策略 V2.0】
     """
-    if new_data is None: return old_data
-    if old_data is None: return new_data
+    if new_data is None:
+        return old_data or CustomerProfile()
+    if old_data is None:
+        return new_data
 
     merged = old_data.model_copy()
     
@@ -173,8 +235,10 @@ def reduce_profile(old_data: Optional[CustomerProfile], new_data: Optional[Custo
     if new_data.educationStage is not None: 
         merged.educationStage = new_data.educationStage
         
-    if new_data.destination_preference is not None: 
-        merged.destination_preference = new_data.destination_preference
+    merged.destination_preference = merge_list_fields(old_data.destination_preference, new_data.destination_preference)
+
+    if new_data.abroad_readiness is not None:
+        merged.abroad_readiness = new_data.abroad_readiness
     
     if new_data.budget.amount != -1: 
         merged.budget.amount = new_data.budget.amount
@@ -184,6 +248,8 @@ def reduce_profile(old_data: Optional[CustomerProfile], new_data: Optional[Custo
 
     merged.academic_background = merge_text_fields(old_data.academic_background, new_data.academic_background)
     merged.language_level = merge_text_fields(old_data.language_level, new_data.language_level)
+    merged.target_school = merge_text_fields(old_data.target_school, new_data.target_school)
+    merged.target_major = merge_text_fields(old_data.target_major, new_data.target_major)
 
     return merged
 

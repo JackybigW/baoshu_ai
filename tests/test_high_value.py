@@ -30,7 +30,7 @@ def test_high_value_progression():
     profile = CustomerProfile(
         user_role="学生",
         educationStage="本科",
-        destination_preference="境外方向",
+        destination_preference=["美国"],
         academic_background="GPA 3.8, 本科 Top 50"
     )
     profile.budget.amount = 500  # 500w 预算
