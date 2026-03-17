@@ -1,0 +1,2960 @@
+[
+  {
+    "case_id": "case_001",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是高中，别的我说得有点乱，反正高二，校内均分82，想去英国，预算大概5万美金，学校最好QS前100。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "QS前100",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_002",
+    "tags": [
+      "anxious_parent",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩和语言先发我，我先判断有没有基本申请空间。",
+      "last_user_msg": "我说话啰嗦您别嫌弃啊，孩子目前高中，高二，校内均分82，均分85，绩点3.2，托福没考，四级刚过，但又老说以后想学计算机。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "计算机",
+      "academic_background": "高二，校内均分82；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_003",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读金融更稳，但他自己一直念叨传媒，所以国家先看英国吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_004",
+    "tags": [
+      "anxious_parent",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说下基本情况。",
+      "last_user_msg": "救命，我家孩子高二还能去哪？"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_005",
+    "tags": [
+      "anxious_parent",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，您家孩子现在高中，高二，校内均分82，预算总共36万，先看英国，对吗？",
+      "last_user_msg": "对，先按这个理解。",
+      "current_profile": {
+        "user_role": "家长",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先保底",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先保底",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_006",
+    "tags": [
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "把你的背景、预算、目标国家和项目缩写都直接扔给我。",
+      "last_user_msg": "我本人，高中，高二，校内均分82，TBD 但预算 5万美金 all-in，目标 英国 的 CS，学校最好 Top30 CS。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "Top30 CS",
+      "target_major": "CS",
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_007",
+    "tags": [
+      "top_student",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把均分、GPA、标化和语言一起说全。",
+      "last_user_msg": "我高中，CV 还行，均分85，GPA 3.2，托福没考，四级刚过，另外有两段 RA，想申 CS。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": "高中；均分85；GPA 3.2；两段 RA",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_008",
+    "tags": [
+      "top_student",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你自己真正想读什么，不要给我家长版本。",
+      "last_user_msg": "我妈想让我读金融，但我自己更偏人工智能，国家还是优先英国。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "人工智能",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_009",
+    "tags": [
+      "top_student",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话给我背景。",
+      "last_user_msg": "双非高二还能冲吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_010",
+    "tags": [
+      "top_student",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "所以你现在高中，高二，校内均分82，目标英国的CS，预算总共36万，对吧？",
+      "last_user_msg": "yep，按这个版本记。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先看综排",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先看综排",
+      "target_major": "CS",
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_011",
+    "tags": [
+      "cross_major",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+      "last_user_msg": "我现在是土木背景，高二，校内均分82，但其实想跨到心理学，预算卡在5万美金，国家可能是英国。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": "土木背景；高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_012",
+    "tags": [
+      "cross_major",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "先把成绩和语言说一下，再谈跨专业。",
+      "last_user_msg": "我脑子有点乱，我现在高中，原来学土木，均分85，绩点3.2，托福没考，四级刚过，想申心理学。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": "原来学土木；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_013",
+    "tags": [
+      "cross_major",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你自己最终想读的到底是哪一个？",
+      "last_user_msg": "我一开始说想转金融，后来家里又让我回到土木，但我自己现在最想读的还是心理学。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_014",
+    "tags": [
+      "cross_major",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话说你现在和目标。",
+      "last_user_msg": "土木转心理还有戏吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": "土木转心理",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_015",
+    "tags": [
+      "cross_major",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你目前高二，校内均分82，原专业土木，想转心理学，先看英国，对吗？",
+      "last_user_msg": "嗯，方向没错。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先不设限",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先不设限",
+      "target_major": "心理学",
+      "academic_background": "原专业土木；高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_016",
+    "tags": [
+      "budget_sensitive",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "预算能说具体点吗，最好带上总预算还是年预算。",
+      "last_user_msg": "我就想捡便宜的，高中，高二，校内均分82，预算真就5万美金，而且是全部花销一起算，想去英国读护理。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_017",
+    "tags": [
+      "budget_sensitive",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "我先看你的硬条件，再判断能不能走低成本路线。",
+      "last_user_msg": "高中，均分85，绩点3.2，托福没考，四级刚过，预算不多，想申最省钱的护理。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_018",
+    "tags": [
+      "budget_sensitive",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你是因为喜欢还是因为便宜在选专业？",
+      "last_user_msg": "我妈让我读金融说好找工作，但我其实只想找便宜一点的护理，国家先看英国。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_019",
+    "tags": [
+      "budget_sensitive",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说阶段和预算。",
+      "last_user_msg": "预算很低，高二还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_020",
+    "tags": [
+      "budget_sensitive",
+      "debt_not_budget",
+      "implicit_confirmation"
+    ],
+    "input": {
+      "last_ai_msg": "我理解你现在高中，高二，校内均分82，手上没有明确预算，只是家里还在还房贷，对吗？",
+      "last_user_msg": "对，所以别给我太贵的。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": null,
+        "target_school": null,
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_021",
+    "tags": [
+      "low_cognition",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你把能记住的信息慢慢发给我。",
+      "last_user_msg": "我也不太懂，就知道自己现在高中，想去英国，兜里最多5万美金，学个幼教差不多。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_022",
+    "tags": [
+      "low_cognition",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩有多少就说多少，没有就直接说没有。",
+      "last_user_msg": "我就知道均分85，绩点3.2，托福没考，四级刚过，别的真说不上来，应该还想读幼教。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_023",
+    "tags": [
+      "low_cognition",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果家里意见不一致，你先说你自己想学什么。",
+      "last_user_msg": "家里让我随便读个金融，我自己觉得幼教也许更适合，反正别太难。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_024",
+    "tags": [
+      "low_cognition",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先别急，一句话说你现在在哪个阶段。",
+      "last_user_msg": "救命，我高二还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_025",
+    "tags": [
+      "low_cognition",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你现在高中，高二，校内均分82，先看英国，想先在国内过渡一下再出去，对吗？",
+      "last_user_msg": "嗯，你这么记吧。",
+      "current_profile": {
+        "user_role": null,
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "别太难进",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "需要过渡/暂缓",
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_026",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是本科，别的我说得有点乱，反正双非本科大三，均分85，GPA 3.2，想去美国或香港，预算大概30万人民币，学校最好TOP 50。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "TOP 50",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_027",
+    "tags": [
+      "anxious_parent",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩和语言先发我，我先判断有没有基本申请空间。",
+      "last_user_msg": "我说话啰嗦您别嫌弃啊，孩子目前本科，双非本科大三，均分85，GPA 3.2，均分85，绩点3.2，托福没考，四级刚过，但又老说以后想学金融。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "金融",
+      "academic_background": "双非本科大三，均分85，GPA 3.2；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_028",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读会计更稳，但他自己一直念叨CS，所以国家先看美国、香港吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_029",
+    "tags": [
+      "anxious_parent",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说下基本情况。",
+      "last_user_msg": "二本孩子还能申吗？"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_030",
+    "tags": [
+      "anxious_parent",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，您家孩子现在本科，双非本科大三，均分85，GPA 3.2，预算总共30万，先看香港，对吗？",
+      "last_user_msg": "对，先按这个理解。",
+      "current_profile": {
+        "user_role": "家长",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先保底",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先保底",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_031",
+    "tags": [
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "把你的背景、预算、目标国家和项目缩写都直接扔给我。",
+      "last_user_msg": "我本人，本科，双非本科大三，均分85，GPA 3.2，TBD 但预算 30万人民币 all-in，目标 美国 / 香港 的 DS，学校最好 G5。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "G5",
+      "target_major": "DS",
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_032",
+    "tags": [
+      "top_student",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把均分、GPA、标化和语言一起说全。",
+      "last_user_msg": "我本科，CV 还行，均分85，GPA 3.2，托福没考，四级刚过，另外有两段 RA，想申 DS。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "DS",
+      "academic_background": "本科；均分85；GPA 3.2；两段 RA",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_033",
+    "tags": [
+      "top_student",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你自己真正想读什么，不要给我家长版本。",
+      "last_user_msg": "我妈想让我读会计，但我自己更偏数据科学，国家还是优先美国、香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "数据科学",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_034",
+    "tags": [
+      "top_student",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话给我背景。",
+      "last_user_msg": "二本码农还能申？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本码农",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_035",
+    "tags": [
+      "top_student",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "所以你现在本科，双非本科大三，均分85，GPA 3.2，目标美国、香港的DS，预算总共30万，对吧？",
+      "last_user_msg": "yep，按这个版本记。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先看综排",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先看综排",
+      "target_major": "DS",
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_036",
+    "tags": [
+      "cross_major",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+      "last_user_msg": "我现在是会计背景，双非本科大三，均分85，GPA 3.2，但其实想跨到传媒，预算卡在30万人民币，国家可能是美国或者香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "会计背景；双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_037",
+    "tags": [
+      "cross_major",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "先把成绩和语言说一下，再谈跨专业。",
+      "last_user_msg": "我脑子有点乱，我现在本科，原来学会计，均分85，绩点3.2，托福没考，四级刚过，想申传媒。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "原来学会计；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_038",
+    "tags": [
+      "cross_major",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你自己最终想读的到底是哪一个？",
+      "last_user_msg": "我一开始说想转法学，后来家里又让我回到会计，但我自己现在最想读的还是传媒。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_039",
+    "tags": [
+      "cross_major",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话说你现在和目标。",
+      "last_user_msg": "会计不想读了能转传媒吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "会计不想读了",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_040",
+    "tags": [
+      "cross_major",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你目前双非本科大三，均分85，GPA 3.2，原专业会计，想转传媒，先看美国、香港，对吗？",
+      "last_user_msg": "嗯，方向没错。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先不设限",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先不设限",
+      "target_major": "传媒",
+      "academic_background": "原专业会计；双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_041",
+    "tags": [
+      "budget_sensitive",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "预算能说具体点吗，最好带上总预算还是年预算。",
+      "last_user_msg": "我就想捡便宜的，本科，双非本科大三，均分85，GPA 3.2，预算真就30万人民币，而且是全部花销一起算，想去美国、香港读商科。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_042",
+    "tags": [
+      "budget_sensitive",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "我先看你的硬条件，再判断能不能走低成本路线。",
+      "last_user_msg": "本科，均分85，绩点3.2，托福没考，四级刚过，预算不多，想申最省钱的商科。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_043",
+    "tags": [
+      "budget_sensitive",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你是因为喜欢还是因为便宜在选专业？",
+      "last_user_msg": "我妈让我读金融说好找工作，但我其实只想找便宜一点的商科，国家先看美国、香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_044",
+    "tags": [
+      "budget_sensitive",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说阶段和预算。",
+      "last_user_msg": "二本没钱还能出吗？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_045",
+    "tags": [
+      "budget_sensitive",
+      "debt_not_budget",
+      "implicit_confirmation"
+    ],
+    "input": {
+      "last_ai_msg": "我理解你现在本科，双非本科大三，均分85，GPA 3.2，手上没有明确预算，只是我自己有助学贷款，对吗？",
+      "last_user_msg": "对，所以别给我太贵的。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国",
+          "香港"
+        ],
+        "abroad_readiness": null,
+        "target_school": null,
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_046",
+    "tags": [
+      "low_cognition",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你把能记住的信息慢慢发给我。",
+      "last_user_msg": "我也不太懂，就知道自己现在本科，想去美国或者香港，兜里最多30万人民币，学个传媒差不多。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_047",
+    "tags": [
+      "low_cognition",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩有多少就说多少，没有就直接说没有。",
+      "last_user_msg": "我就知道均分85，绩点3.2，托福没考，四级刚过，别的真说不上来，应该还想读传媒。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_048",
+    "tags": [
+      "low_cognition",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果家里意见不一致，你先说你自己想学什么。",
+      "last_user_msg": "家里让我随便读个金融，我自己觉得传媒也许更适合，反正别太难。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_049",
+    "tags": [
+      "low_cognition",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先别急，一句话说你现在在哪个阶段。",
+      "last_user_msg": "二本毕业还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本毕业",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_050",
+    "tags": [
+      "low_cognition",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你现在本科，双非本科大三，均分85，GPA 3.2，先看美国、香港，暂时不设过渡，对吗？",
+      "last_user_msg": "嗯，你这么记吧。",
+      "current_profile": {
+        "user_role": null,
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": null,
+        "target_school": "别太难进",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_051",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是本科，别的我说得有点乱，反正211本科金融，均分88，想去新加坡或香港，预算大概5000镑，学校最好新二或港前三。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "新二或港前三",
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_052",
+    "tags": [
+      "anxious_parent",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩和语言先发我，我先判断有没有基本申请空间。",
+      "last_user_msg": "我说话啰嗦您别嫌弃啊，孩子目前本科，211本科金融，均分88，均分85，绩点3.2，托福没考，四级刚过，但又老说以后想学传媒。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "211本科金融，均分88；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_053",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读法学更稳，但他自己一直念叨心理学，所以国家先看新加坡、香港吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_054",
+    "tags": [
+      "anxious_parent",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说下基本情况。",
+      "last_user_msg": "本科都快毕业了还有救吗？"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "本科快毕业",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_055",
+    "tags": [
+      "anxious_parent",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，您家孩子现在本科，211本科金融，均分88，预算总共5万，先看新加坡，对吗？",
+      "last_user_msg": "对，先按这个理解。",
+      "current_profile": {
+        "user_role": "家长",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先保底",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "香港",
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先保底",
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_056",
+    "tags": [
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "把你的背景、预算、目标国家和项目缩写都直接扔给我。",
+      "last_user_msg": "我本人，本科，211本科金融，均分88，TBD 但预算 5000镑 all-in，目标 新加坡 / 香港 的 ECE，学校最好 CMU/UC系。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "CMU/UC系",
+      "target_major": "ECE",
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_057",
+    "tags": [
+      "top_student",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把均分、GPA、标化和语言一起说全。",
+      "last_user_msg": "我本科，CV 还行，均分85，GPA 3.2，托福没考，四级刚过，另外有两段 RA，想申 ECE。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "ECE",
+      "academic_background": "本科；均分85；GPA 3.2；两段 RA",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_058",
+    "tags": [
+      "top_student",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你自己真正想读什么，不要给我家长版本。",
+      "last_user_msg": "我妈想让我读统计，但我自己更偏交互媒体，国家还是优先新加坡、香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "交互媒体",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_059",
+    "tags": [
+      "top_student",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话给我背景。",
+      "last_user_msg": "211商科转码还有戏？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211商科转码",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_060",
+    "tags": [
+      "top_student",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "所以你现在本科，211本科金融，均分88，目标新加坡、香港的ECE，预算总共5万，对吧？",
+      "last_user_msg": "yep，按这个版本记。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "新加坡"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先看综排",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先看综排",
+      "target_major": "ECE",
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_061",
+    "tags": [
+      "cross_major",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+      "last_user_msg": "我现在是生物背景，211本科金融，均分88，但其实想跨到公共政策，预算卡在5000镑，国家可能是新加坡或者香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": "生物背景；211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_062",
+    "tags": [
+      "cross_major",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "先把成绩和语言说一下，再谈跨专业。",
+      "last_user_msg": "我脑子有点乱，我现在本科，原来学生物，均分85，绩点3.2，托福没考，四级刚过，想申公共政策。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": "原来学生物；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_063",
+    "tags": [
+      "cross_major",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你自己最终想读的到底是哪一个？",
+      "last_user_msg": "我一开始说想转CS，后来家里又让我回到生物，但我自己现在最想读的还是公共政策。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_064",
+    "tags": [
+      "cross_major",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话说你现在和目标。",
+      "last_user_msg": "生物背景还来得及换公政吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": "生物背景",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_065",
+    "tags": [
+      "cross_major",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你目前211本科金融，均分88，原专业生物，想转公共政策，先看新加坡、香港，对吗？",
+      "last_user_msg": "嗯，方向没错。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "新加坡"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先不设限",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先不设限",
+      "target_major": "公共政策",
+      "academic_background": "原专业生物；211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_066",
+    "tags": [
+      "budget_sensitive",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "预算能说具体点吗，最好带上总预算还是年预算。",
+      "last_user_msg": "我就想捡便宜的，本科，211本科金融，均分88，预算真就5000镑，而且是全部花销一起算，想去新加坡、香港读酒店管理。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "酒店管理",
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_067",
+    "tags": [
+      "budget_sensitive",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "我先看你的硬条件，再判断能不能走低成本路线。",
+      "last_user_msg": "本科，均分85，绩点3.2，托福没考，四级刚过，预算不多，想申最省钱的酒店管理。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "酒店管理",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_068",
+    "tags": [
+      "budget_sensitive",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你是因为喜欢还是因为便宜在选专业？",
+      "last_user_msg": "我妈让我读金融说好找工作，但我其实只想找便宜一点的酒店管理，国家先看新加坡、香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "酒店管理",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_069",
+    "tags": [
+      "budget_sensitive",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说阶段和预算。",
+      "last_user_msg": "家里抠门，211还能申吗？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_070",
+    "tags": [
+      "budget_sensitive",
+      "debt_not_budget",
+      "implicit_confirmation"
+    ],
+    "input": {
+      "last_ai_msg": "我理解你现在本科，211本科金融，均分88，手上没有明确预算，只是家里背着生意欠款，对吗？",
+      "last_user_msg": "对，所以别给我太贵的。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "新加坡",
+          "香港"
+        ],
+        "abroad_readiness": null,
+        "target_school": null,
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_071",
+    "tags": [
+      "low_cognition",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你把能记住的信息慢慢发给我。",
+      "last_user_msg": "我也不太懂，就知道自己现在本科，想去新加坡或者香港，兜里最多5000镑，学个商科差不多。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_072",
+    "tags": [
+      "low_cognition",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩有多少就说多少，没有就直接说没有。",
+      "last_user_msg": "我就知道均分85，绩点3.2，托福没考，四级刚过，别的真说不上来，应该还想读商科。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_073",
+    "tags": [
+      "low_cognition",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果家里意见不一致，你先说你自己想学什么。",
+      "last_user_msg": "家里让我随便读个金融，我自己觉得商科也许更适合，反正别太难。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_074",
+    "tags": [
+      "low_cognition",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先别急，一句话说你现在在哪个阶段。",
+      "last_user_msg": "211毕业还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211毕业",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_075",
+    "tags": [
+      "low_cognition",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你现在本科，211本科金融，均分88，先看新加坡、香港，暂时不设过渡，对吗？",
+      "last_user_msg": "嗯，你这么记吧。",
+      "current_profile": {
+        "user_role": null,
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "新加坡"
+        ],
+        "abroad_readiness": null,
+        "target_school": "别太难进",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_076",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是研究生，别的我说得有点乱，反正国内硕一在读，做过两段科研，想去美国，预算大概8万欧元，学校最好藤校或专排前10。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": 62,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "藤校或专排前10",
+      "target_major": null,
+      "academic_background": "国内硕一在读，做过两段科研",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_077",
+    "tags": [
+      "anxious_parent",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩和语言先发我，我先判断有没有基本申请空间。",
+      "last_user_msg": "我说话啰嗦您别嫌弃啊，孩子目前研究生，国内硕一在读，做过两段科研，均分85，绩点3.2，托福没考，四级刚过，但又老说以后想学生物统计。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "生物统计",
+      "academic_background": "国内硕一在读，做过两段科研；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    }
+  },
+  {
+    "case_id": "case_078",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读经济学更稳，但他自己一直念叨交互设计，所以国家先看美国吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "交互设计",
+      "academic_background": null,
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_079",
+    "tags": [
+      "anxious_parent",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说下基本情况。",
+      "last_user_msg": "读研读一半想出去，还有路吗？"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "读研读一半",
+      "language_level": null
+    }
+  },
+  {
+    "case_id": "case_080",
+    "tags": [
+      "anxious_parent",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，您家孩子现在研究生，国内硕一在读，做过两段科研，预算总共62万，先看英国，对吗？",
+      "last_user_msg": "对，先按这个理解。",
+      "current_profile": {
+        "user_role": "家长",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国",
+          "加拿大"
+        ],
+        "abroad_readiness": null,
+        "target_school": "先保底",
+        "target_major": null,
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": 62,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "加拿大",
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先保底",
+      "target_major": null,
+      "academic_background": "国内硕一在读，做过两段科研",
+      "language_level": null
+    }
+  },
+  {
+    "tags": [
+      "annual_budget",
+      "anxious_parent"
+    ],
+    "input": {
+      "last_ai_msg": "把孩子年级、预算周期和想去的国家说清楚。",
+      "last_user_msg": "孩子高一，校内均分86，一年预算25万人民币，考虑澳洲商科。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 25,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "澳洲"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": "高一，校内均分86",
+      "language_level": null
+    },
+    "case_id": "case_081"
+  },
+  {
+    "tags": [
+      "annual_budget",
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "预算如果是按年说，直接给我年预算。",
+      "last_user_msg": "我大二，GPA 3.6，一年预算3万美金，想去美国读传媒。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 22,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "大二；GPA 3.6",
+      "language_level": null
+    },
+    "case_id": "case_082"
+  },
+  {
+    "tags": [
+      "hkd_budget",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把背景、预算、目标项目一次说完。",
+      "last_user_msg": "我本科会计，均分83，总共40万港币，想去香港读一年传媒硕士。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 37,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "本科会计；均分83",
+      "language_level": null
+    },
+    "case_id": "case_083"
+  },
+  {
+    "tags": [
+      "overseas_inference",
+      "anxious_parent"
+    ],
+    "input": {
+      "last_ai_msg": "如果已经在海外读书，也把目前学校体系告诉我。",
+      "last_user_msg": "孩子现在在英国读A-level，想本科继续留英国冲G5，预算还没细算。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 70,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "G5",
+      "target_major": null,
+      "academic_background": "英国A-level在读",
+      "language_level": null
+    },
+    "case_id": "case_084"
+  },
+  {
+    "tags": [
+      "overseas_inference",
+      "top_student"
+    ],
+    "input": {
+      "last_ai_msg": "你如果已经在海外，就按现在的在读国家来描述。",
+      "last_user_msg": "我现在在美国读11年级，想继续在美国本科CS，预算家里还没细说。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 90,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": "美国11年级在读",
+      "language_level": null
+    },
+    "case_id": "case_085"
+  },
+  {
+    "tags": [
+      "hk_macao_only",
+      "no_abroad"
+    ],
+    "input": {
+      "last_ai_msg": "先说能不能接受真正出国，还是只看港澳。",
+      "last_user_msg": "孩子高三，只接受港澳，不出国，学校先看港大和澳门大学。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "香港",
+        "澳门"
+      ],
+      "abroad_readiness": "坚决不出国",
+      "target_school": "港大；澳门大学",
+      "target_major": null,
+      "academic_background": "高三",
+      "language_level": null
+    },
+    "case_id": "case_086"
+  },
+  {
+    "tags": [
+      "transition_needed",
+      "low_cognition"
+    ],
+    "input": {
+      "last_ai_msg": "如果不想马上出去，也直接说。",
+      "last_user_msg": "孩子初三，不想太早出去，最好先在国内国际部或者港澳过渡两年。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "初中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "港澳"
+      ],
+      "abroad_readiness": "需要过渡/暂缓",
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "初三",
+      "language_level": null
+    },
+    "case_id": "case_087"
+  },
+  {
+    "tags": [
+      "desire_vs_current",
+      "cross_major"
+    ],
+    "input": {
+      "last_ai_msg": "注意区分你现在在哪个阶段，和你未来想读什么。",
+      "last_user_msg": "我现在大二，想出去读硕士，新加坡和英国都看，方向还是数据分析。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "数据分析",
+      "academic_background": "大二",
+      "language_level": null
+    },
+    "case_id": "case_088"
+  },
+  {
+    "tags": [
+      "school_only",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "学校和专业都可以直接提。",
+      "last_user_msg": "想冲UCL或者港大的传媒硕士，我本科新闻，均分84。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "UCL；港大",
+      "target_major": "传媒",
+      "academic_background": "本科新闻；均分84",
+      "language_level": null
+    },
+    "case_id": "case_089"
+  },
+  {
+    "tags": [
+      "destination_exclusion",
+      "budget_sensitive"
+    ],
+    "input": {
+      "last_ai_msg": "哪些国家可以，哪些一定不要，也直接说。",
+      "last_user_msg": "除了美国都行，英国香港新加坡都可以，预算40万总共。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": 40,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国",
+        "香港",
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "case_id": "case_090"
+  },
+  {
+    "tags": [
+      "annual_budget",
+      "budget_ceiling"
+    ],
+    "input": {
+      "last_ai_msg": "如果是上限预算，用最多能花多少来表达。",
+      "last_user_msg": "一年最多35万，最好英国或者爱尔兰。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": 35,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "英国",
+        "爱尔兰"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "case_id": "case_091"
+  },
+  {
+    "tags": [
+      "debt_not_budget",
+      "budget_sensitive"
+    ],
+    "input": {
+      "last_ai_msg": "债务和留学预算分开说，我只记留学那部分。",
+      "last_user_msg": "家里欠款50万，但我真正留学预算总共只有15万，想去马来西亚或者香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": 15,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "马来西亚",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "case_id": "case_092"
+  },
+  {
+    "tags": [
+      "noisy_asr",
+      "low_cognition"
+    ],
+    "input": {
+      "last_ai_msg": "哪怕说得乱一点也行，我会帮你拆。",
+      "last_user_msg": "我二本马上毕业 想去英国 预算20w major media。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 20,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "二本马上毕业",
+      "language_level": null
+    },
+    "case_id": "case_093"
+  },
+  {
+    "tags": [
+      "art_portfolio",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果是作品集方向，要把具体方向说出来。",
+      "last_user_msg": "我做交互和作品集方向，学校想申UAL或者RCA。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "UAL；RCA",
+      "target_major": "交互设计",
+      "academic_background": "作品集方向",
+      "language_level": null
+    },
+    "case_id": "case_094"
+  },
+  {
+    "tags": [
+      "overwrite_conflict",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "你之前说金融，现在确认一下，是不是改成传媒了？",
+      "last_user_msg": "对，改传媒，不读金融了。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": null,
+        "abroad_readiness": null,
+        "target_school": null,
+        "target_major": "金融",
+        "academic_background": "大三",
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "大三",
+      "language_level": null
+    },
+    "case_id": "case_095"
+  },
+  {
+    "tags": [
+      "overwrite_conflict",
+      "profile_merge",
+      "destination_exclusion"
+    ],
+    "input": {
+      "last_ai_msg": "之前记成美国，现在你是只看香港和新加坡，对吗？",
+      "last_user_msg": "对，美国不看了，就香港和新加坡。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": null,
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": null,
+        "target_school": null,
+        "target_major": "商科",
+        "academic_background": null,
+        "language_level": null
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "香港",
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "case_id": "case_096"
+  },
+  {
+    "tags": [
+      "parent_student_quote",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "家长和孩子意见不一致时，你先告诉我最后按谁的。",
+      "last_user_msg": "我女儿说她喜欢心理学，我觉得商科也行，但先按她的心理学记。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": null,
+      "language_level": null
+    },
+    "case_id": "case_097"
+  },
+  {
+    "tags": [
+      "negative_language",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "语言好坏都直接说，不要省略。",
+      "last_user_msg": "英语巨烂，雅思还没考，四六级也就刚过，本科均分81。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "本科；均分81",
+      "language_level": "英语巨烂；雅思还没考；四六级刚过"
+    },
+    "case_id": "case_098"
+  },
+  {
+    "tags": [
+      "country_abbrev",
+      "top_student"
+    ],
+    "input": {
+      "last_ai_msg": "国家缩写我也能识别，你直接写。",
+      "last_user_msg": "想去美国/英国/HK读BA，budget 50w total，本科经济学，GPA 3.7。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 50,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "英国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "BA",
+      "academic_background": "本科经济学；GPA 3.7",
+      "language_level": null
+    },
+    "case_id": "case_099"
+  },
+  {
+    "tags": [
+      "annual_budget",
+      "unit_confusion",
+      "school_only"
+    ],
+    "input": {
+      "last_ai_msg": "预算是按年还是总额，学校偏好也一起说。",
+      "last_user_msg": "高三均分88，去新二，预算£15k/year能走吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 14,
+        "period": "YEAR"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "新二",
+      "target_major": null,
+      "academic_background": "高三；均分88",
+      "language_level": null
+    },
+    "case_id": "case_100"
+  }
+]
