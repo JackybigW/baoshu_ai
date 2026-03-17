@@ -12,7 +12,7 @@ graph TD
         Entry -->|New User| FG[first_greeting]
         Entry -->|Existing| CL[classifier_node]
         Entry -->|Existing| EX[extractor_node]
-        
+
         CL --> WAIT[wait_node]
         EX --> WAIT[wait_node]
     end
@@ -39,7 +39,7 @@ graph TD
     AD -->|Tool: Handoff| HH
     LB -->|Tool: Handoff| HH
     CS -->|Tool: Handoff| HH
-    
+
     IV --> END2((END))
     CC --> END2
     HH --> END2
@@ -56,9 +56,9 @@ graph TD
     style CR fill:#fff9c4
 ```
 
-## Architecture Highlights for Interviews
+## Architecture Highlights
 
-1. **Layered Design**: Separation of concerns between Perception (Understanding), Decision (Routing), and Execution (Action).
-2. **Parallel Execution**: `classifier` and `extractor` run in parallel to minimize LLM latency.
-3. **Deterministic Routing**: The `core_router` uses structured state (Pydantic) rather than raw LLM prompts to decide transitions, ensuring system stability.
-4. **Resilient State**: Custom `reduce_profile` logic handles incremental data updates and fuzzy matching for messy user inputs.
+1. **Layered Design**: Separation of concerns between Perception, Decision, and Execution.
+2. **Parallel Execution**: `classifier` and `extractor` run in parallel to reduce latency.
+3. **Deterministic Routing**: `core_router` uses structured state rather than raw LLM outputs.
+4. **Resilient State**: `reduce_profile` supports incremental updates for messy real-world inputs.
