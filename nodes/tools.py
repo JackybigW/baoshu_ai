@@ -95,7 +95,7 @@ def search_products(profile: CustomerProfile) -> str:
         amount = profile.budget.amount
         period = profile.budget.period
 
-        if amount > 0:
+        if amount is not None and amount > 0:
             if period == BudgetPeriod.TOTAL:
                 mask &= (df_db['budgetLowerBound'] <= amount) & (df_db['budgetUpperBound'] >= amount)
             elif period == BudgetPeriod.ANNUAL:
@@ -139,4 +139,3 @@ def summon_specialist_tool():
     这将触发后台系统，拉取真人顾问进入群聊。
     """
     return "Specialist summoned."
-

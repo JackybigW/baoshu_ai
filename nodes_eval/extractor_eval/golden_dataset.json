@@ -40,7 +40,7 @@
       "user_role": "家长",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -65,7 +65,7 @@
       "user_role": "家长",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -92,7 +92,7 @@
       "user_role": "家长",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -117,7 +117,7 @@
         "user_role": "家长",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -189,7 +189,7 @@
       "user_role": "学生",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -214,7 +214,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -241,7 +241,7 @@
       "user_role": "学生",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -266,7 +266,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -338,7 +338,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -363,7 +363,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -388,7 +388,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -413,7 +413,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -430,7 +430,7 @@
       "user_role": "学生",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -484,7 +484,7 @@
       "user_role": "学生",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -509,7 +509,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -536,7 +536,7 @@
       "user_role": null,
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -561,7 +561,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -578,7 +578,7 @@
       "user_role": "学生",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -632,7 +632,7 @@
       "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -657,7 +657,7 @@
       "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -682,7 +682,7 @@
       "user_role": null,
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -707,7 +707,7 @@
         "user_role": null,
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -724,7 +724,7 @@
       "user_role": null,
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -779,7 +779,7 @@
       "user_role": "家长",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -804,7 +804,7 @@
       "user_role": "家长",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -832,7 +832,7 @@
       "user_role": "家长",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -857,7 +857,7 @@
         "user_role": "家长",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -930,7 +930,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -955,7 +955,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -983,7 +983,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1008,7 +1008,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1081,7 +1081,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1106,7 +1106,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1131,7 +1131,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1156,7 +1156,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1173,7 +1173,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1229,7 +1229,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1254,7 +1254,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1282,7 +1282,7 @@
       "user_role": null,
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1307,7 +1307,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1325,7 +1325,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1381,7 +1381,7 @@
       "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1406,7 +1406,7 @@
       "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1431,7 +1431,7 @@
       "user_role": null,
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1456,7 +1456,7 @@
         "user_role": null,
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1473,7 +1473,7 @@
       "user_role": null,
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1529,7 +1529,7 @@
       "user_role": "家长",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1554,7 +1554,7 @@
       "user_role": "家长",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1582,7 +1582,7 @@
       "user_role": "家长",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1607,7 +1607,7 @@
         "user_role": "家长",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1680,7 +1680,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1705,7 +1705,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1733,7 +1733,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1758,7 +1758,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1831,7 +1831,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1856,7 +1856,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1881,7 +1881,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -1906,7 +1906,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -1923,7 +1923,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -1979,7 +1979,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2004,7 +2004,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2032,7 +2032,7 @@
       "user_role": null,
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2057,7 +2057,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -2075,7 +2075,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2131,7 +2131,7 @@
       "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2156,7 +2156,7 @@
       "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2181,7 +2181,7 @@
       "user_role": null,
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2206,7 +2206,7 @@
         "user_role": null,
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -2223,7 +2223,7 @@
       "user_role": null,
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2278,7 +2278,7 @@
       "user_role": "家长",
       "educationStage": "研究生",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2303,7 +2303,7 @@
       "user_role": "家长",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2330,7 +2330,7 @@
       "user_role": "家长",
       "educationStage": "研究生",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2355,7 +2355,7 @@
         "user_role": "家长",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -2539,7 +2539,7 @@
       "user_role": "家长",
       "educationStage": "高中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2567,7 +2567,7 @@
       "user_role": "家长",
       "educationStage": "初中",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2594,7 +2594,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2622,7 +2622,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2758,7 +2758,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2782,7 +2782,7 @@
         "user_role": "学生",
         "educationStage": "本科",
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": null,
@@ -2797,7 +2797,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,
@@ -2822,7 +2822,7 @@
         "user_role": "学生",
         "educationStage": null,
         "budget": {
-          "amount": -1,
+          "amount": null,
           "period": "UNKNOWN"
         },
         "destination_preference": [
@@ -2839,7 +2839,7 @@
       "user_role": "学生",
       "educationStage": null,
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": [
@@ -2894,7 +2894,7 @@
       "user_role": "学生",
       "educationStage": "本科",
       "budget": {
-        "amount": -1,
+        "amount": null,
         "period": "UNKNOWN"
       },
       "destination_preference": null,

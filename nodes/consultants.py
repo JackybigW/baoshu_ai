@@ -411,6 +411,7 @@ def consultant_node(state: AgentState):
             """
             
     else:
+        budget_text = "未知" if profile.budget.amount is None else f"{profile.budget.amount}万"
         system_prompt = f"""
         你是资深留学顾问"暴叔"。
 
@@ -418,7 +419,7 @@ def consultant_node(state: AgentState):
         - 身份: {profile.user_role}
         - 学历: {profile.educationStage}
         - 学术/语言: {profile.academic_background} (这是核心硬通货)
-        - 预算: {profile.budget.amount}万 （重要指标）
+        - 预算: {budget_text} （重要指标）
         - 地区偏好: {_format_destination_preference(profile)}
         - 出国 readiness: {profile.abroad_readiness}
 

@@ -19,7 +19,7 @@ def test_score_profiles_penalizes_hallucination():
     expected = CustomerProfile(
         user_role="学生",
         educationStage="本科",
-        budget=BudgetInfo(amount=-1, period=BudgetPeriod.UNKNOWN),
+        budget=BudgetInfo(amount=None, period=BudgetPeriod.UNKNOWN),
         target_major=None,
     )
     actual = CustomerProfile(
@@ -147,7 +147,7 @@ def test_failure_analysis_prioritizes_major_failures(tmp_path: Path):
                 "expected": {
                     "user_role": None,
                     "educationStage": None,
-                    "budget": {"amount": -1, "period": "UNKNOWN"},
+                    "budget": {"amount": None, "period": "UNKNOWN"},
                     "destination_preference": None,
                     "abroad_readiness": None,
                     "target_school": None,
@@ -158,7 +158,7 @@ def test_failure_analysis_prioritizes_major_failures(tmp_path: Path):
                 "actual": {
                     "user_role": None,
                     "educationStage": None,
-                    "budget": {"amount": -1, "period": "UNKNOWN"},
+                    "budget": {"amount": None, "period": "UNKNOWN"},
                     "destination_preference": None,
                     "abroad_readiness": None,
                     "target_school": None,

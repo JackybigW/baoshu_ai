@@ -299,7 +299,7 @@ def score_profiles(
         )
 
     budget_expectations = (
-        ("budget.amount", expected.budget.amount, actual.budget.amount, -1),
+        ("budget.amount", expected.budget.amount, actual.budget.amount, None),
         ("budget.period", expected.budget.period.value, actual.budget.period.value, BudgetPeriod.UNKNOWN.value),
     )
     for field_name, expected_value, actual_value, empty_value in budget_expectations:

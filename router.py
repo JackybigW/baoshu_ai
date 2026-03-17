@@ -45,7 +45,8 @@ def core_router(state: AgentState):
         return "low_budget"
 
     # 4. 业务补漏
-    if profile.budget.amount > 0 and profile.budget.amount < 10:
+    amount = profile.budget.amount
+    if amount is not None and 0 < amount < 10:
         return "low_budget"
     
     # 5. 常规资料补全

@@ -27,7 +27,7 @@ def has_value(value: Any) -> bool:
         return len(value) > 0
     if isinstance(value, dict):
         if "amount" in value and "period" in value:
-            return value.get("amount", -1) != -1 or value.get("period") != "UNKNOWN"
+            return value.get("amount") is not None or value.get("period") != "UNKNOWN"
         return any(has_value(item) for item in value.values())
     return True
 
@@ -69,11 +69,11 @@ def classify_case(item: Dict[str, Any]) -> List[str]:
             "total",
         ]
     )
-    if expected_amount != -1 and actual_amount != -1 and expected_amount != actual_amount and budget_signal:
+    if expected_amount is not None and actual_amount is not None and expected_amount != actual_amount and budget_signal:
         reasons.append("单位/汇率/预算周期崩塌")
-    elif expected_amount != -1 and actual_amount == -1:
+    elif expected_amount is not None and actual_amount is None:
         reasons.append("预算漏抓")
-    elif expected_amount == -1 and actual_amount != -1:
+    elif expected_amount is None and actual_amount is not None:
         reasons.append("预算幻觉")
 
     if expected_period != actual_period and expected_period != "UNKNOWN":

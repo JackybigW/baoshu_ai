@@ -39,3 +39,25 @@ def test_classifier_corrects_high_budget_low_budget_misfire(monkeypatch):
 
     result = perception.classifier_node(state)
     assert result["last_intent"] == IntentType.NEED_CONSULTING
+
+
+def test_classifier_does_not_force_low_budget_when_budget_is_unknown(monkeypatch):
+    class FakeClassifier:
+        def invoke(self, _prompt):
+            return IntentResult(intent="NEED_CONSULTING")
+
+    class FakeLLM:
+        def with_structured_output(self, _schema):
+            return FakeClassifier()
+
+    monkeypatch.setattr(perception, "llm", FakeLLM())
+
+    state = {
+        "messages": [HumanMessage(content="预算还没定，先看看方向")],
+        "profile": CustomerProfile(),
+        "last_intent": None,
+        "dialog_status": "CONSULTING",
+    }
+
+    result = perception.classifier_node(state)
+    assert result["last_intent"] == IntentType.NEED_CONSULTING
