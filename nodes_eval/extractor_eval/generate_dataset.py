@@ -54,7 +54,7 @@ def build_special_cases() -> List[Dict[str, Any]]:
             ),
         },
         {
-            "tags": ["annual_budget", "top_student", "unit_confusion"],
+            "tags": ["annual_budget", "top_student", "unit_confusion", "currency_conversion"],
             "input": {
                 "last_ai_msg": "预算如果是按年说，直接给我年预算。",
                 "last_user_msg": "我大二，GPA 3.6，一年预算3万美金，想去美国读传媒。",
@@ -69,7 +69,7 @@ def build_special_cases() -> List[Dict[str, Any]]:
             ),
         },
         {
-            "tags": ["hkd_budget", "mixed_scores"],
+            "tags": ["hkd_budget", "mixed_scores", "currency_conversion"],
             "input": {
                 "last_ai_msg": "把背景、预算、目标项目一次说完。",
                 "last_user_msg": "我本科会计，均分83，总共40万港币，想去香港读一年传媒硕士。",
@@ -183,15 +183,15 @@ def build_special_cases() -> List[Dict[str, Any]]:
             ),
         },
         {
-            "tags": ["annual_budget", "budget_ceiling"],
+            "tags": ["jpy_budget", "currency_conversion"],
             "input": {
-                "last_ai_msg": "如果是上限预算，用最多能花多少来表达。",
-                "last_user_msg": "一年最多35万，最好英国或者爱尔兰。",
+                "last_ai_msg": "把预算和目标国家一起说，我会自己换成人民币万。",
+                "last_user_msg": "总预算大概700万日元，想去日本读经营学修士。",
             },
             "expected": profile(
-                user_role="学生",
-                budget=budget(35, "YEAR"),
-                destination_preference=["英国", "爱尔兰"],
+                budget=budget(34, "TOTAL"),
+                destination_preference=["日本"],
+                target_major="经营学",
             ),
         },
         {
@@ -271,14 +271,18 @@ def build_special_cases() -> List[Dict[str, Any]]:
             ),
         },
         {
-            "tags": ["parent_student_quote", "target_conflict"],
+            "tags": ["krw_budget", "currency_conversion"],
             "input": {
-                "last_ai_msg": "家长和孩子意见不一致时，你先告诉我最后按谁的。",
-                "last_user_msg": "我女儿说她喜欢心理学，我觉得商科也行，但先按她的心理学记。",
+                "last_ai_msg": "预算如果不是人民币，也直接说原币种。",
+                "last_user_msg": "我本科传媒，家里能给我2800万韩币，想去韩国读一年制传媒硕士。",
             },
             "expected": profile(
-                user_role="家长",
-                target_major="心理学",
+                user_role="学生",
+                educationStage="本科",
+                budget=budget(15, "TOTAL"),
+                destination_preference=["韩国"],
+                target_major="传媒",
+                academic_background="本科传媒",
             ),
         },
         {
@@ -924,6 +928,72 @@ def build_cases() -> List[Dict[str, Any]]:
 
     for index, case in enumerate(cases, start=1):
         case["case_id"] = f"case_{index:03d}"
+
+    overrides = {
+        "case_004": {
+            "expected": profile(
+                user_role="家长",
+                educationStage="高中",
+                academic_background=None,
+            ),
+        },
+        "case_009": {
+            "input": {
+                "last_ai_msg": "一句话给我背景。",
+                "last_user_msg": "高二还能冲英国Top30吗？",
+            },
+            "expected": profile(
+                user_role="学生",
+                educationStage="高中",
+                academic_background=None,
+            ),
+        },
+        "case_011": {
+            "tags": ["cross_major", "unit_confusion", "currency_conversion"],
+            "input": {
+                "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+                "last_user_msg": "我现在本科土木，均分82，但其实想跨到心理学，预算卡在5万美金，国家可能是英国。",
+            },
+            "expected": profile(
+                user_role="学生",
+                educationStage="本科",
+                budget=budget(36, "TOTAL"),
+                destination_preference=["英国"],
+                target_major="心理学",
+                academic_background="本科土木；均分82",
+            ),
+        },
+        "case_012": {
+            "input": {
+                "last_ai_msg": "先把成绩和语言说一下，再谈跨专业。",
+                "last_user_msg": "我脑子有点乱，我现在本科土木，均分85，绩点3.2，托福没考，四级刚过，想申心理学。",
+            },
+            "expected": profile(
+                user_role="学生",
+                educationStage="本科",
+                target_major="心理学",
+                academic_background="本科土木；均分85；绩点3.2",
+                language_level="托福没考；四级刚过",
+            ),
+        },
+        "case_014": {
+            "expected": profile(
+                user_role="学生",
+                target_major="心理学",
+                academic_background=None,
+            ),
+        },
+    }
+    for case in cases:
+        patch = overrides.get(case["case_id"])
+        if not patch:
+            continue
+        if "tags" in patch:
+            case["tags"] = patch["tags"]
+        if "input" in patch:
+            case["input"] = patch["input"]
+        if "expected" in patch:
+            case["expected"] = patch["expected"]
 
     if len(cases) != 100:
         raise ValueError(f"Expected 100 cases, got {len(cases)}")

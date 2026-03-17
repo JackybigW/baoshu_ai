@@ -49,6 +49,8 @@ overall = exact_recall * 60 + (1 - hallucination_rate) * 30 + fuzzy_semantic * 1
 - 1 GBP = 9.2 CNY
 - 1 EUR = 7.8 CNY
 - 1 HKD = 0.92 CNY
+- 1 JPY = 0.048 CNY
+- 1 KRW = 0.0053 CNY
 
 金额保留到“万”为单位后四舍五入成整数。
 
@@ -66,6 +68,7 @@ python nodes_eval/extractor_eval/run_eval.py
 python nodes_eval/extractor_eval/run_eval.py --limit 10
 python nodes_eval/extractor_eval/run_eval.py --case-id case_017
 python nodes_eval/extractor_eval/run_eval.py --concurrency 8
+python nodes_eval/extractor_eval/run_eval.py --tag currency_conversion
 python nodes_eval/extractor_eval/run_eval.py --output-json /tmp/extractor_eval_result.json
 ```
 

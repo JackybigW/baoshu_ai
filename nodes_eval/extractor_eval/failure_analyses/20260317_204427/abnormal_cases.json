@@ -1,0 +1,7082 @@
+[
+  {
+    "case_id": "case_091",
+    "tags": [
+      "jpy_budget",
+      "currency_conversion"
+    ],
+    "input": {
+      "last_ai_msg": "把预算和目标国家一起说，我会自己换成人民币万。",
+      "last_user_msg": "总预算大概700万日元，想去日本读经营学修士。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": 34,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "日本"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "经营学",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": 35,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "日本"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "经营学修士",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 63.0,
+      "exact_recall": 0.5,
+      "hallucination_rate": 0.2,
+      "fuzzy_semantic": 0.9,
+      "exact_points": 30.0,
+      "hallucination_points": 24.0,
+      "fuzzy_points": 9.0,
+      "expected_units": 4,
+      "matched_units": 2,
+      "actual_units": 5,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "日本"
+          ],
+          "actual": [
+            "日本"
+          ],
+          "matched": [
+            "日本"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 34,
+          "actual": 35,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "经营学",
+          "actual": "经营学修士",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致性角度分析：\n1. 用户原话是\"想去日本读经营学修士\"，其中\"经营学修士\"指的是经营学硕士\n2. expected提取为\"经营学\"，这是专业领域的核心信息\n3. actual提取为\"经营学修士\"，包含了\"修士\"（硕士）这个学位信息\n\n业务可接受性分析：\n- 在留学咨询场景中，\"经营学\"和\"经营学修士\"在语义上高度相关\n- \"修士\"是用户明确提到的学位信息，属于原文直接存在的事实\n- 虽然expected只提取了专业核心，但actual包含了更多上下文信息\n- 这种额外的细节不会造成业务上的误解，反而可能提供更完整的信息\n\n扣分原因：\n- 扣0.1分是因为actual比expected多包含了学位信息，虽然这是原文直接信息，但在严格的字段提取任务中，可能期望更精确的专业名称提取\n- 不过在实际业务中，这种提取结果完全可接受"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_021",
+    "tags": [
+      "low_cognition",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你把能记住的信息慢慢发给我。",
+      "last_user_msg": "我也不太懂，就知道自己现在高中，想去英国，兜里最多5万美金，学个幼教差不多。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 5,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 66.0,
+      "exact_recall": 0.6,
+      "hallucination_rate": 0.3333,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 36.0,
+      "hallucination_points": 20.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 5,
+      "matched_units": 3,
+      "actual_units": 6,
+      "hallucinated_units": 2,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 36,
+          "actual": 5,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "幼教",
+          "actual": "幼教",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_071",
+    "tags": [
+      "low_cognition",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你把能记住的信息慢慢发给我。",
+      "last_user_msg": "我也不太懂，就知道自己现在本科，想去新加坡或者香港，兜里最多5000镑，学个商科差不多。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 50,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 75.0,
+      "exact_recall": 0.6667,
+      "hallucination_rate": 0.1667,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 40.0,
+      "hallucination_points": 25.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 6,
+      "matched_units": 4,
+      "actual_units": 6,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "香港"
+          ],
+          "actual": [
+            "新加坡",
+            "香港"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 5,
+          "actual": 50,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "商科",
+          "actual": "商科",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_082",
+    "tags": [
+      "annual_budget",
+      "top_student",
+      "unit_confusion",
+      "currency_conversion"
+    ],
+    "input": {
+      "last_ai_msg": "预算如果是按年说，直接给我年预算。",
+      "last_user_msg": "我大二，GPA 3.6，一年预算3万美金，想去美国读传媒。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 22,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "大二；GPA 3.6",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 3,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "GPA 3.6",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 81.36,
+      "exact_recall": 0.7143,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.85,
+      "exact_points": 42.86,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 8.5,
+      "expected_units": 7,
+      "matched_units": 5,
+      "actual_units": 7,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国"
+          ],
+          "actual": [
+            "美国"
+          ],
+          "matched": [
+            "美国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 22,
+          "actual": 3,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "YEAR",
+          "actual": "YEAR",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "大二；GPA 3.6",
+          "actual": "GPA 3.6",
+          "matched": false,
+          "semantic_score": 0.7,
+          "reason": "1. 语义分析：expected包含\"大二\"和\"GPA 3.6\"两个信息点，actual只包含\"GPA 3.6\"，缺少了\"大二\"这个重要的学术背景信息。\n\n2. 业务可接受性：虽然GPA信息被正确提取，但缺少年级信息（大二）会影响对用户学术背景的完整理解。在留学咨询场景中，年级信息对于评估申请时间线、课程完成情况等都很重要。\n\n3. 原文支持：用户明确说了\"我大二\"，这个信息可以直接从原文找到，但actual没有提取。\n\n4. 扣分原因：actual比expected缺少了原文中明确存在的重要信息点，这会影响后续的业务处理。不过GPA信息提取正确，所以不是完全错误。\n\n5. 评分说明：0.7分表示大部分信息正确提取，但遗漏了重要字段信息。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌"
+    ]
+  },
+  {
+    "case_id": "case_001",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是高中，别的我说得有点乱，反正高二，校内均分82，想去英国，预算大概5万美金，学校最好QS前100。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "QS前100",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 5,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "QS前100",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 82.86,
+      "exact_recall": 0.7143,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 42.86,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 5,
+      "actual_units": 6,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 36,
+          "actual": 5,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "QS前100",
+          "actual": "QS前100",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高二，校内均分82",
+          "actual": "高二，校内均分82",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_011",
+    "tags": [
+      "cross_major",
+      "unit_confusion",
+      "currency_conversion"
+    ],
+    "input": {
+      "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+      "last_user_msg": "我现在本科土木，均分82，但其实想跨到心理学，预算卡在5万美金，国家可能是英国。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": "本科土木；均分82",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": "本科土木工程，均分82",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 82.86,
+      "exact_recall": 0.7143,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 42.86,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 5,
+      "actual_units": 6,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 36,
+          "actual": 5,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "心理学",
+          "actual": "心理学",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科土木；均分82",
+          "actual": "本科土木工程，均分82",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在academic_background字段上，actual和expected在语义上完全一致：\n1. expected是\"本科土木；均分82\"，actual是\"本科土木工程，均分82\"\n2. \"土木工程\"是\"土木\"的完整表述，两者在学术背景描述上是等价的\n3. 均分82的信息完全一致\n4. actual没有引入原文没有的新事实，只是使用了更完整的专业名称\n5. 从业务角度看，actual提供了更精确的专业信息，但核心信息与expected完全一致，因此可以接受"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_076",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是研究生，别的我说得有点乱，反正国内硕一在读，做过两段科研，想去美国，预算大概8万欧元，学校最好藤校或专排前10。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": 62,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "藤校或专排前10",
+      "target_major": null,
+      "academic_background": "国内硕一在读，做过两段科研",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": 8,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "藤校或专排前10",
+      "target_major": null,
+      "academic_background": "国内硕一在读，做过两段科研",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 82.86,
+      "exact_recall": 0.7143,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 42.86,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 5,
+      "actual_units": 6,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "研究生",
+          "actual": "研究生",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国"
+          ],
+          "actual": [
+            "美国"
+          ],
+          "matched": [
+            "美国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 62,
+          "actual": 8,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "藤校或专排前10",
+          "actual": "藤校或专排前10",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "国内硕一在读，做过两段科研",
+          "actual": "国内硕一在读，做过两段科研",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_097",
+    "tags": [
+      "krw_budget",
+      "currency_conversion"
+    ],
+    "input": {
+      "last_ai_msg": "预算如果不是人民币，也直接说原币种。",
+      "last_user_msg": "我本科传媒，家里能给我2800万韩币，想去韩国读一年制传媒硕士。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 15,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "韩国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "本科传媒",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 2800,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "韩国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "本科传媒",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 82.86,
+      "exact_recall": 0.7143,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 42.86,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 5,
+      "actual_units": 6,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "韩国"
+          ],
+          "actual": [
+            "韩国"
+          ],
+          "matched": [
+            "韩国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 15,
+          "actual": 2800,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科传媒",
+          "actual": "本科传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_051",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是本科，别的我说得有点乱，反正211本科金融，均分88，想去新加坡或香港，预算大概5000镑，学校最好新二或港前三。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "新二或港前三",
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5000,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "新二或港前三",
+      "target_major": "金融",
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.0,
+      "exact_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 45.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 8,
+      "matched_units": 6,
+      "actual_units": 8,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "香港"
+          ],
+          "actual": [
+            "新加坡",
+            "香港"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 5,
+          "actual": 5000,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "新二或港前三",
+          "actual": "新二或港前三",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "target_major",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "金融",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211本科金融，均分88",
+          "actual": "211本科金融，均分88",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_061",
+    "tags": [
+      "cross_major",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+      "last_user_msg": "我现在是生物背景，211本科金融，均分88，但其实想跨到公共政策，预算卡在5000镑，国家可能是新加坡或者香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": "生物背景；211本科金融，均分88",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5000,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": "生物背景，211本科金融，均分88",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.0,
+      "exact_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 45.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 8,
+      "matched_units": 6,
+      "actual_units": 7,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "香港"
+          ],
+          "actual": [
+            "新加坡",
+            "香港"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 5,
+          "actual": 5000,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "公共政策",
+          "actual": "公共政策",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "生物背景；211本科金融，均分88",
+          "actual": "生物背景，211本科金融，均分88",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_100",
+    "tags": [
+      "annual_budget",
+      "unit_confusion",
+      "school_only"
+    ],
+    "input": {
+      "last_ai_msg": "预算是按年还是总额，学校偏好也一起说。",
+      "last_user_msg": "高三均分88，去新二，预算£15k/year能走吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 14,
+        "period": "YEAR"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "新二",
+      "target_major": null,
+      "academic_background": "高三；均分88",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 15,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": "新二（新加坡国立大学、南洋理工大学）",
+      "target_major": null,
+      "academic_background": "高三均分88",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.71,
+      "exact_recall": 0.8333,
+      "hallucination_rate": 0.1429,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 50.0,
+      "hallucination_points": 25.71,
+      "fuzzy_points": 10.0,
+      "expected_units": 6,
+      "matched_units": 5,
+      "actual_units": 7,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "hallucination_list",
+          "expected": [],
+          "actual": [
+            "新加坡"
+          ],
+          "matched": [],
+          "hallucinated": [
+            "新加坡"
+          ]
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 14,
+          "actual": 15,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "YEAR",
+          "actual": "YEAR",
+          "matched": true
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "新二",
+          "actual": "新二（新加坡国立大学、南洋理工大学）",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "从语义一致度来看，actual 比 expected 更详细，但这是合理的扩展：\n1. expected 是\"新二\"，这是对新加坡两所顶尖大学的简称\n2. actual 是\"新二（新加坡国立大学、南洋理工大学）\"，在保持原意的基础上进行了详细说明\n3. 这种详细说明是从常识中可以直接推断的，没有引入原文没有的新事实\n4. 在业务上完全可接受，甚至更清晰明确\n5. 用户询问的是\"去新二\"，AI需要理解\"新二\"的具体含义，actual的详细说明有助于后续处理\n因此给满分1.0分。"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高三；均分88",
+          "actual": "高三均分88",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在academic_background字段上，actual \"高三均分88\" 与 expected \"高三；均分88\" 在语义上完全一致。\n\n1. 实际提取的\"高三均分88\"包含了expected中的所有关键信息：\n   - \"高三\" - 年级信息\n   - \"均分88\" - 成绩信息\n\n2. 虽然expected使用了分号分隔，而actual是连续文本，但这只是格式差异，不影响语义内容。\n\n3. 从原始对话看，用户原话是\"高三均分88\"，actual直接提取了原文内容，没有引入新事实或遗漏关键信息。\n\n4. 在业务上，这种提取完全可接受，能够准确反映用户的学术背景信息。\n\n因此，语义一致度为满分1.0。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_016",
+    "tags": [
+      "budget_sensitive",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "预算能说具体点吗，最好带上总预算还是年预算。",
+      "last_user_msg": "我就想捡便宜的，高中，高二，校内均分82，预算真就5万美金，而且是全部花销一起算，想去英国读护理。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 91.43,
+      "exact_recall": 0.8571,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 51.43,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 6,
+      "actual_units": 7,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 36,
+          "actual": 5,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "护理",
+          "actual": "护理",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高二，校内均分82",
+          "actual": "高二，校内均分82",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌"
+    ]
+  },
+  {
+    "case_id": "case_083",
+    "tags": [
+      "hkd_budget",
+      "mixed_scores",
+      "currency_conversion"
+    ],
+    "input": {
+      "last_ai_msg": "把背景、预算、目标项目一次说完。",
+      "last_user_msg": "我本科会计，均分83，总共40万港币，想去香港读一年传媒硕士。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 37,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "本科会计；均分83",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 40,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒硕士",
+      "academic_background": "本科会计，均分83",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 91.43,
+      "exact_recall": 0.8571,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 51.43,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 6,
+      "actual_units": 7,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "香港"
+          ],
+          "actual": [
+            "香港"
+          ],
+          "matched": [
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 37,
+          "actual": 40,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒硕士",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在业务场景下，actual \"传媒硕士\" 比 expected \"传媒\" 更详细，但这种细节能从原文直接找到。用户明确说了\"想去香港读一年传媒硕士\"，其中\"传媒硕士\"是原文的直接引用。actual 没有引入原文没有的新事实，只是更完整地保留了用户的原始表述。从语义一致度来看，\"传媒硕士\"完全包含了\"传媒\"的含义，并且在业务上是可接受的，甚至更准确。"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科会计；均分83",
+          "actual": "本科会计，均分83",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌"
+    ]
+  },
+  {
+    "case_id": "case_006",
+    "tags": [
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "把你的背景、预算、目标国家和项目缩写都直接扔给我。",
+      "last_user_msg": "我本人，高中，高二，校内均分82，TBD 但预算 5万美金 all-in，目标 英国 的 CS，学校最好 Top30 CS。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 36,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "Top30 CS",
+      "target_major": "CS",
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "Top30 CS",
+      "target_major": "CS",
+      "academic_background": "高二，校内均分82",
+      "language_level": "TBD"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 52.5,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 8,
+      "matched_units": 7,
+      "actual_units": 9,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 36,
+          "actual": 5,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "Top30 CS",
+          "actual": "Top30 CS",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "CS",
+          "actual": "CS",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高二，校内均分82",
+          "actual": "高二，校内均分82",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "language_level",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "TBD",
+          "matched": true
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_056",
+    "tags": [
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "把你的背景、预算、目标国家和项目缩写都直接扔给我。",
+      "last_user_msg": "我本人，本科，211本科金融，均分88，TBD 但预算 5000镑 all-in，目标 新加坡 / 香港 的 ECE，学校最好 CMU/UC系。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "CMU/UC系",
+      "target_major": "ECE",
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 5000,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "CMU/UC系",
+      "target_major": "ECE",
+      "academic_background": "211本科金融，均分88",
+      "language_level": "TBD"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 93.33,
+      "exact_recall": 0.8889,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 53.33,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 9,
+      "matched_units": 8,
+      "actual_units": 10,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "香港"
+          ],
+          "actual": [
+            "新加坡",
+            "香港"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 5,
+          "actual": 5000,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "CMU/UC系",
+          "actual": "CMU/UC系",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "ECE",
+          "actual": "ECE",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211本科金融，均分88",
+          "actual": "211本科金融，均分88",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "language_level",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "TBD",
+          "matched": true
+        }
+      ]
+    },
+    "failure_tags": [
+      "单位/汇率/预算周期崩塌",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_090",
+    "tags": [
+      "destination_exclusion",
+      "budget_sensitive"
+    ],
+    "input": {
+      "last_ai_msg": "哪些国家可以，哪些一定不要，也直接说。",
+      "last_user_msg": "除了美国都行，英国香港新加坡都可以，预算40万总共。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": 40,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "英国",
+        "香港",
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 33.33,
+      "exact_recall": 0.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 0.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 6,
+      "matched_units": 0,
+      "actual_units": 0,
+      "hallucinated_units": 0,
+      "active_weight_total": 90,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": null,
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国",
+            "香港",
+            "新加坡"
+          ],
+          "actual": [],
+          "matched": [],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 40,
+          "actual": -1,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        }
+      ]
+    },
+    "failure_tags": [
+      "预算漏抓",
+      "预算周期错误",
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_080",
+    "tags": [
+      "anxious_parent",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，您家孩子现在研究生，国内硕一在读，做过两段科研，预算总共62万，先看英国，对吗？",
+      "last_user_msg": "对，先按这个理解。",
+      "current_profile": {
+        "user_role": "家长",
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国",
+          "加拿大"
+        ],
+        "target_school": "先保底"
+      }
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": 62,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "加拿大",
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先保底",
+      "target_major": null,
+      "academic_background": "国内硕一在读，做过两段科研",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "加拿大"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先保底",
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 61.67,
+      "exact_recall": 0.4444,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.5,
+      "exact_points": 26.67,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 5.0,
+      "expected_units": 9,
+      "matched_units": 4,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "研究生",
+          "actual": null,
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "加拿大",
+            "英国"
+          ],
+          "actual": [
+            "美国",
+            "加拿大"
+          ],
+          "matched": [
+            "加拿大",
+            "美国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 62,
+          "actual": -1,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "先保底",
+          "actual": "先保底",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "国内硕一在读，做过两段科研",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "预算漏抓",
+      "预算周期错误",
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_085",
+    "tags": [
+      "overseas_inference",
+      "top_student"
+    ],
+    "input": {
+      "last_ai_msg": "你如果已经在海外，就按现在的在读国家来描述。",
+      "last_user_msg": "我现在在美国读11年级，想继续在美国本科CS，预算家里还没细说。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 90,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": "美国11年级在读",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 63.29,
+      "exact_recall": 0.5714,
+      "hallucination_rate": 0.2,
+      "fuzzy_semantic": 0.5,
+      "exact_points": 34.29,
+      "hallucination_points": 24.0,
+      "fuzzy_points": 5.0,
+      "expected_units": 7,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国"
+          ],
+          "actual": [
+            "美国"
+          ],
+          "matched": [
+            "美国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 90,
+          "actual": -1,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "YEAR",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "CS",
+          "actual": "CS",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "美国11年级在读",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "预算漏抓",
+      "预算周期错误",
+      "纯幻觉/过提取",
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_084",
+    "tags": [
+      "overseas_inference",
+      "anxious_parent"
+    ],
+    "input": {
+      "last_ai_msg": "如果已经在海外读书，也把目前学校体系告诉我。",
+      "last_user_msg": "孩子现在在英国读A-level，想本科继续留英国冲G5，预算还没细算。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": 70,
+        "period": "YEAR"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "G5",
+      "target_major": null,
+      "academic_background": "英国A-level在读",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": "G5",
+      "target_major": null,
+      "academic_background": "在英国读A-level",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 77.86,
+      "exact_recall": 0.7143,
+      "hallucination_rate": 0.1667,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 42.86,
+      "hallucination_points": 25.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 7,
+      "matched_units": 5,
+      "actual_units": 6,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 70,
+          "actual": -1,
+          "matched": false
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "YEAR",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "G5",
+          "actual": "G5",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "英国A-level在读",
+          "actual": "在英国读A-level",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "这个字段层面的语义一致度非常高。expected是\"英国A-level在读\"，actual是\"在英国读A-level\"，两者在语义上完全一致，都准确表达了用户孩子当前在英国进行A-level学习的状态。actual虽然表述略有不同，但核心信息完全相同：地点（英国）、教育阶段（A-level）、状态（在读）。没有引入原文没有的新事实，也没有遗漏关键信息。从业务角度看，这个提取完全可接受。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "预算漏抓",
+      "预算周期错误",
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_026",
+    "tags": [
+      "anxious_parent",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "您先别急，把孩子现在的学历、成绩、预算和想去的地方告诉我。",
+      "last_user_msg": "老师我真的快急死了，我家孩子现在是本科，别的我说得有点乱，反正双非本科大三，均分85，GPA 3.2，想去美国或香港，预算大概30万人民币，学校最好TOP 50。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "TOP 50",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "TOP 50",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 52.5,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 8,
+      "matched_units": 7,
+      "actual_units": 7,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 30,
+          "actual": 30,
+          "matched": true
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "TOP 50",
+          "actual": "TOP 50",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "双非本科大三，均分85，GPA 3.2",
+          "actual": "双非本科大三，均分85，GPA 3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_036",
+    "tags": [
+      "cross_major",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
+      "last_user_msg": "我现在是会计背景，双非本科大三，均分85，GPA 3.2，但其实想跨到传媒，预算卡在30万人民币，国家可能是美国或者香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "会计背景；双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "会计背景，双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 0.875,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 52.5,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 8,
+      "matched_units": 7,
+      "actual_units": 7,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 30,
+          "actual": 30,
+          "matched": true
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "UNKNOWN",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "会计背景；双非本科大三，均分85，GPA 3.2",
+          "actual": "会计背景，双非本科大三，均分85，GPA 3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "预算周期错误"
+    ]
+  },
+  {
+    "case_id": "case_049",
+    "tags": [
+      "low_cognition",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先别急，一句话说你现在在哪个阶段。",
+      "last_user_msg": "二本毕业还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本毕业",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 30.0,
+      "exact_recall": 0.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 0.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 2,
+      "matched_units": 0,
+      "actual_units": 0,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": null,
+          "matched": false
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "二本毕业",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_019",
+    "tags": [
+      "budget_sensitive",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说阶段和预算。",
+      "last_user_msg": "预算很低，高二还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 45.0,
+      "exact_recall": 0.5,
+      "hallucination_rate": 0.5,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 30.0,
+      "hallucination_points": 15.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 2,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高二",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取",
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_024",
+    "tags": [
+      "low_cognition",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先别急，一句话说你现在在哪个阶段。",
+      "last_user_msg": "救命，我高二还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "高二",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 45.0,
+      "exact_recall": 0.5,
+      "hallucination_rate": 0.5,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 30.0,
+      "hallucination_points": 15.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 2,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高二",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取",
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_044",
+    "tags": [
+      "budget_sensitive",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说阶段和预算。",
+      "last_user_msg": "二本没钱还能出吗？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 45.0,
+      "exact_recall": 0.5,
+      "hallucination_rate": 0.5,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 30.0,
+      "hallucination_points": 15.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 2,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "二本",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取",
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_054",
+    "tags": [
+      "anxious_parent",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说下基本情况。",
+      "last_user_msg": "本科都快毕业了还有救吗？"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "本科快毕业",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 50.0,
+      "exact_recall": 0.3333,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 20.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 3,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科快毕业",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_079",
+    "tags": [
+      "anxious_parent",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说下基本情况。",
+      "last_user_msg": "读研读一半想出去，还有路吗？"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "读研读一半",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "研究生",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 50.0,
+      "exact_recall": 0.3333,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 20.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 3,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "研究生",
+          "actual": "研究生",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "读研读一半",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_087",
+    "tags": [
+      "transition_needed",
+      "low_cognition"
+    ],
+    "input": {
+      "last_ai_msg": "如果不想马上出去，也直接说。",
+      "last_user_msg": "孩子初三，不想太早出去，最好先在国内国际部或者港澳过渡两年。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "初中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "港澳"
+      ],
+      "abroad_readiness": "需要过渡/暂缓",
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "初三",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "初中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": "需要过渡/暂缓",
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 66.0,
+      "exact_recall": 0.6,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 36.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 5,
+      "matched_units": 3,
+      "actual_units": 3,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "初中",
+          "actual": "初中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "exact",
+          "expected": "需要过渡/暂缓",
+          "actual": "需要过渡/暂缓",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "港澳"
+          ],
+          "actual": [],
+          "matched": [],
+          "hallucinated": []
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "初三",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_094",
+    "tags": [
+      "art_portfolio",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果是作品集方向，要把具体方向说出来。",
+      "last_user_msg": "我做交互和作品集方向，学校想申UAL或者RCA。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "UAL；RCA",
+      "target_major": "交互设计",
+      "academic_background": "作品集方向",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "UAL或者RCA",
+      "target_major": "交互设计",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 81.67,
+      "exact_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.6667,
+      "exact_points": 45.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 6.67,
+      "expected_units": 4,
+      "matched_units": 3,
+      "actual_units": 3,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "UAL；RCA",
+          "actual": "UAL或者RCA",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "这个字段层面的语义一致度非常高。expected是\"UAL；RCA\"，actual是\"UAL或者RCA\"。两者都准确表达了用户想要申请UAL或RCA学校的意思。\n\n从原始对话来看：\n- AI原话：\"如果是作品集方向，要把具体方向说出来。\"\n- User原话：\"我做交互和作品集方向，学校想申UAL或者RCA。\"\n\nactual的\"UAL或者RCA\"与expected的\"UAL；RCA\"在语义上完全一致，都正确提取了用户提到的两所学校。虽然表达方式略有不同（\"或者\" vs \"；\"），但这只是连接词的差异，不影响核心信息的准确性。\n\nactual没有引入原文没有的新事实，也没有遗漏任何关键信息。从业务角度完全可接受，因为提取的信息准确反映了用户的意向学校。"
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "交互设计",
+          "actual": "交互设计",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "作品集方向",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_088",
+    "tags": [
+      "desire_vs_current",
+      "cross_major"
+    ],
+    "input": {
+      "last_ai_msg": "注意区分你现在在哪个阶段，和你未来想读什么。",
+      "last_user_msg": "我现在大二，想出去读硕士，新加坡和英国都看，方向还是数据分析。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "数据分析",
+      "academic_background": "大二",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "数据分析",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.0,
+      "exact_recall": 0.8333,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.5,
+      "exact_points": 50.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 5.0,
+      "expected_units": 6,
+      "matched_units": 5,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "英国"
+          ],
+          "actual": [
+            "新加坡",
+            "英国"
+          ],
+          "matched": [
+            "新加坡",
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "数据分析",
+          "actual": "数据分析",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "大二",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_086",
+    "tags": [
+      "hk_macao_only",
+      "no_abroad"
+    ],
+    "input": {
+      "last_ai_msg": "先说能不能接受真正出国，还是只看港澳。",
+      "last_user_msg": "孩子高三，只接受港澳，不出国，学校先看港大和澳门大学。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "香港",
+        "澳门"
+      ],
+      "abroad_readiness": "坚决不出国",
+      "target_school": "港大；澳门大学",
+      "target_major": null,
+      "academic_background": "高三",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "香港",
+        "澳门"
+      ],
+      "abroad_readiness": "坚决不出国",
+      "target_school": "港大和澳门大学",
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 86.43,
+      "exact_recall": 0.8571,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.5,
+      "exact_points": 51.43,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 5.0,
+      "expected_units": 7,
+      "matched_units": 6,
+      "actual_units": 6,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "exact",
+          "expected": "坚决不出国",
+          "actual": "坚决不出国",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "香港",
+            "澳门"
+          ],
+          "actual": [
+            "香港",
+            "澳门"
+          ],
+          "matched": [
+            "澳门",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "港大；澳门大学",
+          "actual": "港大和澳门大学",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "从语义一致性来看，actual \"港大和澳门大学\" 与 expected \"港大；澳门大学\" 完全一致。两者都包含了用户明确提到的两所学校：港大（香港大学）和澳门大学。虽然表达方式略有不同（\"和\" vs \";\"），但这只是连接词的差异，在业务上完全可以接受。用户原话明确说\"学校先看港大和澳门大学\"，actual 完全准确地提取了这个信息，没有引入任何原文没有的新事实。"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高三",
+          "actual": null,
+          "matched": false,
+          "semantic_score": 0.0,
+          "reason": "missing_actual"
+        }
+      ]
+    },
+    "failure_tags": [
+      "关键信息抓漏"
+    ]
+  },
+  {
+    "case_id": "case_039",
+    "tags": [
+      "cross_major",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话说你现在和目标。",
+      "last_user_msg": "会计不想读了能转传媒吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "会计不想读了",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "会计专业在读，但不想继续读会计",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 72.0,
+      "exact_recall": 0.6667,
+      "hallucination_rate": 0.25,
+      "fuzzy_semantic": 0.95,
+      "exact_points": 40.0,
+      "hallucination_points": 22.5,
+      "fuzzy_points": 9.5,
+      "expected_units": 3,
+      "matched_units": 2,
+      "actual_units": 4,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "本科",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "会计不想读了",
+          "actual": "会计专业在读，但不想继续读会计",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致性来看，actual \"会计专业在读，但不想继续读会计\" 比 expected \"会计不想读了\" 更详细准确。actual 明确指出了\"会计专业在读\"的状态，而 expected 只是说\"会计不想读了\"，可能被理解为已经停止学习会计。从用户原话\"会计不想读了能转传媒吗？\"来看，用户表达的是正在学习会计但不想继续读下去，想要转专业到传媒。actual 更准确地捕捉到了\"在读\"的状态和\"不想继续读\"的意愿，这些信息都能从原文直接推断出来，没有引入新事实。虽然 actual 比 expected 更详细，但这些细节是合理的扩展，业务上完全可以接受。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_064",
+    "tags": [
+      "cross_major",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话说你现在和目标。",
+      "last_user_msg": "生物背景还来得及换公政吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策",
+      "academic_background": "生物背景",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "公共政策/政治学",
+      "academic_background": "生物背景",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 72.0,
+      "exact_recall": 0.6667,
+      "hallucination_rate": 0.25,
+      "fuzzy_semantic": 0.95,
+      "exact_points": 40.0,
+      "hallucination_points": 22.5,
+      "fuzzy_points": 9.5,
+      "expected_units": 3,
+      "matched_units": 2,
+      "actual_units": 4,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "本科",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "公共政策",
+          "actual": "公共政策/政治学",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致性来看：\n1. expected是\"公共政策\"，actual是\"公共政策/政治学\"\n2. 用户询问\"生物背景还来得及换公政吗？\"，这里的\"公政\"明显是\"公共政策\"的简称\n3. actual包含了\"公共政策\"这个核心信息，同时增加了\"政治学\"作为补充\n4. \"政治学\"与\"公共政策\"在学术领域有密切关联，但用户明确询问的是\"公政\"（公共政策）\n5. actual没有引入原文没有的新事实，只是提供了更详细的专业分类\n6. 从业务可接受度看，actual包含了expected的核心内容，且补充信息合理，因此给予较高分数"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "生物背景",
+          "actual": "生物背景",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取",
+      "冲突意图混写"
+    ]
+  },
+  {
+    "case_id": "case_059",
+    "tags": [
+      "top_student",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话给我背景。",
+      "last_user_msg": "211商科转码还有戏？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211商科转码",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "计算机/转码",
+      "academic_background": "211大学商科专业在读或已毕业",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 79.0,
+      "exact_recall": 0.6667,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9,
+      "exact_points": 40.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.0,
+      "expected_units": 3,
+      "matched_units": 2,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "计算机/转码",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211商科转码",
+          "actual": "211大学商科专业在读或已毕业",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致性来看，actual \"211大学商科专业在读或已毕业\" 与 expected \"211商科转码\" 在核心信息上高度一致，都包含了：\n1. 211大学背景\n2. 商科专业\n3. 转码意向（从上下文可推断）\n\nactual 比 expected 更详细地说明了\"在读或已毕业\"的状态，但这属于合理的扩展和明确化，并没有引入原文没有的新事实。用户原话\"211商科转码还有戏？\"中虽然没有明确说明是在读还是已毕业，但actual的表述覆盖了两种可能性，这是合理的业务处理。\n\n从业务可接受度来看，actual的表述更加完整和严谨，能够更好地支持后续的业务处理，因此给予较高分数。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_023",
+    "tags": [
+      "low_cognition",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果家里意见不一致，你先说你自己想学什么。",
+      "last_user_msg": "家里让我随便读个金融，我自己觉得幼教也许更适合，反正别太难。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.5,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 15.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 1,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "幼教",
+          "actual": "幼教",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_048",
+    "tags": [
+      "low_cognition",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果家里意见不一致，你先说你自己想学什么。",
+      "last_user_msg": "家里让我随便读个金融，我自己觉得传媒也许更适合，反正别太难。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.5,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 15.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 1,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_073",
+    "tags": [
+      "low_cognition",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "如果家里意见不一致，你先说你自己想学什么。",
+      "last_user_msg": "家里让我随便读个金融，我自己觉得商科也许更适合，反正别太难。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 85.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.5,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 15.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 1,
+      "matched_units": 1,
+      "actual_units": 2,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "商科",
+          "actual": "商科",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_009",
+    "tags": [
+      "top_student",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话给我背景。",
+      "last_user_msg": "高二还能冲英国Top30吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": "英国Top30",
+      "target_major": null,
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 86.67,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.4,
+      "fuzzy_semantic": 0.0,
+      "exact_points": 60.0,
+      "hallucination_points": 18.0,
+      "fuzzy_points": 0.0,
+      "expected_units": 2,
+      "matched_units": 2,
+      "actual_units": 5,
+      "hallucinated_units": 2,
+      "active_weight_total": 90,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "hallucination_list",
+          "expected": [],
+          "actual": [
+            "英国"
+          ],
+          "matched": [],
+          "hallucinated": [
+            "英国"
+          ]
+        },
+        {
+          "field": "target_school",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "英国Top30",
+          "matched": true
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_069",
+    "tags": [
+      "budget_sensitive",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先说阶段和预算。",
+      "last_user_msg": "家里抠门，211还能申吗？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211大学",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 90.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.3333,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 20.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 2,
+      "matched_units": 2,
+      "actual_units": 3,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211",
+          "actual": "211大学",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在\"academic_background\"字段上，expected为\"211\"，actual为\"211大学\"。从语义上看，\"211大学\"是对\"211\"的完整表述，两者在业务上完全等价。用户原话\"211还能申吗？\"中的\"211\"明显指的是\"211大学\"，这是中国高等教育中\"211工程\"大学的简称。actual的\"211大学\"比expected的\"211\"更详细，但这种细节能从原文直接推断出来，没有引入原文没有的新事实。因此，在业务上完全可接受，应给满分。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_074",
+    "tags": [
+      "low_cognition",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "先别急，一句话说你现在在哪个阶段。",
+      "last_user_msg": "211毕业还能去哪？"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211毕业",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "211大学毕业",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 90.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.3333,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 20.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 2,
+      "matched_units": 2,
+      "actual_units": 3,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211毕业",
+          "actual": "211大学毕业",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在语义一致性方面，actual \"211大学毕业\" 与 expected \"211毕业\" 完全一致。\"211大学毕业\" 只是比 \"211毕业\" 多了\"大学\"两个字，但这属于对\"211毕业\"的自然扩展和明确化，并没有引入原文没有的新事实。从原始对话来看，User说\"211毕业还能去哪？\"，这里的\"211毕业\"明显指的是\"211大学毕业\"，actual 只是将这个隐含信息明确表达出来，在业务上是完全可以接受的，甚至更加清晰准确。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_050",
+    "tags": [
+      "low_cognition",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你现在本科，双非本科大三，均分85，GPA 3.2，先看美国、香港，暂时不设过渡，对吗？",
+      "last_user_msg": "嗯，你这么记吧。",
+      "current_profile": {
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "target_school": "别太难进"
+      }
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 91.43,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.2857,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 21.43,
+      "fuzzy_points": 10.0,
+      "expected_units": 5,
+      "matched_units": 5,
+      "actual_units": 7,
+      "hallucinated_units": 2,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "别太难进",
+          "actual": "别太难进",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "双非本科大三，均分85，GPA 3.2",
+          "actual": "双非本科大三，均分85，GPA 3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_075",
+    "tags": [
+      "low_cognition",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你现在本科，211本科金融，均分88，先看新加坡、香港，暂时不设过渡，对吗？",
+      "last_user_msg": "嗯，你这么记吧。",
+      "current_profile": {
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "新加坡"
+        ],
+        "target_school": "别太难进"
+      }
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "211本科金融，均分88",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 91.43,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.2857,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 21.43,
+      "fuzzy_points": 10.0,
+      "expected_units": 5,
+      "matched_units": 5,
+      "actual_units": 7,
+      "hallucinated_units": 2,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "香港"
+          ],
+          "actual": [
+            "新加坡",
+            "香港"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "别太难进",
+          "actual": "别太难进",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211本科金融，均分88",
+          "actual": "211本科金融，均分88",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_089",
+    "tags": [
+      "school_only",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "学校和专业都可以直接提。",
+      "last_user_msg": "想冲UCL或者港大的传媒硕士，我本科新闻，均分84。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": "UCL；港大",
+      "target_major": "传媒",
+      "academic_background": "本科新闻；均分84",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "UCL或港大",
+      "target_major": "传媒硕士",
+      "academic_background": "本科新闻专业，均分84",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 91.43,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.2857,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 21.43,
+      "fuzzy_points": 10.0,
+      "expected_units": 5,
+      "matched_units": 5,
+      "actual_units": 7,
+      "hallucinated_units": 2,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "hallucination_list",
+          "expected": [],
+          "actual": [
+            "英国",
+            "香港"
+          ],
+          "matched": [],
+          "hallucinated": [
+            "英国",
+            "香港"
+          ]
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "UCL；港大",
+          "actual": "UCL或港大",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在target_school字段的语义一致性评估中：\n1. expected是\"UCL；港大\"，actual是\"UCL或港大\"\n2. 从原始对话看，用户明确提到\"想冲UCL或者港大的传媒硕士\"，AI也指示\"学校和专业都可以直接提\"\n3. \"UCL或港大\"与\"UCL；港大\"在语义上完全等价，都准确表达了用户想要申请的两所学校\n4. 实际提取结果没有引入原文没有的新事实，也没有遗漏任何关键信息\n5. 虽然表达方式略有不同（\"或\" vs \"；\"），但这只是连接词的差异，不影响核心语义\n6. 从业务角度看，这个提取结果完全可以接受，准确反映了用户的意向学校"
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒硕士",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "在语义一致性评估中，actual \"传媒硕士\" 与 expected \"传媒\" 在业务上是完全可接受的。理由如下：\n\n1. 用户原话明确提到\"想冲UCL或者港大的传媒硕士\"，其中\"传媒硕士\"是用户直接使用的表述\n2. AI原话指示\"学校和专业都可以直接提\"，这意味着可以直接使用用户提到的专业表述\n3. \"传媒硕士\"比\"传媒\"更详细，但这些细节是从原文直接找到的（用户明确说了\"传媒硕士\"）\n4. \"传媒硕士\"没有引入原文没有的新事实，它只是更完整地反映了用户的表述\n5. 在业务层面，\"传媒硕士\"比\"传媒\"更精确，因为它明确了是硕士级别的专业，这在实际申请场景中是有价值的区分\n\n因此，actual \"传媒硕士\"不仅语义上与expected \"传媒\"一致，而且更准确地反映了用户的意图，应该给予满分。"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科新闻；均分84",
+          "actual": "本科新闻专业，均分84",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "这个字段层面的语义一致度非常高。expected是\"本科新闻；均分84\"，actual是\"本科新闻专业，均分84\"。\n\n从语义上看：\n1. \"本科新闻\"和\"本科新闻专业\"在业务上是完全等价的，都准确表达了用户的本科专业背景\n2. \"均分84\"在两个版本中完全一致\n3. actual中增加的\"专业\"二字只是对\"新闻\"的补充说明，没有引入任何原文没有的新事实\n4. 根据AI原话\"学校和专业都可以直接提\"，这种表达方式是完全符合要求的\n\n从业务可接受性来看，actual版本甚至比expected版本更清晰明确，但核心信息完全一致，没有语义损失或扭曲。因此给满分1.0分。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_014",
+    "tags": [
+      "cross_major",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话说你现在和目标。",
+      "last_user_msg": "土木转心理还有戏吗？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": "土木工程专业在读或已毕业",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.25,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 22.5,
+      "fuzzy_points": 10.0,
+      "expected_units": 2,
+      "matched_units": 2,
+      "actual_units": 4,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "本科",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "心理学",
+          "actual": "心理学",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "土木工程专业在读或已毕业",
+          "matched": true
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_022",
+    "tags": [
+      "low_cognition",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩有多少就说多少，没有就直接说没有。",
+      "last_user_msg": "我就知道均分85，绩点3.2，托福没考，四级刚过，别的真说不上来，应该还想读幼教。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "幼教",
+      "academic_background": "均分85，绩点3.2",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.25,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 22.5,
+      "fuzzy_points": 10.0,
+      "expected_units": 3,
+      "matched_units": 3,
+      "actual_units": 4,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "幼教",
+          "actual": "幼教",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "均分85；绩点3.2",
+          "actual": "均分85，绩点3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_047",
+    "tags": [
+      "low_cognition",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩有多少就说多少，没有就直接说没有。",
+      "last_user_msg": "我就知道均分85，绩点3.2，托福没考，四级刚过，别的真说不上来，应该还想读传媒。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "均分85，绩点3.2",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.25,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 22.5,
+      "fuzzy_points": 10.0,
+      "expected_units": 3,
+      "matched_units": 3,
+      "actual_units": 4,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "均分85；绩点3.2",
+          "actual": "均分85，绩点3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_072",
+    "tags": [
+      "low_cognition",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩有多少就说多少，没有就直接说没有。",
+      "last_user_msg": "我就知道均分85，绩点3.2，托福没考，四级刚过，别的真说不上来，应该还想读商科。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": "均分85，绩点3.2",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 92.5,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.25,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 22.5,
+      "fuzzy_points": 10.0,
+      "expected_units": 3,
+      "matched_units": 3,
+      "actual_units": 4,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "商科",
+          "actual": "商科",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "均分85；绩点3.2",
+          "actual": "均分85，绩点3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_096",
+    "tags": [
+      "overwrite_conflict",
+      "profile_merge",
+      "destination_exclusion"
+    ],
+    "input": {
+      "last_ai_msg": "之前记成美国，现在你是只看香港和新加坡，对吗？",
+      "last_user_msg": "对，美国不看了，就香港和新加坡。",
+      "current_profile": {
+        "user_role": "学生",
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "target_major": "商科"
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "香港",
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港",
+        "新加坡"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 94.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.2,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 24.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 4,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "香港",
+            "新加坡"
+          ],
+          "actual": [
+            "美国",
+            "香港",
+            "新加坡"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": [
+            "美国"
+          ]
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "商科",
+          "actual": "商科",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_025",
+    "tags": [
+      "low_cognition",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你现在高中，高二，校内均分82，先看英国，想先在国内过渡一下再出去，对吗？",
+      "last_user_msg": "嗯，你这么记吧。",
+      "current_profile": {
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "target_school": "别太难进"
+      }
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "需要过渡/暂缓",
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "需要过渡/暂缓",
+      "target_school": "别太难进",
+      "target_major": null,
+      "academic_background": "高二，校内均分82",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 95.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.1667,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 25.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 5,
+      "matched_units": 5,
+      "actual_units": 6,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "exact",
+          "expected": "需要过渡/暂缓",
+          "actual": "需要过渡/暂缓",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "别太难进",
+          "actual": "别太难进",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高二，校内均分82",
+          "actual": "高二，校内均分82",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_015",
+    "tags": [
+      "cross_major",
+      "implicit_confirmation",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "我确认一下，你目前高二，校内均分82，原专业土木，想转心理学，先看英国，对吗？",
+      "last_user_msg": "嗯，方向没错。",
+      "current_profile": {
+        "user_role": "学生",
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "target_school": "先不设限"
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": "先不设限",
+      "target_major": "心理学",
+      "academic_background": "原专业土木；高二，校内均分82",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": "直接出国",
+      "target_school": "先不设限",
+      "target_major": "心理学",
+      "academic_background": "高二，校内均分82，原专业土木",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 95.71,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.1429,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 25.71,
+      "fuzzy_points": 10.0,
+      "expected_units": 6,
+      "matched_units": 6,
+      "actual_units": 7,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "abroad_readiness",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "直接出国",
+          "matched": false
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "先不设限",
+          "actual": "先不设限",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "心理学",
+          "actual": "心理学",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "原专业土木；高二，校内均分82",
+          "actual": "高二，校内均分82，原专业土木",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_046",
+    "tags": [
+      "low_cognition",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "你把能记住的信息慢慢发给我。",
+      "last_user_msg": "我也不太懂，就知道自己现在本科，想去美国或者香港，兜里最多30万人民币，学个传媒差不多。"
+    },
+    "expected": {
+      "user_role": null,
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 95.71,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.1429,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 25.71,
+      "fuzzy_points": 10.0,
+      "expected_units": 6,
+      "matched_units": 6,
+      "actual_units": 7,
+      "hallucinated_units": 1,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "hallucination",
+          "expected": null,
+          "actual": "学生",
+          "matched": false
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 30,
+          "actual": 30,
+          "matched": true
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_031",
+    "tags": [
+      "top_student",
+      "unit_confusion"
+    ],
+    "input": {
+      "last_ai_msg": "把你的背景、预算、目标国家和项目缩写都直接扔给我。",
+      "last_user_msg": "我本人，本科，双非本科大三，均分85，GPA 3.2，TBD 但预算 30万人民币 all-in，目标 美国 / 香港 的 DS，学校最好 G5。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "G5",
+      "target_major": "DS",
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": 30,
+        "period": "TOTAL"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": "G5",
+      "target_major": "DS",
+      "academic_background": "双非本科大三，均分85，GPA 3.2",
+      "language_level": "TBD"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 100.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 9,
+      "matched_units": 9,
+      "actual_units": 10,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "budget.amount",
+          "mode": "exact",
+          "expected": 30,
+          "actual": 30,
+          "matched": true
+        },
+        {
+          "field": "budget.period",
+          "mode": "exact",
+          "expected": "TOTAL",
+          "actual": "TOTAL",
+          "matched": true
+        },
+        {
+          "field": "target_school",
+          "mode": "semantic",
+          "expected": "G5",
+          "actual": "G5",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "DS",
+          "actual": "DS",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "双非本科大三，均分85，GPA 3.2",
+          "actual": "双非本科大三，均分85，GPA 3.2",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "language_level",
+          "mode": "grounded_extra",
+          "expected": null,
+          "actual": "TBD",
+          "matched": true
+        }
+      ]
+    },
+    "failure_tags": [
+      "纯幻觉/过提取"
+    ]
+  },
+  {
+    "case_id": "case_028",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读会计更稳，但他自己一直念叨CS，所以国家先看美国、香港吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "会计或CS",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 80.0,
+      "exact_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.5,
+      "exact_points": 45.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 5.0,
+      "expected_units": 4,
+      "matched_units": 3,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "CS",
+          "actual": "会计或CS",
+          "matched": false,
+          "semantic_score": 0.5,
+          "reason": "从原始对话分析：\n1. AI询问\"主要想读什么方向？我需要分清楚孩子自己和家长的想法。\"\n2. User回答：\"说实话我想让他读会计更稳，但他自己一直念叨CS，所以国家先看美国、香港吧。\"\n\n这里明确显示了两个不同的意向：\n- 家长的想法：会计（更稳）\n- 孩子的想法：CS（一直念叨）\n\nexpected只提取了\"CS\"，忽略了家长的想法\"会计\"。\nactual提取了\"会计或CS\"，更完整地反映了对话中提到的两个专业方向。\n\n然而，actual使用了\"或\"这个连接词，这在原文中没有明确出现。原文是并列关系（家长想会计，孩子想CS），而不是选择关系。不过从业务角度看，提取出两个专业方向比只提取一个更准确，因为对话确实提到了两个不同的专业意向。\n\n考虑到实际业务场景中，需要同时考虑家长和孩子的意愿，actual的提取虽然添加了原文没有的连接词\"或\"，但整体上更全面地反映了对话内容，因此给予0.5分。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "冲突意图混写"
+    ]
+  },
+  {
+    "case_id": "case_095",
+    "tags": [
+      "overwrite_conflict",
+      "profile_merge"
+    ],
+    "input": {
+      "last_ai_msg": "你之前说金融，现在确认一下，是不是改成传媒了？",
+      "last_user_msg": "对，改传媒，不读金融了。",
+      "current_profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": -1,
+          "period": "UNKNOWN"
+        },
+        "target_major": "金融",
+        "academic_background": "大三"
+      }
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "大三",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "金融；传媒",
+      "academic_background": "大三",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 82.5,
+      "exact_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.75,
+      "exact_points": 45.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 7.5,
+      "expected_units": 4,
+      "matched_units": 3,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "金融；传媒",
+          "matched": false,
+          "semantic_score": 0.5,
+          "reason": "根据对话内容分析：\n1. 用户明确表示\"对，改传媒，不读金融了\"，说明用户确认从金融专业改为传媒专业\n2. expected字段正确提取了\"传媒\"，这是用户最终确认的专业\n3. actual字段提取了\"金融；传媒\"，包含了两个专业，这与用户明确表示\"不读金融了\"相矛盾\n4. 虽然actual包含了正确信息\"传媒\"，但同时也包含了错误信息\"金融\"，这引入了原文没有的新事实（用户已经明确放弃金融专业）\n5. 从业务角度看，这个提取结果可能导致系统错误地认为用户同时选择两个专业，而实际上用户只选择了传媒专业\n\n因此，actual在语义上只有部分正确，得分0.5分。"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "大三",
+          "actual": "大三",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "冲突意图混写"
+    ]
+  },
+  {
+    "case_id": "case_003",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读金融更稳，但他自己一直念叨传媒，所以国家先看英国吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "英国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "金融（家长意向），传媒（孩子意向）",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 100.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 3,
+      "matched_units": 3,
+      "actual_units": 3,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "英国"
+          ],
+          "actual": [
+            "英国"
+          ],
+          "matched": [
+            "英国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "金融（家长意向），传媒（孩子意向）",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "contextual_conflict_resolution"
+        }
+      ]
+    },
+    "failure_tags": [
+      "冲突意图混写"
+    ]
+  },
+  {
+    "case_id": "case_053",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读法学更稳，但他自己一直念叨心理学，所以国家先看新加坡、香港吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "心理学",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "新加坡",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "法学（家长意向），心理学（孩子意向）",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 100.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 4,
+      "matched_units": 4,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "新加坡",
+            "香港"
+          ],
+          "actual": [
+            "新加坡",
+            "香港"
+          ],
+          "matched": [
+            "新加坡",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "心理学",
+          "actual": "法学（家长意向），心理学（孩子意向）",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "contextual_conflict_resolution"
+        }
+      ]
+    },
+    "failure_tags": [
+      "冲突意图混写"
+    ]
+  },
+  {
+    "case_id": "case_078",
+    "tags": [
+      "anxious_parent",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "主要想读什么方向？我需要分清楚孩子自己和家长的想法。",
+      "last_user_msg": "说实话我想让他读经济学更稳，但他自己一直念叨交互设计，所以国家先看美国吧。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "交互设计",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "经济学（家长意向），交互设计（学生意向）",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 100.0,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 1.0,
+      "exact_points": 60.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 10.0,
+      "expected_units": 3,
+      "matched_units": 3,
+      "actual_units": 3,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国"
+          ],
+          "actual": [
+            "美国"
+          ],
+          "matched": [
+            "美国"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "交互设计",
+          "actual": "经济学（家长意向），交互设计（学生意向）",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "contextual_conflict_resolution"
+        }
+      ]
+    },
+    "failure_tags": [
+      "冲突意图混写"
+    ]
+  },
+  {
+    "case_id": "case_034",
+    "tags": [
+      "top_student",
+      "all_missing"
+    ],
+    "input": {
+      "last_ai_msg": "一句话给我背景。",
+      "last_user_msg": "二本码农还能申？"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本码农",
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "二本院校计算机相关专业在读或已毕业",
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 79.0,
+      "exact_recall": 0.6667,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9,
+      "exact_points": 40.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.0,
+      "expected_units": 3,
+      "matched_units": 2,
+      "actual_units": 3,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "二本码农",
+          "actual": "二本院校计算机相关专业在读或已毕业",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "1. 语义一致性分析：\n   - expected: \"二本码农\" - 这是用户原话的简化表达，指代二本院校的计算机专业学生或从业者\n   - actual: \"二本院校计算机相关专业在读或已毕业\" - 这是对\"二本码农\"的详细解释和扩展\n\n2. 业务可接受性判断：\n   - actual 比 expected 更详细，但这些细节能从原文直接推断：\n     * \"二本\" → \"二本院校\"\n     * \"码农\" → \"计算机相关专业在读或已毕业\"\n   - actual 没有引入原文没有的新事实：\"码农\"在中文语境中通常指计算机专业学生或从业者，actual 只是将其具体化\n   - 从原始对话看，用户问\"二本码农还能申？\"，实际提取的信息准确反映了用户的学术背景\n\n3. 扣分原因：\n   - 轻微扣分（0.1分）是因为actual的表达比expected更正式化，但语义核心完全一致\n   - 没有引入错误信息或无关事实"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_043",
+    "tags": [
+      "budget_sensitive",
+      "target_conflict"
+    ],
+    "input": {
+      "last_ai_msg": "你是因为喜欢还是因为便宜在选专业？",
+      "last_user_msg": "我妈让我读金融说好找工作，但我其实只想找便宜一点的商科，国家先看美国、香港。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科",
+      "academic_background": null,
+      "language_level": null
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": null,
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": [
+        "美国",
+        "香港"
+      ],
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "商科（便宜一点的）",
+      "academic_background": null,
+      "language_level": null
+    },
+    "error": null,
+    "score": {
+      "overall_score": 84.0,
+      "exact_recall": 0.75,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9,
+      "exact_points": 45.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.0,
+      "expected_units": 4,
+      "matched_units": 3,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "destination_preference",
+          "mode": "exact_list",
+          "expected": [
+            "美国",
+            "香港"
+          ],
+          "actual": [
+            "美国",
+            "香港"
+          ],
+          "matched": [
+            "美国",
+            "香港"
+          ],
+          "hallucinated": []
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "商科",
+          "actual": "商科（便宜一点的）",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致性来看，actual \"商科（便宜一点的）\" 比 expected \"商科\" 更详细，但增加的细节\"便宜一点的\"完全来自用户原话\"但我其实只想找便宜一点的商科\"，这是原文中明确存在的信息，没有引入新事实。\n\n从业务可接受性角度，actual 更准确地反映了用户的真实意图 - 用户不仅想读商科，而且特别强调要\"便宜一点的\"商科。这个额外信息对于理解用户需求很重要，而且没有偏离原文。\n\n扣0.1分是因为虽然信息来自原文，但expected可能更简洁地表达了核心信息，而actual包含了修饰语。不过整体上actual在业务上是完全可接受的，甚至更准确地捕捉了用户意图。"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_007",
+    "tags": [
+      "top_student",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把均分、GPA、标化和语言一起说全。",
+      "last_user_msg": "我高中，CV 还行，均分85，GPA 3.2，托福没考，四级刚过，另外有两段 RA，想申 CS。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": "高中；均分85；GPA 3.2；两段 RA",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "CS",
+      "academic_background": "高中在读，均分85，GPA 3.2，有两段RA经历，CV还行",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 87.67,
+      "exact_recall": 0.8,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9667,
+      "exact_points": 48.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.67,
+      "expected_units": 5,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "CS",
+          "actual": "CS",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "高中；均分85；GPA 3.2；两段 RA",
+          "actual": "高中在读，均分85，GPA 3.2，有两段RA经历，CV还行",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "对比分析：\n\n1. 核心信息一致性：\n   - expected包含：高中、均分85、GPA 3.2、两段RA\n   - actual包含：高中在读、均分85、GPA 3.2、有两段RA经历、CV还行\n\n2. 语义差异分析：\n   - actual增加了\"在读\"细节，这可以从原文\"我高中\"推断出在读状态，属于合理推断\n   - actual增加了\"CV还行\"，这是原文明确提到的信息，属于正确提取\n   - actual将\"两段RA\"表述为\"有两段RA经历\"，语义完全一致\n\n3. 业务可接受性：\n   - 所有核心学术背景信息都正确提取\n   - 额外提取的\"CV还行\"虽然不属于传统学术背景，但用户明确提到且AI要求\"一起说全\"\n   - 没有引入原文不存在的新事实\n\n4. 扣分原因：\n   - 轻微扣0.1分，因为\"CV还行\"严格来说不属于学术背景范畴，但考虑到AI指令要求\"一起说全\"，这个提取是合理的"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_017",
+    "tags": [
+      "budget_sensitive",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "我先看你的硬条件，再判断能不能走低成本路线。",
+      "last_user_msg": "高中，均分85，绩点3.2，托福没考，四级刚过，预算不多，想申最省钱的护理。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": "均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "高中",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "护理",
+      "academic_background": "高中，均分85，绩点3.2",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 87.67,
+      "exact_recall": 0.8,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9667,
+      "exact_points": 48.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.67,
+      "expected_units": 5,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "高中",
+          "actual": "高中",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "护理",
+          "actual": "护理",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "均分85；绩点3.2",
+          "actual": "高中，均分85，绩点3.2",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致度来看，actual包含了expected的所有核心信息（均分85、绩点3.2），并且额外包含了\"高中\"这个信息。根据评分规则，如果actual比expected更详细，但这些细节能从原文直接找到，不要扣分。在User原话中确实明确提到了\"高中\"，所以这个额外信息是从原文直接找到的，不应该扣分。\n\n但是，actual的表述方式与expected略有不同：expected使用了分号分隔，而actual使用了逗号分隔。这种格式差异在业务上是可以接受的，不影响信息的准确性和完整性。\n\n因此，actual在业务上是完全可接受的，它包含了所有必要的学术背景信息，并且没有引入原文没有的新事实。扣0.1分主要是考虑到格式上的微小差异，但语义内容完全一致。"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_032",
+    "tags": [
+      "top_student",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把均分、GPA、标化和语言一起说全。",
+      "last_user_msg": "我本科，CV 还行，均分85，GPA 3.2，托福没考，四级刚过，另外有两段 RA，想申 DS。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "DS",
+      "academic_background": "本科；均分85；GPA 3.2；两段 RA",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "DS",
+      "academic_background": "本科均分85，GPA 3.2，有两段RA经历，CV还行，想申请DS专业",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 87.67,
+      "exact_recall": 0.8,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9667,
+      "exact_points": 48.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.67,
+      "expected_units": 5,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "DS",
+          "actual": "DS",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科；均分85；GPA 3.2；两段 RA",
+          "actual": "本科均分85，GPA 3.2，有两段RA经历，CV还行，想申请DS专业",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "比较expected和actual在academic_background字段的语义一致度：\n\n1. expected包含的核心信息：本科、均分85、GPA 3.2、两段RA\n2. actual包含的信息：本科均分85、GPA 3.2、有两段RA经历、CV还行、想申请DS专业\n\n语义分析：\n- 核心学术信息完全一致：本科、均分85、GPA 3.2、两段RA经历\n- actual额外包含了\"CV还行\"和\"想申请DS专业\"，这些信息虽然不在expected中，但：\n  - \"CV还行\"是对CV的评价，不是新事实，而是对已有CV状态的描述\n  - \"想申请DS专业\"是申请意向，不是学术背景的新事实\n  - 这些额外信息没有引入原文没有的新事实，而是从用户原话中提取的\n\n业务可接受性：\n- 核心学术背景信息提取准确完整\n- 额外信息是对用户原话的合理补充，没有错误信息\n- 在业务场景下完全可以接受\n\n扣分原因：\n- 轻微扣0.1分，因为actual包含了超出academic_background字段范围的信息（申请意向），虽然这些信息来自原文且正确，但可能不是该字段需要的内容"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_052",
+    "tags": [
+      "anxious_parent",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "成绩和语言先发我，我先判断有没有基本申请空间。",
+      "last_user_msg": "我说话啰嗦您别嫌弃啊，孩子目前本科，211本科金融，均分88，均分85，绩点3.2，托福没考，四级刚过，但又老说以后想学传媒。"
+    },
+    "expected": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "211本科金融，均分88；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "家长",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "211本科金融，均分88，绩点3.2",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 87.67,
+      "exact_recall": 0.8,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9667,
+      "exact_points": 48.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.67,
+      "expected_units": 5,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "家长",
+          "actual": "家长",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "211本科金融，均分88；均分85；绩点3.2",
+          "actual": "211本科金融，均分88，绩点3.2",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "从语义一致度来看，actual 包含了 expected 中的核心信息：\n1. \"211本科金融\" - 完全一致\n2. \"均分88\" - 完全一致  \n3. \"绩点3.2\" - 完全一致\n\nactual 缺少了 expected 中的\"均分85\"，但根据原始对话分析：\n- User原话中确实提到了\"均分88，均分85\"，这可能是用户重复表述或有两个不同的均分\n- 从业务角度，actual 提取了用户明确提到的\"均分88\"和\"绩点3.2\"，这些是核心学术背景信息\n- 缺少的\"均分85\"可能是用户表述中的冗余信息，actual 提取了主要信息\n\n考虑到实际业务场景中，提取主要学术背景信息（学校、专业、主要均分、绩点）已经足够判断申请空间，且没有引入原文没有的新事实，因此给分0.9。"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_057",
+    "tags": [
+      "top_student",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "把均分、GPA、标化和语言一起说全。",
+      "last_user_msg": "我本科，CV 还行，均分85，GPA 3.2，托福没考，四级刚过，另外有两段 RA，想申 ECE。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "ECE",
+      "academic_background": "本科；均分85；GPA 3.2；两段 RA",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "ECE",
+      "academic_background": "本科均分85，GPA 3.2，CV还行，有两段RA经历",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 87.67,
+      "exact_recall": 0.8,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9667,
+      "exact_points": 48.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.67,
+      "expected_units": 5,
+      "matched_units": 4,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "ECE",
+          "actual": "ECE",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科；均分85；GPA 3.2；两段 RA",
+          "actual": "本科均分85，GPA 3.2，CV还行，有两段RA经历",
+          "matched": false,
+          "semantic_score": 0.9,
+          "reason": "比较expected和actual在academic_background字段的语义一致度：\n\n1. expected包含：本科；均分85；GPA 3.2；两段RA\n2. actual包含：本科均分85，GPA 3.2，CV还行，有两段RA经历\n\n语义分析：\n- \"本科\"：完全一致\n- \"均分85\"：完全一致  \n- \"GPA 3.2\"：完全一致\n- \"两段RA\"：actual表述为\"有两段RA经历\"，语义完全一致\n\n差异点：\n- actual多出了\"CV还行\"这个信息，这是从原文\"CV 还行\"提取的，属于原文中确实存在的信息，不是新引入的事实\n\n根据评分规则：\n- 如果actual比expected更详细，但这些细节能从原文直接找到，不要扣分\n- \"CV还行\"确实能从原文直接找到，所以不应扣分\n- 所有核心学术背景信息（本科、均分、GPA、RA经历）都准确提取\n\n业务可接受性：\n- 从业务角度看，actual包含了所有关键学术信息，并且额外包含了CV情况的描述，这对申请评估是有帮助的\n- 没有遗漏任何expected中的关键信息\n- 没有引入原文不存在的新事实\n\n扣分原因：\n- 扣0.1分是因为actual的表述方式略有不同（\"有两段RA经历\" vs \"两段RA\"），但语义完全一致，所以只轻微扣分"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_098",
+    "tags": [
+      "negative_language",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "语言好坏都直接说，不要省略。",
+      "last_user_msg": "英语巨烂，雅思还没考，四六级也就刚过，本科均分81。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "本科；均分81",
+      "language_level": "英语巨烂；雅思还没考；四六级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": null,
+      "academic_background": "本科均分81",
+      "language_level": "英语巨烂，雅思还没考，四六级也就刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 99.75,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.975,
+      "exact_points": 60.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.75,
+      "expected_units": 4,
+      "matched_units": 4,
+      "actual_units": 4,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "本科；均分81",
+          "actual": "本科均分81",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "比较expected和actual在academic_background字段的语义一致度：\n\n1. expected: \"本科；均分81\" - 包含两个信息：学历层次（本科）和成绩（均分81）\n2. actual: \"本科均分81\" - 同样包含学历层次（本科）和成绩（均分81）\n\n语义分析：\n- 两者都准确传达了用户的核心学术背景信息：本科学历和81分的平均成绩\n- actual虽然省略了分号，但语义完全一致，没有丢失任何关键信息\n- 没有引入原文没有的新事实\n- 从业务角度看完全可接受，用户的核心学术背景信息被准确提取\n\n用户原话中明确提到\"本科均分81\"，actual直接采用了这个表述，而expected用分号分隔了\"本科\"和\"均分81\"，两者在语义上是等价的。"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "英语巨烂；雅思还没考；四六级刚过",
+          "actual": "英语巨烂，雅思还没考，四六级也就刚过",
+          "matched": true,
+          "semantic_score": 0.95,
+          "reason": "比较expected和actual在language_level字段的语义一致度：\n\n1. expected: \"英语巨烂；雅思还没考；四六级刚过\"\n2. actual: \"英语巨烂，雅思还没考，四六级也就刚过\"\n\n语义分析：\n- \"英语巨烂\"：完全一致\n- \"雅思还没考\"：完全一致  \n- \"四六级刚过\" vs \"四六级也就刚过\"：语义基本一致，\"也就\"是口语化的强调，没有改变核心意思\n\n差异分析：\n- 标点符号不同：expected用分号，actual用逗号，这不影响语义\n- actual多了\"也就\"这个语气词，但这是原文中用户原话的一部分：\"英语巨烂，雅思还没考，四六级也就刚过\"\n- actual完全忠实于用户原话，没有引入新事实\n\n业务可接受性：\n- actual更准确地反映了用户原话\n- 没有丢失任何关键信息\n- 没有引入原文没有的新事实\n\n扣分原因：\n- 轻微扣0.05分，因为actual比expected更详细（多了\"也就\"），但这完全来自原文，所以扣分很少"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  },
+  {
+    "case_id": "case_037",
+    "tags": [
+      "cross_major",
+      "mixed_scores"
+    ],
+    "input": {
+      "last_ai_msg": "先把成绩和语言说一下，再谈跨专业。",
+      "last_user_msg": "我脑子有点乱，我现在本科，原来学会计，均分85，绩点3.2，托福没考，四级刚过，想申传媒。"
+    },
+    "expected": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "原来学会计；均分85；绩点3.2",
+      "language_level": "托福没考；四级刚过"
+    },
+    "actual": {
+      "user_role": "学生",
+      "educationStage": "本科",
+      "budget": {
+        "amount": -1,
+        "period": "UNKNOWN"
+      },
+      "destination_preference": null,
+      "abroad_readiness": null,
+      "target_school": null,
+      "target_major": "传媒",
+      "academic_background": "本科会计专业，均分85，绩点3.2",
+      "language_level": "托福没考，四级刚过"
+    },
+    "error": null,
+    "score": {
+      "overall_score": 99.83,
+      "exact_recall": 1.0,
+      "hallucination_rate": 0.0,
+      "fuzzy_semantic": 0.9833,
+      "exact_points": 60.0,
+      "hallucination_points": 30.0,
+      "fuzzy_points": 9.83,
+      "expected_units": 5,
+      "matched_units": 5,
+      "actual_units": 5,
+      "hallucinated_units": 0,
+      "active_weight_total": 100,
+      "field_details": [
+        {
+          "field": "user_role",
+          "mode": "exact",
+          "expected": "学生",
+          "actual": "学生",
+          "matched": true
+        },
+        {
+          "field": "educationStage",
+          "mode": "exact",
+          "expected": "本科",
+          "actual": "本科",
+          "matched": true
+        },
+        {
+          "field": "target_major",
+          "mode": "semantic",
+          "expected": "传媒",
+          "actual": "传媒",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        },
+        {
+          "field": "academic_background",
+          "mode": "semantic",
+          "expected": "原来学会计；均分85；绩点3.2",
+          "actual": "本科会计专业，均分85，绩点3.2",
+          "matched": true,
+          "semantic_score": 0.95,
+          "reason": "比较expected和actual在academic_background字段的语义一致度：\n\n1. expected包含三个关键信息：\n   - \"原来学会计\"（专业背景）\n   - \"均分85\"（成绩）\n   - \"绩点3.2\"（绩点）\n\n2. actual包含：\n   - \"本科会计专业\"（专业背景+学历层次）\n   - \"均分85\"（成绩）\n   - \"绩点3.2\"（绩点）\n\n3. 语义分析：\n   - actual的\"本科会计专业\"比expected的\"原来学会计\"更详细，但\"本科\"这个信息可以从用户原话\"我现在本科\"中直接找到，属于合理的补充，不应扣分\n   - \"均分85\"和\"绩点3.2\"完全一致\n   - 没有引入原文没有的新事实\n   - 所有信息在业务上都是可接受的\n\n4. 扣分原因：\n   - 轻微扣0.05分，因为actual将\"原来学会计\"改写为\"本科会计专业\"，虽然语义基本一致，但表达方式略有不同，存在极细微的语义差异"
+        },
+        {
+          "field": "language_level",
+          "mode": "semantic",
+          "expected": "托福没考；四级刚过",
+          "actual": "托福没考，四级刚过",
+          "matched": true,
+          "semantic_score": 1.0,
+          "reason": "exact_match"
+        }
+      ]
+    },
+    "failure_tags": [
+      "轻微语义偏差"
+    ]
+  }
+]

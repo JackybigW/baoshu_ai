@@ -99,7 +99,7 @@
       "abroad_readiness": null,
       "target_school": null,
       "target_major": null,
-      "academic_background": "高二",
+      "academic_background": null,
       "language_level": null
     }
   },
@@ -235,7 +235,7 @@
     ],
     "input": {
       "last_ai_msg": "一句话给我背景。",
-      "last_user_msg": "双非高二还能冲吗？"
+      "last_user_msg": "高二还能冲英国Top30吗？"
     },
     "expected": {
       "user_role": "学生",
@@ -248,7 +248,7 @@
       "abroad_readiness": null,
       "target_school": null,
       "target_major": null,
-      "academic_background": "高二",
+      "academic_background": null,
       "language_level": null
     }
   },
@@ -300,15 +300,16 @@
     "case_id": "case_011",
     "tags": [
       "cross_major",
-      "unit_confusion"
+      "unit_confusion",
+      "currency_conversion"
     ],
     "input": {
       "last_ai_msg": "你现在学什么，想转什么，预算怎么说，按顺序告诉我。",
-      "last_user_msg": "我现在是土木背景，高二，校内均分82，但其实想跨到心理学，预算卡在5万美金，国家可能是英国。"
+      "last_user_msg": "我现在本科土木，均分82，但其实想跨到心理学，预算卡在5万美金，国家可能是英国。"
     },
     "expected": {
       "user_role": "学生",
-      "educationStage": "高中",
+      "educationStage": "本科",
       "budget": {
         "amount": 36,
         "period": "TOTAL"
@@ -319,7 +320,7 @@
       "abroad_readiness": null,
       "target_school": null,
       "target_major": "心理学",
-      "academic_background": "土木背景；高二，校内均分82",
+      "academic_background": "本科土木；均分82",
       "language_level": null
     }
   },
@@ -331,11 +332,11 @@
     ],
     "input": {
       "last_ai_msg": "先把成绩和语言说一下，再谈跨专业。",
-      "last_user_msg": "我脑子有点乱，我现在高中，原来学土木，均分85，绩点3.2，托福没考，四级刚过，想申心理学。"
+      "last_user_msg": "我脑子有点乱，我现在本科土木，均分85，绩点3.2，托福没考，四级刚过，想申心理学。"
     },
     "expected": {
       "user_role": "学生",
-      "educationStage": "高中",
+      "educationStage": "本科",
       "budget": {
         "amount": -1,
         "period": "UNKNOWN"
@@ -344,7 +345,7 @@
       "abroad_readiness": null,
       "target_school": null,
       "target_major": "心理学",
-      "academic_background": "原来学土木；均分85；绩点3.2",
+      "academic_background": "本科土木；均分85；绩点3.2",
       "language_level": "托福没考；四级刚过"
     }
   },
@@ -394,7 +395,7 @@
       "abroad_readiness": null,
       "target_school": null,
       "target_major": "心理学",
-      "academic_background": "土木转心理",
+      "academic_background": null,
       "language_level": null
     }
   },
@@ -2418,7 +2419,8 @@
     "tags": [
       "annual_budget",
       "top_student",
-      "unit_confusion"
+      "unit_confusion",
+      "currency_conversion"
     ],
     "input": {
       "last_ai_msg": "预算如果是按年说，直接给我年预算。",
@@ -2445,7 +2447,8 @@
   {
     "tags": [
       "hkd_budget",
-      "mixed_scores"
+      "mixed_scores",
+      "currency_conversion"
     ],
     "input": {
       "last_ai_msg": "把背景、预算、目标项目一次说完。",
@@ -2662,27 +2665,26 @@
   },
   {
     "tags": [
-      "annual_budget",
-      "budget_ceiling"
+      "jpy_budget",
+      "currency_conversion"
     ],
     "input": {
-      "last_ai_msg": "如果是上限预算，用最多能花多少来表达。",
-      "last_user_msg": "一年最多35万，最好英国或者爱尔兰。"
+      "last_ai_msg": "把预算和目标国家一起说，我会自己换成人民币万。",
+      "last_user_msg": "总预算大概700万日元，想去日本读经营学修士。"
     },
     "expected": {
-      "user_role": "学生",
+      "user_role": null,
       "educationStage": null,
       "budget": {
-        "amount": 35,
-        "period": "YEAR"
+        "amount": 34,
+        "period": "TOTAL"
       },
       "destination_preference": [
-        "英国",
-        "爱尔兰"
+        "日本"
       ],
       "abroad_readiness": null,
       "target_school": null,
-      "target_major": null,
+      "target_major": "经营学",
       "academic_background": null,
       "language_level": null
     },
@@ -2854,25 +2856,27 @@
   },
   {
     "tags": [
-      "parent_student_quote",
-      "target_conflict"
+      "krw_budget",
+      "currency_conversion"
     ],
     "input": {
-      "last_ai_msg": "家长和孩子意见不一致时，你先告诉我最后按谁的。",
-      "last_user_msg": "我女儿说她喜欢心理学，我觉得商科也行，但先按她的心理学记。"
+      "last_ai_msg": "预算如果不是人民币，也直接说原币种。",
+      "last_user_msg": "我本科传媒，家里能给我2800万韩币，想去韩国读一年制传媒硕士。"
     },
     "expected": {
-      "user_role": "家长",
-      "educationStage": null,
+      "user_role": "学生",
+      "educationStage": "本科",
       "budget": {
-        "amount": -1,
-        "period": "UNKNOWN"
+        "amount": 15,
+        "period": "TOTAL"
       },
-      "destination_preference": null,
+      "destination_preference": [
+        "韩国"
+      ],
       "abroad_readiness": null,
       "target_school": null,
-      "target_major": "心理学",
-      "academic_background": null,
+      "target_major": "传媒",
+      "academic_background": "本科传媒",
       "language_level": null
     },
     "case_id": "case_097"
