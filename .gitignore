@@ -1,5 +1,7 @@
 .env
 __pycache__
+.mypy_cache/
+.ipynb_checkpoints/
 老nodes.py
 .obsidian/
 README.pdf
