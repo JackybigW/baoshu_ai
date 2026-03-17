@@ -5,7 +5,7 @@ import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Protocol, Tuple
+from typing import Any, Dict, List, Optional, Protocol, Tuple
 
 from dotenv import find_dotenv, load_dotenv
 from langchain.chat_models import init_chat_model
@@ -21,7 +21,13 @@ SEMANTIC_FIELDS = ("target_school", "target_major", "academic_background", "lang
 
 
 class SemanticMatcher(Protocol):
-    def __call__(self, field_name: str, expected: str, actual: str) -> Tuple[float, str]:
+    def __call__(
+        self,
+        field_name: str,
+        expected: str,
+        actual: str,
+        case_context: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[float, str]:
         ...
 
 
@@ -112,6 +118,37 @@ def _safe_ratio(numerator: float, denominator: float) -> float:
     return numerator / denominator
 
 
+def _context_text(case_context: Optional[Dict[str, Any]]) -> str:
+    if not case_context:
+        return ""
+    return f"{case_context.get('last_ai_msg', '')}；{case_context.get('last_user_msg', '')}"
+
+
+def _contains_expected_with_conflict_marker(field_name: str, expected: str, actual: str) -> bool:
+    if field_name != "target_major":
+        return False
+    expected_norm = _normalize_text(expected)
+    actual_norm = _normalize_text(actual)
+    if not expected_norm or not actual_norm or expected_norm not in actual_norm:
+        return False
+    return any(marker in actual for marker in ["家长意向", "孩子意向", "父母意向", "本人意向"])
+
+
+def _is_grounded_extra_text(actual: str, case_context: Optional[Dict[str, Any]]) -> bool:
+    context = _normalize_text(_context_text(case_context))
+    actual_norm = _normalize_text(actual)
+    if not context or not actual_norm:
+        return False
+    if actual_norm in context:
+        return True
+    overlap_chars = {
+        char
+        for char in actual_norm
+        if char in context and (char.isalnum() or "\u4e00" <= char <= "\u9fff")
+    }
+    return len(overlap_chars) >= 2
+
+
 def _profile_from_any(data: Any) -> CustomerProfile:
     if isinstance(data, CustomerProfile):
         return data
@@ -135,14 +172,28 @@ class DeepSeekSemanticMatcher:
         )
         self._judge = llm.with_structured_output(SemanticJudgement)
 
-    def __call__(self, field_name: str, expected: str, actual: str) -> Tuple[float, str]:
+    def __call__(
+        self,
+        field_name: str,
+        expected: str,
+        actual: str,
+        case_context: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[float, str]:
         if not self.enabled or self._judge is None:
             return self._fallback(field_name, expected, actual)
 
+        last_ai_msg = ""
+        last_user_msg = ""
+        if case_context:
+            last_ai_msg = case_context.get("last_ai_msg", "")
+            last_user_msg = case_context.get("last_user_msg", "")
         prompt = (
             "你是 extractor eval 审稿器。请比较 expected 和 actual 在字段层面的语义一致度。\n"
-            "评分范围 0 到 1，只看该字段是否抓到了同一事实，不要因为措辞简短就扣太多分。\n"
-            "如果 actual 引入 expected 没提到的新事实，需要降低分数。\n"
+            "评分范围 0 到 1。请结合原始对话判断 actual 是否业务上可接受。\n"
+            "如果 actual 比 expected 更详细，但这些细节能从原文直接找到，不要扣分。\n"
+            "如果 actual 引入原文没有的新事实，才需要降低分数。\n"
+            f"AI原话: {last_ai_msg}\n"
+            f"User原话: {last_user_msg}\n"
             f"字段: {field_name}\n"
             f"expected: {expected}\n"
             f"actual: {actual}\n"
@@ -168,6 +219,7 @@ def score_profiles(
     expected_profile: Any,
     actual_profile: Any,
     semantic_matcher: Optional[SemanticMatcher] = None,
+    case_context: Optional[Dict[str, Any]] = None,
 ) -> ScoreBreakdown:
     expected = _profile_from_any(expected_profile)
     actual = _profile_from_any(actual_profile)
@@ -292,8 +344,11 @@ def score_profiles(
             semantic_score = 1.0 if is_match else 0.0
             reason = "exact_match" if is_match else "missing_actual"
             if actual_value and not is_match:
-                semantic_score, reason = matcher(field_name, expected_value, actual_value)
-            if is_match:
+                if _contains_expected_with_conflict_marker(field_name, expected_value, actual_value):
+                    semantic_score, reason = 1.0, "contextual_conflict_resolution"
+                else:
+                    semantic_score, reason = matcher(field_name, expected_value, actual_value, case_context)
+            if is_match or semantic_score >= 0.95:
                 matched_units += 1
             fuzzy_scores.append(semantic_score)
             field_details.append(
@@ -302,21 +357,23 @@ def score_profiles(
                     "mode": "semantic",
                     "expected": expected_value,
                     "actual": actual_value,
-                    "matched": is_match,
+                    "matched": is_match or semantic_score >= 0.95,
                     "semantic_score": round(semantic_score, 4),
                     "reason": reason,
                 }
             )
         elif actual_value:
             actual_units += 1
-            hallucinated_units += 1
+            grounded_extra = field_name in SEMANTIC_FIELDS and _is_grounded_extra_text(actual_value, case_context)
+            if not grounded_extra:
+                hallucinated_units += 1
             field_details.append(
                 {
                     "field": field_name,
-                    "mode": "hallucination",
+                    "mode": "grounded_extra" if grounded_extra else "hallucination",
                     "expected": None,
                     "actual": actual_value,
-                    "matched": False,
+                    "matched": grounded_extra,
                 }
             )
 

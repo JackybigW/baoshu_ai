@@ -17,6 +17,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from nodes_eval.extractor_eval.benchmark import DeepSeekSemanticMatcher, score_profiles
+from nodes_eval.extractor_eval.failure_analysis import generate_failure_analysis
 from state import CustomerProfile
 
 DEFAULT_DATASET_PATH = Path(__file__).resolve().parent / "golden_dataset.json"
@@ -62,7 +63,12 @@ def run_single_case(case: EvalCase, semantic_matcher: Optional[DeepSeekSemanticM
         actual_profile = CustomerProfile()
         error = f"{type(exc).__name__}: {exc}"
 
-    breakdown = score_profiles(case.expected, actual_profile, semantic_matcher=semantic_matcher)
+    breakdown = score_profiles(
+        case.expected,
+        actual_profile,
+        semantic_matcher=semantic_matcher,
+        case_context=case.input.model_dump(mode="json", exclude_none=True),
+    )
     return {
         "case_id": case.case_id,
         "tags": case.tags,
@@ -142,6 +148,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset", default=str(DEFAULT_DATASET_PATH), help="Path to golden dataset json.")
     parser.add_argument("--limit", type=int, default=0, help="Only run the first N cases.")
     parser.add_argument("--case-id", default="", help="Only run one specific case id.")
+    parser.add_argument("--tag", action="append", default=[], help="Only run cases that contain the given tag. Repeatable.")
     parser.add_argument(
         "--no-semantic",
         action="store_true",
@@ -193,6 +200,9 @@ def main() -> None:
     cases = load_cases(dataset_path)
     if args.case_id:
         cases = [case for case in cases if case.case_id == args.case_id]
+    if args.tag:
+        tag_filter = set(args.tag)
+        cases = [case for case in cases if tag_filter.intersection(case.tags)]
     if args.limit > 0:
         cases = cases[: args.limit]
 
@@ -209,8 +219,14 @@ def main() -> None:
         "results": results,
         "log_path": str(DEFAULT_LOG_PATH),
     }
+    failure_analysis_dir = generate_failure_analysis(
+        payload,
+        output_root=Path(__file__).resolve().parent,
+    )
+    payload["failure_analysis_dir"] = str(failure_analysis_dir)
     print(json.dumps(payload["summary"], ensure_ascii=False, indent=2))
     print(f"log_path={DEFAULT_LOG_PATH}")
+    print(f"failure_analysis_dir={failure_analysis_dir}")
 
     if args.output_json:
         output_path = Path(args.output_json).resolve()
