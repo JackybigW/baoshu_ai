@@ -107,6 +107,29 @@ def _normalize_model_key(model_id: str) -> str:
     raise ValueError(f"没配置这个模型: {model_id}")
 
 
+def resolve_llm_key(model_id: str) -> str:
+    """公开的模型别名归一化接口。"""
+    return _normalize_model_key(model_id)
+
+
+def list_supported_llms() -> List[str]:
+    return sorted(DEFAULT_MODEL_SPECS.keys())
+
+
+def get_llm_descriptor(model_id: str, *, model_name: Optional[str] = None) -> Dict[str, Any]:
+    canonical_name = _normalize_model_key(model_id)
+    spec = DEFAULT_MODEL_SPECS[canonical_name]
+    return {
+        "requested_id": model_id,
+        "canonical_id": canonical_name,
+        "provider": spec["provider"],
+        "resolved_model": _resolve_model_name(spec, explicit_model=model_name),
+        "aliases": list(spec.get("aliases", [])),
+        "api_key_env": spec.get("api_key_env"),
+        "base_url_env": spec.get("base_url_env"),
+    }
+
+
 def _resolve_model_name(spec: Dict[str, Any], explicit_model: Optional[str] = None) -> str:
     if explicit_model:
         return explicit_model

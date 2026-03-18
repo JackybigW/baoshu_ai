@@ -13,11 +13,40 @@ from typing import List, Optional, Any, Union, Dict, Sequence
 from pydantic import BaseModel
 from langchain_core.messages import SystemMessage
 from state import AgentState, IntentResult, CustomerProfile, reduce_profile
-from utils.llm_factory import get_backend_llm
+from utils.llm_factory import get_backend_llm, get_llm
 from utils.logger import logger
 
 llm = get_backend_llm()
-llm_chat = get_backend_llm() # 感知层统一使用 backend 配置
+llm_chat = llm  # 感知层统一使用 backend 配置
+
+
+def _resolve_backend_llm(state: AgentState):
+    runtime_config = state.get("runtime_config") or {}
+    runtime_llm = runtime_config.get("backend_llm")
+    if runtime_llm is not None:
+        return runtime_llm
+
+    runtime_model = runtime_config.get("backend_model")
+    if runtime_model:
+        normalized_runtime_model = str(runtime_model).strip().lower().replace("-", "_")
+        runtime_temperature = runtime_config.get("backend_temperature", 0)
+        if normalized_runtime_model in {"backend", "default", "backend_default"}:
+            resolved = get_backend_llm(temperature=runtime_temperature)
+            if resolved is not None:
+                return resolved
+        else:
+            resolved = get_llm(runtime_model, temperature=runtime_temperature, allow_missing=True)
+            if resolved is not None:
+                return resolved
+
+    return llm
+
+
+def _require_backend_llm(state: AgentState):
+    backend_llm = _resolve_backend_llm(state)
+    if backend_llm is None:
+        raise RuntimeError("Backend LLM is not configured for perception nodes.")
+    return backend_llm
 
 
 from config.settings import DEBT_KEYWORDS, STICKY_INTENTS
@@ -31,7 +60,8 @@ def classifier_node(state: AgentState):
     recent_msg = state["messages"][-12:]
     current_status = state.get("dialog_status")
     profile = state.get("profile")
-    classifier = llm.with_structured_output(IntentResult)
+    backend_llm = _require_backend_llm(state)
+    classifier = backend_llm.with_structured_output(IntentResult)
     
     last_intent = state.get("last_intent")
 
@@ -179,7 +209,8 @@ def extractor_node(state: AgentState):
     messages = [SystemMessage(content=system_prompt)]
 
     from state import CustomerProfile
-    extractor = llm.with_structured_output(CustomerProfile)
+    backend_llm = _require_backend_llm(state)
+    extractor = backend_llm.with_structured_output(CustomerProfile)
     new_data = extractor.invoke(messages)
 
     # 5. Python 守门员逻辑 (The Gatekeeper)
