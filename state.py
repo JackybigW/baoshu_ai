@@ -2,7 +2,9 @@ import ast
 import difflib
 import re
 from enum import Enum
-from typing import Annotated, List, Literal, Optional, TypedDict
+from typing import Annotated, Any, Dict, List, Literal, Optional, TypedDict
+
+from typing_extensions import NotRequired
 
 from langchain_core.messages import BaseMessage
 from langgraph.graph.message import add_messages
@@ -307,6 +309,7 @@ class AgentState(TypedDict):
     has_proposed_solution: bool
     dialog_status: Literal["START", "PROFILING", "PERSUADING", "FINISHED"]
     last_intent: Optional[IntentType]
+    runtime_config: NotRequired[Dict[str, Any]]
 
 class IntentResult(BaseModel):
     intent: IntentType

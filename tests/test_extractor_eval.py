@@ -3,7 +3,11 @@ from pathlib import Path
 
 from nodes_eval.extractor_eval.benchmark import score_profiles
 from nodes_eval.extractor_eval.failure_analysis import generate_failure_analysis
-from nodes_eval.extractor_eval.run_eval import load_cases, summarize_case_results
+from nodes_eval.extractor_eval.run_eval import (
+    load_cases,
+    summarize_case_results,
+    summarize_model_runs,
+)
 from state import BudgetInfo, BudgetPeriod, CustomerProfile
 
 
@@ -84,6 +88,47 @@ def test_summarize_case_results_aggregates_mean_score():
     assert summary["hallucination_rate"] == 0.2
     assert summary["fuzzy_semantic"] == 0.35
     assert summary["error_count"] == 1
+
+
+def test_summarize_model_runs_orders_best_model_first():
+    leaderboard = summarize_model_runs(
+        [
+            {
+                "llm": {
+                    "label": "qwen",
+                    "canonical_id": "qwen",
+                    "provider": "openai",
+                    "resolved_model": "qwen-plus",
+                },
+                "summary": {
+                    "overall_score": 84.2,
+                    "exact_recall": 0.82,
+                    "hallucination_rate": 0.11,
+                    "fuzzy_semantic": 0.8,
+                    "pass_rate": 0.74,
+                    "error_count": 0,
+                },
+            },
+            {
+                "llm": {
+                    "label": "deepseek",
+                    "canonical_id": "deepseek",
+                    "provider": "openai",
+                    "resolved_model": "deepseek-v3",
+                },
+                "summary": {
+                    "overall_score": 88.4,
+                    "exact_recall": 0.86,
+                    "hallucination_rate": 0.09,
+                    "fuzzy_semantic": 0.83,
+                    "pass_rate": 0.81,
+                    "error_count": 0,
+                },
+            },
+        ]
+    )
+
+    assert [item["llm_label"] for item in leaderboard] == ["deepseek", "qwen"]
 
 
 def test_score_profiles_allows_grounded_extra_semantic_text():
@@ -209,3 +254,68 @@ def test_failure_analysis_prioritizes_major_failures(tmp_path: Path):
 
     assert abnormal_cases[0]["case_id"] == "case_002"
     assert abnormal_cases[0]["failure_tags"][0] == "单位/汇率/预算周期崩塌"
+
+
+def test_failure_analysis_groups_results_under_model_label(tmp_path: Path):
+    payload = {
+        "llm": {
+            "label": "qwen",
+            "canonical_id": "qwen",
+            "provider": "openai",
+            "resolved_model": "qwen-plus",
+        },
+        "summary": {
+            "case_count": 1,
+            "overall_score": 70.0,
+            "exact_recall": 0.7,
+            "hallucination_rate": 0.1,
+            "fuzzy_semantic": 0.6,
+            "pass_rate": 0.0,
+            "error_count": 0,
+        },
+        "results": [
+            {
+                "case_id": "case_001",
+                "tags": ["currency_conversion"],
+                "input": {
+                    "last_ai_msg": "预算直接说。",
+                    "last_user_msg": "5万美金。",
+                },
+                "expected": {
+                    "user_role": None,
+                    "educationStage": None,
+                    "budget": {"amount": 36, "period": "TOTAL"},
+                    "destination_preference": None,
+                    "abroad_readiness": None,
+                    "target_school": None,
+                    "target_major": None,
+                    "academic_background": None,
+                    "language_level": None,
+                },
+                "actual": {
+                    "user_role": None,
+                    "educationStage": None,
+                    "budget": {"amount": 5, "period": "TOTAL"},
+                    "destination_preference": None,
+                    "abroad_readiness": None,
+                    "target_school": None,
+                    "target_major": None,
+                    "academic_background": None,
+                    "language_level": None,
+                },
+                "error": None,
+                "score": {"overall_score": 70.0},
+            }
+        ],
+    }
+
+    output_dir = generate_failure_analysis(
+        payload,
+        output_root=tmp_path,
+        model_label="qwen",
+    )
+
+    assert output_dir.name == "qwen"
+    assert (output_dir / "summary.md").exists()
+    summary_text = (output_dir / "summary.md").read_text(encoding="utf-8")
+    assert "llm_label: `qwen`" in summary_text

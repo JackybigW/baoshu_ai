@@ -20,6 +20,10 @@ SEVERITY_ORDER = {
 }
 
 
+def _slugify(value: str) -> str:
+    return "".join(char if char.isalnum() or char in {"_", "-", "."} else "_" for char in value).strip("._").lower() or "unknown_llm"
+
+
 def has_value(value: Any) -> bool:
     if value is None:
         return False
@@ -124,10 +128,25 @@ def generate_failure_analysis(
     payload: Dict[str, Any],
     output_root: Path,
     run_timestamp: Optional[datetime] = None,
+    model_label: Optional[str] = None,
 ) -> Path:
     timestamp = (run_timestamp or datetime.now()).strftime("%Y%m%d_%H%M%S")
     output_dir = output_root / "failure_analyses" / timestamp
+    if model_label:
+        output_dir = output_dir / _slugify(model_label)
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    llm_meta = payload.get("llm") or {}
+    llm_header = []
+    if llm_meta:
+        llm_header.extend(
+            [
+                f"- llm_label: `{llm_meta.get('label', '')}`",
+                f"- llm_canonical: `{llm_meta.get('canonical_id', '')}`",
+                f"- llm_provider: `{llm_meta.get('provider', '')}`",
+                f"- llm_model: `{llm_meta.get('resolved_model', '')}`",
+            ]
+        )
 
     abnormal_cases: List[Dict[str, Any]] = []
     category_counter: Counter[str] = Counter()
@@ -157,6 +176,7 @@ def generate_failure_analysis(
         f"- fuzzy_semantic: `{payload['summary']['fuzzy_semantic']}`",
         f"- pass_rate: `{payload['summary']['pass_rate']}`",
         f"- error_count: `{payload['summary']['error_count']}`",
+        *llm_header,
         "",
         "## Category Counts",
         "",

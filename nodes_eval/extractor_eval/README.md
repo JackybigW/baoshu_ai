@@ -69,12 +69,44 @@ python nodes_eval/extractor_eval/run_eval.py --limit 10
 python nodes_eval/extractor_eval/run_eval.py --case-id case_017
 python nodes_eval/extractor_eval/run_eval.py --concurrency 8
 python nodes_eval/extractor_eval/run_eval.py --tag currency_conversion
+python nodes_eval/extractor_eval/run_eval.py --llm deepseek --llm gemini_flash --llm qwen
 python nodes_eval/extractor_eval/run_eval.py --output-json /tmp/extractor_eval_result.json
 ```
 
-每次运行都会把当前成绩追加写入 [eval_extracot.log](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/eval_extracot.log)。
+如果不传 `--llm`，默认跑 `backend_default`，也就是线上 extractor 当前 backend fallback chain。
+
+传多个 `--llm` 时，会在同一份黄金集和 benchmark 上并发跑多模型，并输出统一 leaderboard。
+
+## 输出产物
+
+每次运行都会把成绩追加写入以下日志：
+
+- 主日志：[eval_extracot.log](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/eval_extracot.log)
+- 分模型日志目录：[logs/](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/logs)
+
+失败分析目录会按“运行时间 / LLM”区分，例如：
+
+```text
+nodes_eval/extractor_eval/failure_analyses/20260318_153000/
+├── README.md
+├── leaderboard.json
+├── backend_default/
+│   ├── summary.md
+│   ├── abnormal_cases.md
+│   └── abnormal_cases.json
+└── qwen/
+    ├── summary.md
+    ├── abnormal_cases.md
+    └── abnormal_cases.json
+```
+
+其中：
+
+- 根目录 `README.md` 记录这次 multi-LLM run 的 leaderboard
+- 各 LLM 子目录分别保存自己的异常样本、错误分类和得分摘要
 
 说明：
 
-- `run_eval.py` 现在会并发执行 case，默认 `--concurrency 8`
+- `run_eval.py` 现在会在“case x llm”维度并发执行，默认总并发 `--concurrency 8`
 - 单 case 请求失败不会中断整批，会在 summary 里累计 `error_count`
+- `--output-json` 会写出完整 run payload，包含 leaderboard、各 LLM 的 summary、日志路径和 failure analysis 目录
