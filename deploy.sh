@@ -16,6 +16,10 @@ QUICK_TESTS=(
   tests/test_profile_state.py
   tests/test_nodes_unit.py
   tests/test_extractor_eval.py
+  tests/test_classifier_eval.py
+  tests/test_router_eval.py
+  tests/test_execution_eval.py
+  tests/test_eval_entrypoints.py
   tests/test_intent_guardrails.py
 )
 
@@ -131,6 +135,10 @@ if [[ "$run_remote_tests" == "y" ]]; then
     tests/test_profile_state.py \
     tests/test_nodes_unit.py \
     tests/test_extractor_eval.py \
+    tests/test_classifier_eval.py \
+    tests/test_router_eval.py \
+    tests/test_execution_eval.py \
+    tests/test_eval_entrypoints.py \
     tests/test_intent_guardrails.py \
     -q
 fi

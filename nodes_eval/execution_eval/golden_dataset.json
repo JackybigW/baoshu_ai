@@ -1,0 +1,400 @@
+[
+  {
+    "case_id": "exe_001",
+    "tags": ["first_greeting", "deterministic"],
+    "node_name": "first_greeting",
+    "input": {
+      "messages": [],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": null
+    },
+    "expected": {
+      "required_message_types": ["ai"],
+      "min_segments": 1,
+      "max_segments": 1,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [["欢迎"], ["咨询"]],
+      "expected_status": "START",
+      "skip_rubric": true,
+      "node_goal": "主动破冰并欢迎用户开口"
+    }
+  },
+  {
+    "case_id": "exe_002",
+    "tags": ["interviewer", "abroad_readiness"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "先看看还有什么路可以走"}
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高二，均分86",
+        "budget": {"amount": 50, "period": "TOTAL"},
+        "destination_preference": ["英国"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["家长您好"], ["港澳", "国内", "直接出国", "过渡"]],
+      "node_goal": "追问高中客户是直接出国还是先在国内/港澳过渡",
+      "rubric_notes": "应该先接住家长，再问路线选择，不能直接推销"
+    }
+  },
+  {
+    "case_id": "exe_003",
+    "tags": ["interviewer", "academic_background"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "我先了解一下有没有机会"}
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "本科在读，商科方向",
+        "budget": {"amount": 40, "period": "TOTAL"}
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["成绩", "均分", "GPA"], ["语言", "雅思", "托福"]],
+      "node_goal": "补齐成绩和语言准备情况，便于后续方案规划",
+      "rubric_notes": "应先回应用户，再继续追问学术背景，不要机械复读"
+    }
+  },
+  {
+    "case_id": "exe_004",
+    "tags": ["consultant", "normal_mode"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "给我一个初步方案"}
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "211，均分84，雅思6.5",
+        "budget": {"amount": 35, "period": "TOTAL"},
+        "destination_preference": ["英国", "香港"],
+        "abroad_readiness": "直接出国"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["方案", "路径", "方向"], ["接受", "考虑", "怎么看"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给出初步诊断方案并继续推进对话",
+      "rubric_notes": "需要结合预算和国家偏好，先回答再抛问题"
+    }
+  },
+  {
+    "case_id": "exe_005",
+    "tags": ["consultant", "sales_mode", "handoff"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "这个项目靠谱吗，能不能具体对接老师"}
+      ],
+      "profile": {
+        "educationStage": "高中",
+        "academic_background": "高三，均分88",
+        "budget": {"amount": 40, "period": "TOTAL"},
+        "destination_preference": ["香港"],
+        "abroad_readiness": "坚决不出国"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["顾问", "老师"], ["群"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "回答核心顾虑后顺势拉群转接真人顾问",
+      "rubric_notes": "先回答问题，再解释为什么拉群，最后触发工具"
+    }
+  },
+  {
+    "case_id": "exe_006",
+    "tags": ["consultant", "decision_support"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "港三和爱丁堡的offer怎么选"}
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "双非，均分85",
+        "budget": {"amount": 45, "period": "TOTAL"},
+        "destination_preference": ["英国", "香港"],
+        "abroad_readiness": "直接出国"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["offer", "选择", "利弊", "建议"], ["港", "英国", "学校"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "先帮助用户分析选择，不要过早收网",
+      "rubric_notes": "应有分析和倾向性建议，不能直接空喊资源"
+    }
+  },
+  {
+    "case_id": "exe_007",
+    "tags": ["high_value", "early_stage"],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "预算一年60万，想冲美国前30，先说说怎么规划"}
+      ],
+      "profile": {
+        "educationStage": "高中",
+        "budget": {"amount": 60, "period": "YEAR"},
+        "destination_preference": ["美国"]
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "VIP_SERVICE"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["美国", "申请", "规划"]],
+      "expected_status": "VIP_SERVICE",
+      "node_goal": "像真人老手一样接住高净值客户并继续推进",
+      "rubric_notes": "先答问题，不要急着拉群，但要显得专业直接"
+    }
+  },
+  {
+    "case_id": "exe_008",
+    "tags": ["high_value", "handoff"],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "你好"},
+        {"type": "ai", "content": "同学您好，先说下目标。"},
+        {"type": "human", "content": "美本大二，想冲藤校。"},
+        {"type": "ai", "content": "预算和方向呢。"},
+        {"type": "human", "content": "预算一年80万，金融和数据都行。"},
+        {"type": "ai", "content": "这个背景不差。"},
+        {"type": "human", "content": "你们能怎么做。"},
+        {"type": "ai", "content": "能给你配更细的路。"},
+        {"type": "human", "content": "那细说说。"},
+        {"type": "ai", "content": "先看你实习和科研。"},
+        {"type": "human", "content": "都有一些，但我想听更具体。"},
+        {"type": "ai", "content": "可以。"},
+        {"type": "human", "content": "如果要尽快定，怎么推进。"},
+        {"type": "ai", "content": "这就到细节了。"},
+        {"type": "human", "content": "那你直接安排老师跟我聊吧"},
+        {"type": "ai", "content": "我来接一下。"},
+        {"type": "human", "content": "行"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "academic_background": "美本大二",
+        "budget": {"amount": 80, "period": "YEAR"},
+        "destination_preference": ["美国"]
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "VIP_SERVICE"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["顾问", "老师"], ["群"]],
+      "expected_status": "VIP_SERVICE",
+      "node_goal": "高价值客户对话过长后应顺滑拉群",
+      "rubric_notes": "不能再继续空聊，应直接安排真人顾问"
+    }
+  },
+  {
+    "case_id": "exe_009",
+    "tags": ["low_budget", "early_stage"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "总预算9万，最好给我个性价比高一点的方案"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "budget": {"amount": 9, "period": "TOTAL"}
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["预算", "性价比", "省"], ["方案", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "先给低预算用户更务实的方向，不要直接拉群",
+      "rubric_notes": "语气要直给，不能一上来就高大上"
+    }
+  },
+  {
+    "case_id": "exe_010",
+    "tags": ["low_budget", "handoff"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "你好"},
+        {"type": "ai", "content": "先说预算。"},
+        {"type": "human", "content": "9万总共。"},
+        {"type": "ai", "content": "那得走性价比路。"},
+        {"type": "human", "content": "我也知道。"},
+        {"type": "ai", "content": "还要看背景。"},
+        {"type": "human", "content": "双非本科，均分80。"},
+        {"type": "ai", "content": "这个可以拆。"},
+        {"type": "human", "content": "具体怎么拆。"},
+        {"type": "ai", "content": "得看国家取舍。"},
+        {"type": "human", "content": "那你直接安排老师。"},
+        {"type": "ai", "content": "可以。"},
+        {"type": "human", "content": "越快越好"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "academic_background": "双非，均分80",
+        "budget": {"amount": 9, "period": "TOTAL"}
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["顾问", "老师"], ["群"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "对话拉长且用户明确要真人时，应转人工",
+      "rubric_notes": "先接住预算焦虑，再顺势拉群"
+    }
+  },
+  {
+    "case_id": "exe_011",
+    "tags": ["art", "early_stage"],
+    "node_name": "art",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "我想申游戏设计，作品集现在很乱，先说说怎么准备"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "target_major": "游戏设计"
+      },
+      "last_intent": "ART_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["作品集", "portfolio", "项目集"], ["方向", "专业", "学校"]],
+      "expected_status": "VIP_SERVICE",
+      "node_goal": "体现艺术申请特性，先围绕作品集和方向展开",
+      "rubric_notes": "不能把艺术生当普通留学方案来聊"
+    }
+  },
+  {
+    "case_id": "exe_012",
+    "tags": ["human_handoff", "tool_closure"],
+    "node_name": "human_handoff",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "我拉个群，安排老师对接。",
+          "tool_calls": [{"id": "tool_1", "name": "summon_specialist_tool", "args": {}}],
+          "id": "response_1"
+        }
+      ],
+      "profile": {},
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING"
+    },
+    "expected": {
+      "required_message_types": ["tool"],
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "FINISHED",
+      "skip_rubric": true,
+      "node_goal": "闭环 tool call，避免协议错误"
+    }
+  },
+  {
+    "case_id": "exe_013",
+    "tags": ["human_handoff", "normal_reply"],
+    "node_name": "human_handoff",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "还是找真人老师说吧"}
+      ],
+      "profile": {},
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_keyword_groups": [["老师", "顾问", "真人"], ["安排", "对接", "稍后"]],
+      "expected_status": "FINISHED",
+      "node_goal": "安抚用户并确认真人顾问接手",
+      "rubric_notes": "不需要再追问资料，重点是让用户安心"
+    }
+  },
+  {
+    "case_id": "exe_014",
+    "tags": ["chit_chat", "casual"],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {"type": "human", "content": "你这说话风格还挺有意思"}
+      ],
+      "profile": {},
+      "last_intent": "CHIT_CHAT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "forbidden_keywords": ["tool", "summon_specialist_tool"],
+      "node_goal": "轻松回应闲聊，不要误入业务或拉群",
+      "rubric_notes": "口语化、轻松，不要突然卖方案"
+    }
+  }
+]
