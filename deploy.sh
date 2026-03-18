@@ -62,6 +62,8 @@ sync_files() {
   echo "🚀 同步本地工作区到服务器..."
   rsync -avz --delete \
     --exclude '.git' \
+    --exclude '.env' \
+    --exclude '.env.*' \
     --exclude '__pycache__' \
     --exclude '*.pyc' \
     --exclude '.DS_Store' \
