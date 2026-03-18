@@ -42,28 +42,6 @@
 - failure analysis 目录只保留少量关键节点，其余中间 run 做本地归档
 - 重要分数变化应写入单独 summary 文档，避免只存在日志里
 
-## 部署约定
+## 发布
 
-推荐顺序：
-
-1. 本地修改
-2. 本地测试
-3. 推送 GitHub
-4. 从本地工作区直接同步服务器
-5. 服务器验证版本、测试与进程状态
-
-不推荐把服务器 `git pull GitHub` 作为唯一发布方式，原因是网络链路不稳定时容易出现代码版本和本地验证结果不一致。
-
-## 发布后检查
-
-至少确认以下三项：
-
-- 本地 `git rev-parse --short HEAD`
-- `git rev-parse --short origin/main`
-- 服务器仓库 `git rev-parse --short HEAD`
-
-如果服务器仓库是脏工作树：
-
-- 先备份
-- 再 reset 或定向同步
-- 不直接无备份清理
+发布细节不再写在仓库文档里。默认入口是 `deploy.sh`，默认流程以 `baoshu-git-deploy` skill 为准。
