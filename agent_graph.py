@@ -8,7 +8,6 @@ import os
 import threading
 from typing import Any, Optional
 
-from langgraph.checkpoint.memory import MemorySaver
 from langgraph.checkpoint.postgres import PostgresSaver
 from langgraph.graph import END, StateGraph
 from psycopg.rows import dict_row
@@ -196,7 +195,7 @@ class GraphAppProxy:
 _graph_lock = threading.Lock()
 _checkpointer = None
 _checkpoint_pool: Optional[ConnectionPool] = None
-_graph_backend = "memory"
+_graph_backend = "uninitialized"
 app = GraphAppProxy()
 
 
@@ -240,24 +239,22 @@ def initialize_graph(database_url: Optional[str] = None) -> None:
             return
 
         checkpoint_db_url = _resolve_checkpoint_database_url(database_url)
+        if not checkpoint_db_url:
+            raise RuntimeError(
+                "DATABASE_URL 未配置，LangGraph checkpointer 无法初始化。"
+                " 当前部署不再允许回退到 MemorySaver。"
+            )
         try:
-            if checkpoint_db_url:
-                _checkpointer, _checkpoint_pool = _build_postgres_checkpointer(checkpoint_db_url)
-                _graph_backend = "postgres"
-                logger.info("🧠 LangGraph checkpointer: PostgresSaver")
-            else:
-                _checkpointer = MemorySaver()
-                _checkpoint_pool = None
-                _graph_backend = "memory"
-                logger.warning("🧠 LangGraph checkpointer fallback: MemorySaver (DATABASE_URL 未配置)")
-
+            _checkpointer, _checkpoint_pool = _build_postgres_checkpointer(checkpoint_db_url)
+            _graph_backend = "postgres"
+            logger.info("🧠 LangGraph checkpointer: PostgresSaver")
             app.set_graph(workflow.compile(checkpointer=_checkpointer))
         except Exception:
             if _checkpoint_pool is not None:
                 _checkpoint_pool.close()
             _checkpointer = None
             _checkpoint_pool = None
-            _graph_backend = "memory"
+            _graph_backend = "uninitialized"
             app.clear()
             raise
 
@@ -269,7 +266,7 @@ def close_graph() -> None:
             _checkpoint_pool.close()
         _checkpointer = None
         _checkpoint_pool = None
-        _graph_backend = "memory"
+        _graph_backend = "uninitialized"
         app.clear()
 
 

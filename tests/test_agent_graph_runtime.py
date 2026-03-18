@@ -5,11 +5,13 @@ def teardown_function():
     agent_graph.close_graph()
 
 
-def test_initialize_graph_falls_back_to_memory():
-    agent_graph.initialize_graph(database_url="")
-
-    assert agent_graph.get_graph_backend() == "memory"
-    assert agent_graph.app._graph is not None
+def test_initialize_graph_requires_database_url():
+    try:
+        agent_graph.initialize_graph(database_url="")
+    except RuntimeError as exc:
+        assert "DATABASE_URL 未配置" in str(exc)
+    else:
+        raise AssertionError("initialize_graph should fail when DATABASE_URL is missing")
 
 
 def test_initialize_graph_uses_postgres_checkpointer(monkeypatch):
