@@ -4,6 +4,65 @@
 
 暴叔 AI 是一个部署在企业微信和 Web 端的留学咨询智能体系统，负责消息防抖、客户画像提取、意图分类、动态路由、转人工与评测闭环。
 
+## 架构
+
+### 1. Macro Architecture
+
+```mermaid
+graph TD
+    User["直播间漏斗 & 企业微信端"] -->|Webhook 事件| NGINX[Nginx 反向代理]
+    NGINX -->|HTTP| FastAPI[FastAPI 后端]
+
+    subgraph FlowControl ["并发流控与持久化中台"]
+        FastAPI -->|消息防抖 / 进程锁| Redis[(Redis Buffer)]
+        FastAPI <-->|长记忆读写| DB[(PostgreSQL)]
+    end
+
+    subgraph CoreEngine ["LangGraph 智能体引擎"]
+        Redis -->|清洗后语义注入| AgentGraph["StateGraph / Multi-Agent 编排"]
+    end
+
+    AgentGraph -->|自动分流| PrivateDomain["私域运营 SOP"]
+    AgentGraph -->|高价值转接| Handoff["真人顾问池"]
+    Handoff --> Assign["动态顾问分配"]
+    Assign --> Target((精准顾问 1v1))
+
+    classDef io fill:#f9f9f9,stroke:#333,stroke-width:2px;
+    classDef core fill:#e2f0d9,stroke:#548235,stroke-width:2px;
+    classDef data fill:#dae8fc,stroke:#6c8ebf,stroke-width:2px;
+    class User,Handoff,PrivateDomain,Target io;
+    class FastAPI,AgentGraph,Assign core;
+    class Redis,DB data;
+```
+
+### 2. Micro Agent Logic
+
+```mermaid
+graph LR
+    subgraph Perception ["并行感知层"]
+        Entry(("State Input")) --> Classifier["意图分类 / Classifier"]
+        Entry --> Extractor["画像提取 / Extractor"]
+    end
+
+    subgraph Decision ["纯逻辑决策层"]
+        Classifier --> Merge["State Merge"]
+        Extractor --> Merge
+        Merge --> Router{"动态路由 / Router"}
+    end
+
+    subgraph Execution ["执行层"]
+        Router --> Consultant["常规咨询"]
+        Router --> HighValue["高净值顾问"]
+        Router --> Art["艺术顾问"]
+        Router --> LowBudget["低预算顾问"]
+        Router --> Interviewer["信息补全"]
+    end
+
+    style Perception fill:#fcfaf2,stroke:#d6b656,stroke-width:1px
+    style Decision fill:#f5f5f5,stroke:#666,stroke-width:1px
+    style Execution fill:#e8eef9,stroke:#6c8ebf,stroke-width:1px
+```
+
 ## 核心能力
 
 - 企业微信与 Web 双入口接入
