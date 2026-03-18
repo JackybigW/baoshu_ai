@@ -125,27 +125,9 @@ PYTHONPATH=. python nodes_eval/extractor_eval/run_eval.py --concurrency 8
 - [failure_analysis.py](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/failure_analysis.py)
 - [eval_progress_20260317.md](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/eval_progress_20260317.md)
 
-## 部署约定
+## 部署
 
-默认发布方式不是让服务器直接依赖 `git pull GitHub`。
-
-推荐流程：
-
-1. 本地开发与测试
-2. 推送 GitHub 作为版本留档
-3. 从本地工作区直接同步文件到服务器
-4. 服务器上做测试、重启和版本核对
-
-原因：
-
-- 国内网络环境下，服务器直拉 GitHub 可能有延迟或失败
-- 本地直传可以保证服务器拿到的内容与本地工作区完全一致
-
-[deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh) 保留为本地到服务器的同步脚本，但实际发布时仍应核对：
-
-- 本地 `HEAD`
-- `origin/main`
-- 服务器 `HEAD`
+默认走 [deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh)。详细发布流程已迁移到 `baoshu-git-deploy` skill，不再在仓库文档中重复维护。
 
 ## 数据与文件约定
 
@@ -156,7 +138,7 @@ PYTHONPATH=. python nodes_eval/extractor_eval/run_eval.py --concurrency 8
 
 ## 相关脚本
 
-- [deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh): 本地同步服务器
+- [deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh): 发布入口
 - [scripts/setup_postgres_server.sh](/Users/jackywang/Documents/baoshu_ai/scripts/setup_postgres_server.sh): 初始化 PostgreSQL
 
 ## 说明

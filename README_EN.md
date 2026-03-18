@@ -123,27 +123,9 @@ Key files:
 - [failure_analysis.py](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/failure_analysis.py)
 - [eval_progress_20260317.md](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/eval_progress_20260317.md)
 
-## Deployment Policy
+## Deployment
 
-Do not treat `git pull` on the server as the only release mechanism.
-
-Preferred flow:
-
-1. Develop and test locally
-2. Push to GitHub for source-of-truth history
-3. Sync files directly from the local workspace to the server
-4. Verify tests, restart, and compare versions across local, GitHub, and server
-
-Why:
-
-- Pulling from GitHub directly can be unstable or slow in mainland China
-- Direct local-to-server sync guarantees byte-level parity with the validated local workspace
-
-[deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh) remains the local-to-server sync script, but releases should still verify:
-
-- local `HEAD`
-- `origin/main`
-- server `HEAD`
+Use [deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh) as the default release entrypoint. The detailed release workflow now lives in the `baoshu-git-deploy` skill instead of repository docs.
 
 ## File Hygiene Rules
 
@@ -154,7 +136,7 @@ Why:
 
 ## Related Scripts
 
-- [deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh): local-to-server sync
+- [deploy.sh](/Users/jackywang/Documents/baoshu_ai/deploy.sh): release entrypoint
 - [scripts/setup_postgres_server.sh](/Users/jackywang/Documents/baoshu_ai/scripts/setup_postgres_server.sh): PostgreSQL bootstrap
 
 ## Notes
