@@ -100,9 +100,9 @@ if [[ -n "\$(git status --porcelain)" ]]; then
   echo "🧷 已备份服务器脏工作树到: \$backup_dir"
 fi
 
-git fetch "$DEPLOY_BUNDLE_NAME" "$LOCAL_BRANCH:refs/heads/$LOCAL_BRANCH"
-git checkout -B "$LOCAL_BRANCH" "$LOCAL_HEAD"
+git fetch "$DEPLOY_BUNDLE_NAME" "$LOCAL_HEAD:refs/codex/deploy"
 git reset --hard "$LOCAL_HEAD"
+git update-ref -d refs/codex/deploy || true
 rm -f "$DEPLOY_BUNDLE_NAME"
 
 if ! command -v redis-server >/dev/null 2>&1; then
