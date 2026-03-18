@@ -7,6 +7,10 @@ REMOTE_PATH="${REMOTE_PATH:-/home/ubuntu/baoshu_ai}"
 ENV_NAME="${ENV_NAME:-agent}"
 REMOTE_CONDA_SH="${REMOTE_CONDA_SH:-/root/miniconda3/etc/profile.d/conda.sh}"
 LOCAL_CONDA_SH="${LOCAL_CONDA_SH:-/opt/miniconda3/etc/profile.d/conda.sh}"
+DEPLOY_BUNDLE_NAME="${DEPLOY_BUNDLE_NAME:-.codex_deploy.bundle}"
+
+LOCAL_BRANCH="$(git branch --show-current)"
+LOCAL_HEAD="$(git rev-parse HEAD)"
 
 QUICK_TESTS=(
   tests/test_profile_state.py
@@ -39,9 +43,19 @@ run_local_tests() {
 }
 
 print_local_versions() {
-  echo "📍 Local branch: $(git branch --show-current)"
-  echo "📍 Local HEAD:   $(git rev-parse --short HEAD)"
+  echo "📍 Local branch: $LOCAL_BRANCH"
+  echo "📍 Local HEAD:   $(git rev-parse --short "$LOCAL_HEAD")"
   echo "📍 Origin/main:  $(git rev-parse --short origin/main 2>/dev/null || echo 'unavailable')"
+}
+
+cleanup_local_bundle() {
+  rm -f "$DEPLOY_BUNDLE_NAME"
+}
+
+create_deploy_bundle() {
+  cleanup_local_bundle
+  echo "📦 生成本地部署 bundle..."
+  git bundle create "$DEPLOY_BUNDLE_NAME" "$LOCAL_BRANCH"
 }
 
 sync_files() {
@@ -72,6 +86,24 @@ remote_deploy() {
 set -euo pipefail
 
 cd "$REMOTE_PATH"
+
+if [[ ! -f "$DEPLOY_BUNDLE_NAME" ]]; then
+  echo "❌ 缺少部署 bundle: $DEPLOY_BUNDLE_NAME"
+  exit 1
+fi
+
+if [[ -n "\$(git status --porcelain)" ]]; then
+  backup_dir="\$HOME/baoshu_ai_git_backup_\$(date +%Y%m%d_%H%M%S)"
+  mkdir -p "\$backup_dir"
+  git status --short > "\$backup_dir/status.txt"
+  git diff > "\$backup_dir/working_tree.patch"
+  echo "🧷 已备份服务器脏工作树到: \$backup_dir"
+fi
+
+git fetch "$DEPLOY_BUNDLE_NAME" "$LOCAL_BRANCH:refs/heads/$LOCAL_BRANCH"
+git checkout -B "$LOCAL_BRANCH" "$LOCAL_HEAD"
+git reset --hard "$LOCAL_HEAD"
+rm -f "$DEPLOY_BUNDLE_NAME"
 
 if ! command -v redis-server >/dev/null 2>&1; then
   echo "❌ Redis 未安装，请先完成服务器基础环境初始化。"
@@ -115,6 +147,7 @@ fi
 echo "✅ 服务启动成功"
 echo "📍 Server branch: \$(git branch --show-current || true)"
 echo "📍 Server HEAD:   \$(git rev-parse --short HEAD || true)"
+echo "📍 Server status: \$(git status --short | wc -l | tr -d ' ') modified entries"
 tail -n 10 output.log
 EOF
 }
@@ -145,7 +178,9 @@ read -r -p "[Default: y]: " run_remote_tests
 run_remote_tests="${run_remote_tests:-y}"
 
 print_local_versions
+create_deploy_bundle
 sync_files
 remote_deploy "$install_deps" "$run_remote_tests"
+cleanup_local_bundle
 
 echo "🎉 部署完成"
