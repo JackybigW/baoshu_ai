@@ -2,7 +2,7 @@
 
 **English** | [中文](./README.md)
 
-Uncle Bao AI is a study-abroad consultation agent system deployed on Enterprise WeChat and the web. It handles message debouncing, profile extraction, intent classification, deterministic routing, human handoff, and extractor evaluation.
+Uncle Bao AI is a study-abroad consultation agent system deployed on Enterprise WeChat and the web. It handles message debouncing, profile extraction, intent classification, deterministic routing, human handoff, and node-level eval pipelines.
 
 ## Core Capabilities
 
@@ -37,6 +37,9 @@ Uncle Bao AI is a study-abroad consultation agent system deployed on Enterprise 
 ├── config/                      # Prompts and settings
 ├── tests/                       # Unit and integration tests
 ├── nodes_eval/extractor_eval/   # Extractor eval data and scripts
+├── nodes_eval/classifier_eval/  # Classifier eval data and scripts
+├── nodes_eval/router_eval/      # Router eval data and scripts
+├── nodes_eval/execution_eval/   # Execution-node eval data and scripts
 ├── scripts/                     # Environment bootstrap scripts
 ├── static/                      # Web assets
 └── data/                        # Shared data files
@@ -55,11 +58,14 @@ python main.py
 PYTHONPATH=. pytest tests -q
 ```
 
-## Extractor Eval
+## Eval Pipelines
 
 ```bash
 PYTHONPATH=. python nodes_eval/extractor_eval/generate_dataset.py
 PYTHONPATH=. python nodes_eval/extractor_eval/run_eval.py --concurrency 8
+PYTHONPATH=. python nodes_eval/classifier_eval/run_eval.py --concurrency 8
+PYTHONPATH=. python nodes_eval/router_eval/run_eval.py
+PYTHONPATH=. python nodes_eval/execution_eval/run_eval.py
 ```
 
 Key files:
@@ -68,3 +74,6 @@ Key files:
 - [benchmark.py](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/benchmark.py)
 - [failure_analysis.py](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/failure_analysis.py)
 - [eval_progress_20260317.md](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/eval_progress_20260317.md)
+- [classifier_eval](/Users/jackywang/Documents/baoshu_ai/nodes_eval/classifier_eval/README.md)
+- [router_eval](/Users/jackywang/Documents/baoshu_ai/nodes_eval/router_eval/README.md)
+- [execution_eval](/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/README.md)

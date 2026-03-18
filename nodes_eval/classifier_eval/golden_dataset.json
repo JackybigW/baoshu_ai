@@ -1,0 +1,350 @@
+[
+  {
+    "case_id": "clf_001",
+    "tags": ["handoff", "non_text_channel"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "别打字了，直接给我个电话聊吧"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START"
+    },
+    "expected": {
+      "intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_002",
+    "tags": ["handoff", "negative_emotion"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "我不想折腾了，直接找真人顾问说吧"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_003",
+    "tags": ["sales_ready", "product_question"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "你说的那个马来亚预科项目靠谱吗，能具体讲讲吗"}
+      ],
+      "profile": {
+        "educationStage": "高中",
+        "destination_preference": ["马来西亚"]
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "SALES_READY",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_004",
+    "tags": ["sales_ready", "positive_signal"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "这个方案可以的，那签约流程怎么走"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "academic_background": "GPA 3.5",
+        "destination_preference": ["英国"]
+      },
+      "last_intent": null,
+      "dialog_status": "PERSUADING"
+    },
+    "expected": {
+      "intent": "SALES_READY",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_005",
+    "tags": ["decision_support", "offer_compare"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "港三和爱丁堡的offer我该怎么选"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "academic_background": "211，均分86"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "DECISION_SUPPORT",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_006",
+    "tags": ["decision_support", "path_compare"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "是先读预科还是直接申硕更划算，你帮我拍个板"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "academic_background": "双非，均分80"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "DECISION_SUPPORT",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_007",
+    "tags": ["art", "portfolio"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "我想申游戏设计，作品集这块你们怎么做"}
+      ],
+      "profile": {
+        "educationStage": "本科"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "ART_CONSULTING",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_008",
+    "tags": ["art", "major_boundary"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "纯艺和插画我都在看，主要担心作品集不够强"}
+      ],
+      "profile": {
+        "educationStage": "高中"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "ART_CONSULTING",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_009",
+    "tags": ["high_value", "budget_signal"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "预算一年60万，想看看英国G5怎么规划"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START"
+    },
+    "expected": {
+      "intent": "HIGH_VALUE",
+      "dialog_status": "VIP_SERVICE"
+    }
+  },
+  {
+    "case_id": "clf_010",
+    "tags": ["high_value", "overseas_background"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "我现在在美本读大二，后面想冲藤校硕士"}
+      ],
+      "profile": {
+        "educationStage": "本科"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "HIGH_VALUE",
+      "dialog_status": "VIP_SERVICE"
+    }
+  },
+  {
+    "case_id": "clf_011",
+    "tags": ["low_budget", "debt_keyword"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "家里还在还债，能不能给我个10万内的方案"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START"
+    },
+    "expected": {
+      "intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    }
+  },
+  {
+    "case_id": "clf_012",
+    "tags": ["low_budget", "budget_signal"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "总预算8万，最好别太折腾"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START"
+    },
+    "expected": {
+      "intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    }
+  },
+  {
+    "case_id": "clf_013",
+    "tags": ["need_consulting", "generic_planning"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "我是大三，想了解下英国读硕士怎么准备"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START"
+    },
+    "expected": {
+      "intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    }
+  },
+  {
+    "case_id": "clf_014",
+    "tags": ["greeting", "low_signal"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "你好呀"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START"
+    },
+    "expected": {
+      "intent": "GREETING",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_015",
+    "tags": ["chit_chat", "low_signal"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "你还挺直接，哈哈"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "CHIT_CHAT",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_016",
+    "tags": ["sticky", "high_value"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "先给我讲讲具体方案"}
+      ],
+      "profile": {
+        "budget": {"amount": 80, "period": "TOTAL"}
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "HIGH_VALUE",
+      "dialog_status": "VIP_SERVICE"
+    }
+  },
+  {
+    "case_id": "clf_017",
+    "tags": ["sticky", "sales_ready"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "嗯，可以继续说"}
+      ],
+      "profile": {
+        "educationStage": "本科",
+        "academic_background": "海本，GPA 3.6"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING"
+    },
+    "expected": {
+      "intent": "SALES_READY",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_018",
+    "tags": ["guardrail", "high_budget_override"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "预算40个总共，先看看香港和英国怎么配"}
+      ],
+      "profile": {
+        "budget": {"amount": 40, "period": "TOTAL"}
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    }
+  },
+  {
+    "case_id": "clf_019",
+    "tags": ["boundary", "art_vs_high_value"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "孩子在国际学校，预算挺足，想申电影导演"}
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "ART_CONSULTING",
+      "dialog_status": null
+    }
+  },
+  {
+    "case_id": "clf_020",
+    "tags": ["boundary", "low_signal_implied_intent"],
+    "input": {
+      "messages": [
+        {"type": "human", "content": "如果只考虑港澳，不出国的话，有什么路子"}
+      ],
+      "profile": {
+        "educationStage": "高中"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    }
+  }
+]

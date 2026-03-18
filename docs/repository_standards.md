@@ -35,10 +35,11 @@
 - 平台垃圾文件，如 `.DS_Store`、`._*`
 - 中间态 eval 产物，除非明确要作为基线保留
 
-## Extractor Eval 约定
+## Eval 约定
 
 - 黄金集位于 `nodes_eval/extractor_eval/golden_dataset.json`
 - 评分逻辑位于 `nodes_eval/extractor_eval/benchmark.py`
+- 其他节点评测统一位于 `nodes_eval/classifier_eval/`、`nodes_eval/router_eval/`、`nodes_eval/execution_eval/`
 - failure analysis 目录只保留少量关键节点，其余中间 run 做本地归档
 - 重要分数变化应写入单独 summary 文档，避免只存在日志里
 

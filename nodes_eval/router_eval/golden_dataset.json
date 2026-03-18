@@ -1,0 +1,187 @@
+[
+  {
+    "case_id": "rtr_001",
+    "tags": ["human_handoff", "highest_priority"],
+    "input": {
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "human_handoff"}
+  },
+  {
+    "case_id": "rtr_002",
+    "tags": ["casual", "greeting"],
+    "input": {
+      "last_intent": "GREETING",
+      "dialog_status": "START",
+      "profile": {}
+    },
+    "expected": {"route": "chit_chat"}
+  },
+  {
+    "case_id": "rtr_003",
+    "tags": ["casual", "chit_chat"],
+    "input": {
+      "last_intent": "CHIT_CHAT",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "chit_chat"}
+  },
+  {
+    "case_id": "rtr_004",
+    "tags": ["sales_ready", "fast_track"],
+    "input": {
+      "last_intent": "SALES_READY",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "consultant"}
+  },
+  {
+    "case_id": "rtr_005",
+    "tags": ["decision_support", "fast_track"],
+    "input": {
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "consultant"}
+  },
+  {
+    "case_id": "rtr_006",
+    "tags": ["high_value", "status_override"],
+    "input": {
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "VIP_SERVICE",
+      "profile": {}
+    },
+    "expected": {"route": "high_value"}
+  },
+  {
+    "case_id": "rtr_007",
+    "tags": ["high_value", "intent_lane"],
+    "input": {
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "high_value"}
+  },
+  {
+    "case_id": "rtr_008",
+    "tags": ["art", "intent_lane"],
+    "input": {
+      "last_intent": "ART_CONSULTING",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "art_director"}
+  },
+  {
+    "case_id": "rtr_009",
+    "tags": ["low_budget", "intent_lane"],
+    "input": {
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING",
+      "profile": {}
+    },
+    "expected": {"route": "low_budget"}
+  },
+  {
+    "case_id": "rtr_010",
+    "tags": ["low_budget", "budget_fallback"],
+    "input": {
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING",
+      "profile": {
+        "budget": {"amount": 8, "period": "TOTAL"}
+      }
+    },
+    "expected": {"route": "low_budget"}
+  },
+  {
+    "case_id": "rtr_011",
+    "tags": ["profiling", "missing_education"],
+    "input": {
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "START",
+      "profile": {}
+    },
+    "expected": {"route": "interviewer"}
+  },
+  {
+    "case_id": "rtr_012",
+    "tags": ["profiling", "missing_abroad_readiness"],
+    "input": {
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING",
+      "profile": {
+        "educationStage": "高中",
+        "academic_background": "高二，均分86",
+        "budget": {"amount": 45, "period": "TOTAL"},
+        "destination_preference": ["英国"]
+      }
+    },
+    "expected": {"route": "interviewer"}
+  },
+  {
+    "case_id": "rtr_013",
+    "tags": ["complete_profile", "normal_consulting"],
+    "input": {
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING",
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "211，均分84",
+        "budget": {"amount": 35, "period": "TOTAL"},
+        "destination_preference": ["英国"],
+        "language_level": "雅思6.5"
+      }
+    },
+    "expected": {"route": "consultant"}
+  },
+  {
+    "case_id": "rtr_014",
+    "tags": ["complete_profile", "high_school_ready"],
+    "input": {
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING",
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高三，均分88",
+        "budget": {"amount": 60, "period": "TOTAL"},
+        "destination_preference": ["香港"],
+        "abroad_readiness": "需要过渡/暂缓"
+      }
+    },
+    "expected": {"route": "consultant"}
+  },
+  {
+    "case_id": "rtr_015",
+    "tags": ["priority", "sales_over_identity"],
+    "input": {
+      "last_intent": "SALES_READY",
+      "dialog_status": "VIP_SERVICE",
+      "profile": {
+        "budget": {"amount": 80, "period": "TOTAL"}
+      }
+    },
+    "expected": {"route": "consultant"}
+  },
+  {
+    "case_id": "rtr_016",
+    "tags": ["priority", "decision_over_art"],
+    "input": {
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING",
+      "profile": {
+        "target_major": "游戏设计"
+      }
+    },
+    "expected": {"route": "consultant"}
+  }
+]

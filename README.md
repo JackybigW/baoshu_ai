@@ -70,7 +70,7 @@ graph LR
 - `classifier` 与 `extractor` 并行感知
 - 基于 Python 规则的确定性路由
 - 顾问节点分流：常规、高净值、艺术、低预算、信息补全
-- extractor 评测流水线与 failure analysis
+- extractor / classifier / router / execution 节点评测流水线与 failure analysis
 
 ## 技术栈
 
@@ -96,6 +96,9 @@ graph LR
 ├── config/                      # prompts 与配置项
 ├── tests/                       # 单元测试与集成测试
 ├── nodes_eval/extractor_eval/   # extractor eval 数据、脚本、failure analysis
+├── nodes_eval/classifier_eval/  # classifier eval 数据、脚本、failure analysis
+├── nodes_eval/router_eval/      # router eval 数据、脚本、failure analysis
+├── nodes_eval/execution_eval/   # 执行层节点 eval 数据、脚本、failure analysis
 ├── scripts/                     # 环境初始化脚本
 ├── static/                      # Web 静态资源
 └── data/                        # 共享数据文件
@@ -114,11 +117,14 @@ python main.py
 PYTHONPATH=. pytest tests -q
 ```
 
-## Extractor Eval
+## Eval Pipelines
 
 ```bash
 PYTHONPATH=. python nodes_eval/extractor_eval/generate_dataset.py
 PYTHONPATH=. python nodes_eval/extractor_eval/run_eval.py --concurrency 8
+PYTHONPATH=. python nodes_eval/classifier_eval/run_eval.py --concurrency 8
+PYTHONPATH=. python nodes_eval/router_eval/run_eval.py
+PYTHONPATH=. python nodes_eval/execution_eval/run_eval.py
 ```
 
 关键文件：
@@ -127,3 +133,6 @@ PYTHONPATH=. python nodes_eval/extractor_eval/run_eval.py --concurrency 8
 - [benchmark.py](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/benchmark.py)
 - [failure_analysis.py](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/failure_analysis.py)
 - [eval_progress_20260317.md](/Users/jackywang/Documents/baoshu_ai/nodes_eval/extractor_eval/eval_progress_20260317.md)
+- [classifier_eval](/Users/jackywang/Documents/baoshu_ai/nodes_eval/classifier_eval/README.md)
+- [router_eval](/Users/jackywang/Documents/baoshu_ai/nodes_eval/router_eval/README.md)
+- [execution_eval](/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/README.md)
