@@ -1,0 +1,22 @@
+[Unit]
+Description=Baoshu AI FastAPI service
+After=network-online.target redis.service postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/ubuntu/baoshu_ai
+EnvironmentFile=-/home/ubuntu/baoshu_ai/.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/root/miniconda3/envs/agent/bin/python main.py
+Restart=always
+RestartSec=5
+KillSignal=SIGTERM
+TimeoutStopSec=45
+SyslogIdentifier=baoshu-ai
+StandardOutput=append:/home/ubuntu/baoshu_ai/output.log
+StandardError=append:/home/ubuntu/baoshu_ai/output.log
+
+[Install]
+WantedBy=multi-user.target
