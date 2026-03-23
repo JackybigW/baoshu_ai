@@ -614,8 +614,10 @@ restart_with_systemd() {
   local service_name="$1"
 
   log "🔄 通过 systemd 重启服务: $service_name"
+  stop_existing_app_process
   systemctl reset-failed "$service_name" || true
-  systemctl restart "$service_name"
+  systemctl stop "$service_name" || true
+  systemctl start "$service_name"
   systemctl is-active --quiet "$service_name" || {
     journalctl -u "$service_name" -n 50 --no-pager || true
     die "systemd 服务未进入 active 状态: $service_name"
@@ -627,28 +629,10 @@ restart_with_systemd() {
 
 restart_without_systemd() {
   local python_bin
-  local process_pattern
-
-  python_bin="$(command -v python)"
-  process_pattern="$python_bin main.py"
 
   log "⚠️ 未使用 systemd，回退到兼容重启模式"
-  if pgrep -f "$process_pattern" >/dev/null 2>&1; then
-    pkill -TERM -f "$process_pattern" || true
-    for _ in $(seq 1 20); do
-      if ! pgrep -f "$process_pattern" >/dev/null 2>&1; then
-        break
-      fi
-      sleep 1
-    done
-
-    if pgrep -f "$process_pattern" >/dev/null 2>&1; then
-      log "⚠️ 进程未在宽限期内退出，执行强制停止"
-      pkill -KILL -f "$process_pattern" || true
-      sleep 2
-    fi
-  fi
-
+  stop_existing_app_process
+  python_bin="$(command -v python)"
   nohup "$python_bin" main.py > "$REMOTE_LOG_FILE" 2>&1 < /dev/null &
   sleep 2
 
@@ -677,15 +661,46 @@ restart_service() {
   restart_without_systemd
 }
 
+stop_existing_app_process() {
+  local python_bin
+  local process_pattern
+
+  python_bin="$(command -v python)"
+  process_pattern="$python_bin main.py"
+
+  if pgrep -f "$process_pattern" >/dev/null 2>&1; then
+    pkill -TERM -f "$process_pattern" || true
+    for _ in $(seq 1 20); do
+      if ! pgrep -f "$process_pattern" >/dev/null 2>&1; then
+        break
+      fi
+      sleep 1
+    done
+
+    if pgrep -f "$process_pattern" >/dev/null 2>&1; then
+      log "⚠️ 进程未在宽限期内退出，执行强制停止"
+      pkill -KILL -f "$process_pattern" || true
+      sleep 2
+    fi
+  fi
+}
+
 collect_runtime_logs() {
   local logs=""
+  local file_logs=""
 
   if [[ "$restart_mode" == "systemd" ]] && [[ -n "$current_service" ]] && command -v journalctl >/dev/null 2>&1; then
     logs="$(journalctl -u "$current_service" -n 200 --no-pager 2>/dev/null || true)"
   fi
 
-  if [[ -z "$logs" ]] && [[ -f "$REMOTE_LOG_FILE" ]]; then
-    logs="$(tail -n 200 "$REMOTE_LOG_FILE" 2>/dev/null || true)"
+  if [[ -f "$REMOTE_LOG_FILE" ]]; then
+    file_logs="$(tail -n 200 "$REMOTE_LOG_FILE" 2>/dev/null || true)"
+  fi
+
+  if [[ -n "$logs" && -n "$file_logs" ]]; then
+    logs="$logs"$'\n'"$file_logs"
+  elif [[ -z "$logs" ]]; then
+    logs="$file_logs"
   fi
 
   printf '%s' "$logs"
@@ -693,13 +708,19 @@ collect_runtime_logs() {
 
 print_runtime_logs() {
   local lines="${1:-20}"
+  local printed="n"
 
   if [[ "$restart_mode" == "systemd" ]] && [[ -n "$current_service" ]] && command -v journalctl >/dev/null 2>&1; then
     journalctl -u "$current_service" -n "$lines" --no-pager || true
-    return 0
+    printed="y"
   fi
 
-  tail -n "$lines" "$REMOTE_LOG_FILE" || true
+  if [[ -f "$REMOTE_LOG_FILE" ]]; then
+    if [[ "$printed" == "y" ]]; then
+      log "----- tail $REMOTE_LOG_FILE -----"
+    fi
+    tail -n "$lines" "$REMOTE_LOG_FILE" || true
+  fi
 }
 
 wait_for_health() {
