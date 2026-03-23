@@ -20,6 +20,7 @@ SYNC_MODE="${SYNC_MODE:-safe}"
 USE_SYSTEMD="${USE_SYSTEMD:-auto}"
 SYSTEMD_SERVICE="${SYSTEMD_SERVICE:-}"
 SYSTEMD_CANDIDATES_CSV="${SYSTEMD_CANDIDATES_CSV:-baoshu-ai.service,baoshu_ai.service,baoshu-ai,baoshu_ai,baoshu}"
+SYSTEMD_UNIT_SOURCE_PATH="${SYSTEMD_UNIT_SOURCE_PATH:-deploy/systemd/baoshu-ai.service}"
 REMOTE_HEALTHCHECK_URL="${REMOTE_HEALTHCHECK_URL:-http://127.0.0.1:8000/api/chat-config}"
 HEALTHCHECK_TIMEOUT="${HEALTHCHECK_TIMEOUT:-90}"
 HEALTHCHECK_INTERVAL="${HEALTHCHECK_INTERVAL:-3}"
@@ -77,6 +78,7 @@ Options:
 Environment overrides:
   SERVER_IP, SERVER_USER, REMOTE_PATH, ENV_NAME, REMOTE_CONDA_SH, LOCAL_CONDA_SH,
   REMOTE_LOG_FILE, GIT_REMOTE, MAIN_BRANCH, SYSTEMD_CANDIDATES_CSV,
+  SYSTEMD_UNIT_SOURCE_PATH,
   PIP_INDEX_URL, PIP_TRUSTED_HOST.
 EOF
 }
@@ -387,6 +389,7 @@ RUN_REMOTE_TESTS=$(printf '%q' "$RUN_REMOTE_TESTS") \
 USE_SYSTEMD=$(printf '%q' "$USE_SYSTEMD") \
 SYSTEMD_SERVICE=$(printf '%q' "$SYSTEMD_SERVICE") \
 SYSTEMD_CANDIDATES_CSV=$(printf '%q' "$SYSTEMD_CANDIDATES_CSV") \
+SYSTEMD_UNIT_SOURCE_PATH=$(printf '%q' "$SYSTEMD_UNIT_SOURCE_PATH") \
 REMOTE_HEALTHCHECK_URL=$(printf '%q' "$REMOTE_HEALTHCHECK_URL") \
 HEALTHCHECK_TIMEOUT=$(printf '%q' "$HEALTHCHECK_TIMEOUT") \
 HEALTHCHECK_INTERVAL=$(printf '%q' "$HEALTHCHECK_INTERVAL") \
@@ -581,6 +584,32 @@ find_systemd_service() {
   return 1
 }
 
+install_systemd_unit_if_present() {
+  local source_path="$SYSTEMD_UNIT_SOURCE_PATH"
+  local unit_name=""
+  local install_path=""
+
+  [[ -f "$source_path" ]] || return 0
+  command -v systemctl >/dev/null 2>&1 || die "检测到 systemd unit 文件，但服务器没有 systemctl"
+
+  if [[ -n "$SYSTEMD_SERVICE" ]]; then
+    unit_name="$SYSTEMD_SERVICE"
+  else
+    unit_name="$(basename "$source_path")"
+    SYSTEMD_SERVICE="$unit_name"
+  fi
+
+  install_path="/etc/systemd/system/$unit_name"
+  if ! cmp -s "$source_path" "$install_path"; then
+    log "🧩 安装/更新 systemd unit: $unit_name"
+    cp "$source_path" "$install_path"
+    chmod 644 "$install_path"
+    systemctl daemon-reload
+  fi
+
+  systemctl enable "$unit_name" >/dev/null
+}
+
 restart_with_systemd() {
   local service_name="$1"
 
@@ -733,6 +762,7 @@ validate_wecom_env
 activate_conda_env
 install_dependencies_if_needed
 run_remote_tests_if_needed
+install_systemd_unit_if_present
 restart_service
 wait_for_health
 verify_runtime_signals
