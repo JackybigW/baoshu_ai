@@ -96,6 +96,8 @@ DEFAULT_MODEL_SPECS: Dict[str, Dict[str, Any]] = {
 DEEPSEEK_MODEL = "deepseek"
 GEMINI_PRO = "gemini_pro"
 GEMINI_FLASH = "gemini_flash"
+PRIMARY_STRATEGY = "primary"
+BACKUP_FIRST_STRATEGY = "backup_first"
 
 
 def _normalize_model_key(model_id: str) -> str:
@@ -114,6 +116,13 @@ def resolve_llm_key(model_id: str) -> str:
 
 def list_supported_llms() -> List[str]:
     return sorted(DEFAULT_MODEL_SPECS.keys())
+
+
+def normalize_llm_strategy(strategy: Optional[str]) -> str:
+    normalized = str(strategy or PRIMARY_STRATEGY).strip().lower().replace("-", "_")
+    if normalized in {"backup", "backup_first", "backup_chain", "fallback", "fallback_first"}:
+        return BACKUP_FIRST_STRATEGY
+    return PRIMARY_STRATEGY
 
 
 def get_llm_descriptor(model_id: str, *, model_name: Optional[str] = None) -> Dict[str, Any]:
@@ -266,6 +275,22 @@ def _combine_with_fallbacks(
     return None
 
 
+def _build_chain_from_models(
+    model_ids: List[str],
+    *,
+    temperature: float,
+    allow_missing: bool = True,
+    **kwargs: Any,
+) -> Optional[BaseChatModel]:
+    llms = [
+        get_llm(model_id, temperature=temperature, allow_missing=allow_missing, **kwargs)
+        for model_id in model_ids
+    ]
+    primary = llms[0] if llms else None
+    backups = llms[1:] if len(llms) > 1 else []
+    return _combine_with_fallbacks(primary, backups)
+
+
 def get_deepseek_llm(
     temperature: float = 0,
     *,
@@ -289,15 +314,46 @@ def get_deepseek_llm(
     return _combine_with_fallbacks(primary, [backup])
 
 
-def get_backend_llm(temperature: float = 0) -> Optional[BaseChatModel]:
-    primary = get_deepseek_llm(temperature=temperature)
-    backup = get_llm(GEMINI_FLASH, temperature=temperature)
-    backup_2 = get_llm("doubao", temperature=temperature)
-    return _combine_with_fallbacks(primary, [backup, backup_2])
+def _get_backend_llm_with_strategy(
+    *,
+    temperature: float = 0,
+    strategy: str = PRIMARY_STRATEGY,
+) -> Optional[BaseChatModel]:
+    normalized_strategy = normalize_llm_strategy(strategy)
+    if normalized_strategy == BACKUP_FIRST_STRATEGY:
+        return _build_chain_from_models(
+            [GEMINI_FLASH, "doubao", DEEPSEEK_MODEL],
+            temperature=temperature,
+        )
+    return _build_chain_from_models(
+        [DEEPSEEK_MODEL, GEMINI_FLASH, "doubao"],
+        temperature=temperature,
+    )
 
 
-def get_frontend_llm(temperature: float = 0.7) -> Optional[BaseChatModel]:
-    primary = get_deepseek_llm(temperature=temperature)
-    backup = get_llm(GEMINI_PRO, temperature=temperature)
-    backup_2 = get_llm("doubao", temperature=temperature)
-    return _combine_with_fallbacks(primary, [backup, backup_2])
+def get_backend_llm(
+    temperature: float = 0,
+    *,
+    strategy: str = PRIMARY_STRATEGY,
+) -> Optional[BaseChatModel]:
+    return _get_backend_llm_with_strategy(
+        temperature=temperature,
+        strategy=strategy,
+    )
+
+
+def get_frontend_llm(
+    temperature: float = 0.7,
+    *,
+    strategy: str = PRIMARY_STRATEGY,
+) -> Optional[BaseChatModel]:
+    normalized_strategy = normalize_llm_strategy(strategy)
+    if normalized_strategy == BACKUP_FIRST_STRATEGY:
+        return _build_chain_from_models(
+            [GEMINI_PRO, "doubao", DEEPSEEK_MODEL],
+            temperature=temperature,
+        )
+    return _build_chain_from_models(
+        [DEEPSEEK_MODEL, GEMINI_PRO, "doubao"],
+        temperature=temperature,
+    )

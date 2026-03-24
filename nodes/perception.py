@@ -13,7 +13,12 @@ from typing import List, Optional, Any, Union, Dict, Sequence
 from pydantic import BaseModel
 from langchain_core.messages import SystemMessage
 from state import AgentState, IntentResult, CustomerProfile, reduce_profile
-from utils.llm_factory import get_backend_llm, get_llm
+from utils.llm_factory import (
+    BACKUP_FIRST_STRATEGY,
+    get_backend_llm,
+    get_llm,
+    normalize_llm_strategy,
+)
 from utils.logger import logger
 
 llm = get_backend_llm()
@@ -27,17 +32,36 @@ def _resolve_backend_llm(state: AgentState):
         return runtime_llm
 
     runtime_model = runtime_config.get("backend_model")
+    runtime_strategy = normalize_llm_strategy(runtime_config.get("llm_strategy"))
+    runtime_temperature = runtime_config.get("backend_temperature", 0)
     if runtime_model:
         normalized_runtime_model = str(runtime_model).strip().lower().replace("-", "_")
-        runtime_temperature = runtime_config.get("backend_temperature", 0)
         if normalized_runtime_model in {"backend", "default", "backend_default"}:
-            resolved = get_backend_llm(temperature=runtime_temperature)
+            resolved = get_backend_llm(
+                temperature=runtime_temperature,
+                strategy=runtime_strategy,
+            )
+            if resolved is not None:
+                return resolved
+        elif normalized_runtime_model in {"backup", "backup_first", "backup_chain", "fallback"}:
+            resolved = get_backend_llm(
+                temperature=runtime_temperature,
+                strategy=BACKUP_FIRST_STRATEGY,
+            )
             if resolved is not None:
                 return resolved
         else:
             resolved = get_llm(runtime_model, temperature=runtime_temperature, allow_missing=True)
             if resolved is not None:
                 return resolved
+
+    if runtime_strategy != "primary":
+        resolved = get_backend_llm(
+            temperature=runtime_temperature,
+            strategy=runtime_strategy,
+        )
+        if resolved is not None:
+            return resolved
 
     return llm
 

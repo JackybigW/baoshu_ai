@@ -1,6 +1,7 @@
 import asyncio
 import os
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from typing import Optional
 
@@ -17,6 +18,7 @@ from pydantic import BaseModel
 
 from utils.buffer import MessageBuffer
 from utils.logger import logger
+from utils.runtime_control import GraphConcurrencyTimeout, GraphRuntimeController
 from utils.wecom_api import WeComAPI
 from utils.wecom_crypto import WeComCrypto
 
@@ -35,7 +37,17 @@ allowed_origins = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    global _graph_invoke_executor
     try:
+        loop = asyncio.get_running_loop()
+        _graph_invoke_executor = ThreadPoolExecutor(
+            max_workers=max(1, GRAPH_INVOKE_THREADPOOL_MAX_WORKERS),
+            thread_name_prefix="graph-runtime",
+        )
+        loop.set_default_executor(_graph_invoke_executor)
+        logger.info(
+            f"🧵 Graph invoke thread pool ready: max_workers={GRAPH_INVOKE_THREADPOOL_MAX_WORKERS}"
+        )
         initialize_graph()
         logger.info(f"🧠 LangGraph backend ready: {get_graph_backend()}")
         await db_store.connect()
@@ -43,6 +55,9 @@ async def lifespan(_: FastAPI):
     finally:
         await db_store.close()
         close_graph()
+        if _graph_invoke_executor is not None:
+            _graph_invoke_executor.shutdown(wait=False, cancel_futures=True)
+            _graph_invoke_executor = None
 
 
 api = FastAPI(lifespan=lifespan)
@@ -75,15 +90,37 @@ WECOM_PAUSE_AFTER_HANDOFF = os.getenv("WECOM_PAUSE_AFTER_HANDOFF", "0").lower() 
 WEB_BUFFER_WAIT = float(os.getenv("WEB_BUFFER_WAIT", str(WECOM_BUFFER_WAIT)))
 WEB_TYPING_SPEED = float(os.getenv("WEB_TYPING_SPEED", str(WECOM_TYPING_SPEED)))
 WEB_TYPING_MAX = float(os.getenv("WEB_TYPING_MAX", str(WECOM_TYPING_MAX)))
+WECOM_PROCESS_LOCK_TTL = int(os.getenv("WECOM_PROCESS_LOCK_TTL", "900"))
+WECOM_WELCOME_LOCK_TTL = int(os.getenv("WECOM_WELCOME_LOCK_TTL", "600"))
+GRAPH_INVOKE_THREADPOOL_MAX_WORKERS = int(
+    os.getenv("GRAPH_INVOKE_THREADPOOL_MAX_WORKERS", os.getenv("GRAPH_CONCURRENCY_LIMIT", "50"))
+)
 
 buffer = MessageBuffer(wait_time=WEB_BUFFER_WAIT)
 
 wecom_redis = aioredis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 crypto = WeComCrypto(WECOM_TOKEN, WECOM_AES_KEY, WECOM_CORPID)
 wecom_api = WeComAPI(WECOM_CORPID, WECOM_SECRET, WECOM_KF_ID, wecom_redis)
+graph_runtime = GraphRuntimeController(wecom_redis)
 
 # 企微消息缓冲 debounce 任务表 {ext_userid: asyncio.Task}
 _wecom_debounce_tasks: dict = {}
+_graph_invoke_executor: Optional[ThreadPoolExecutor] = None
+
+
+async def _acquire_processing_lock(lock_key: str, ttl: int) -> Optional[str]:
+    lock_token = uuid.uuid4().hex
+    acquired = await wecom_redis.set(lock_key, lock_token, nx=True, ex=ttl)
+    if acquired:
+        return lock_token
+    return None
+
+
+async def _release_processing_lock(lock_key: str, lock_token: Optional[str]) -> None:
+    if not lock_token:
+        return
+    if await wecom_redis.get(lock_key) == lock_token:
+        await wecom_redis.delete(lock_key)
 
 
 def _extract_ai_contents(all_messages) -> list[str]:
@@ -280,8 +317,8 @@ async def _wecom_handle_enter_session(ext_userid: str, welcome_code: str):
         return
 
     process_lock = f"wecom:process_lock:{ext_userid}"
-    acquired = await wecom_redis.set(process_lock, "1", nx=True, ex=60)
-    if not acquired:
+    lock_token = await _acquire_processing_lock(process_lock, WECOM_WELCOME_LOCK_TTL)
+    if not lock_token:
         logger.info(f"🔁 Welcome message skipped due to active worker: {ext_userid}")
         return
 
@@ -292,7 +329,17 @@ async def _wecom_handle_enter_session(ext_userid: str, welcome_code: str):
 
         logger.info(f"👋 Handling enter_session welcome for {ext_userid}")
         config = {"configurable": {"thread_id": ext_userid}}
-        output = await asyncio.to_thread(app.invoke, {"messages": []}, config=config)
+        try:
+            output = await graph_runtime.invoke(
+                app,
+                inputs={"messages": []},
+                config=config,
+                session_key=ext_userid,
+                channel="wecom_welcome",
+            )
+        except GraphConcurrencyTimeout as exc:
+            logger.warning(f"⏳ Welcome graph queue busy for {ext_userid}: {exc}")
+            output = {"messages": []}
 
         all_messages = output.get("messages", [])
         ai_contents = _extract_ai_contents(all_messages)
@@ -315,7 +362,7 @@ async def _wecom_handle_enter_session(ext_userid: str, welcome_code: str):
     except Exception as e:
         logger.error(f"❌ WeCom enter_session welcome error: {e}", exc_info=True)
     finally:
-        await wecom_redis.delete(process_lock)
+        await _release_processing_lock(process_lock, lock_token)
 
 
 def _reset_debounce_timer(ext_userid: str):
@@ -341,8 +388,8 @@ async def _wecom_debounce_fire(ext_userid: str):
 
     # Redis 分布式锁防并发处理
     process_lock = f"wecom:process_lock:{ext_userid}"
-    acquired = await wecom_redis.set(process_lock, "1", nx=True, ex=180)
-    if not acquired:
+    lock_token = await _acquire_processing_lock(process_lock, WECOM_PROCESS_LOCK_TTL)
+    if not lock_token:
         logger.info(f"🔁 Another worker already processing {ext_userid}")
         return
 
@@ -368,7 +415,21 @@ async def _wecom_debounce_fire(ext_userid: str):
         else:
             inputs = {"messages": [HumanMessage(content=combined_text)]}
             
-        output = await asyncio.to_thread(app.invoke, inputs, config=config)
+        try:
+            output = await graph_runtime.invoke(
+                app,
+                inputs=inputs,
+                config=config,
+                session_key=ext_userid,
+                channel="wecom",
+            )
+        except GraphConcurrencyTimeout:
+            await wecom_redis.rpush(buf_key, *messages)
+            await wecom_redis.expire(buf_key, 600)
+            logger.warning(
+                f"⏳ Graph concurrency busy for {ext_userid}, requeued {len(messages)} messages"
+            )
+            return
 
         # 3. 如果 LangGraph 判定转人工
         if output.get("dialog_status") == "FINISHED" and WECOM_PAUSE_AFTER_HANDOFF:
@@ -414,8 +475,9 @@ async def _wecom_debounce_fire(ext_userid: str):
     except Exception as e:
         logger.error(f"❌ WeCom debounce worker error: {e}", exc_info=True)
     finally:
-        await wecom_redis.delete(process_lock)
-        _wecom_debounce_tasks.pop(ext_userid, None)
+        await _release_processing_lock(process_lock, lock_token)
+        if _wecom_debounce_tasks.get(ext_userid) is asyncio.current_task():
+            _wecom_debounce_tasks.pop(ext_userid, None)
 
         # 检查 AI 打字期间，用户是否又发了新消息 (插嘴)
         # 如果有，立刻重新触发 debounce，保证新消息不被卡死
@@ -441,7 +503,17 @@ async def chat_endpoint(req: ChatRequest):
     # 1. 开场白逻辑
     if not message_text:
         config = {"configurable": {"thread_id": session_id}}
-        output = await asyncio.to_thread(app.invoke, {"messages": []}, config=config)
+        try:
+            output = await graph_runtime.invoke(
+                app,
+                inputs={"messages": []},
+                config=config,
+                session_key=session_id,
+                channel="web",
+            )
+        except GraphConcurrencyTimeout as exc:
+            logger.warning(f"⏳ Web greeting queued too long for {session_id}: {exc}")
+            raise HTTPException(status_code=503, detail="当前咨询量较大，请稍后再试。")
         response_text = output["messages"][-1].content
         await _persist_turn(
             channel="web",
@@ -464,6 +536,7 @@ async def chat_endpoint(req: ChatRequest):
 
         if batch:
             # 我是这一波消息的执行者（Winner）
+            lock_token = batch.get("lock_token")
             try:
                 raw_user_messages = [msg.strip() for msg in batch["messages"] if msg.strip()]
                 combined_text = batch["combined_text"].strip()
@@ -471,7 +544,13 @@ async def chat_endpoint(req: ChatRequest):
                 config = {"configurable": {"thread_id": session_id}}
                 inputs = {"messages": [HumanMessage(content=combined_text)]}
 
-                output = await asyncio.to_thread(app.invoke, inputs, config=config)
+                output = await graph_runtime.invoke(
+                    app,
+                    inputs=inputs,
+                    config=config,
+                    session_key=session_id,
+                    channel="web",
+                )
 
                 all_messages = output.get("messages", [])
                 ai_contents = _extract_ai_contents(all_messages)
@@ -485,11 +564,15 @@ async def chat_endpoint(req: ChatRequest):
                 )
 
                 response_text = "|||".join(ai_contents) if ai_contents else "好的。"
-                await buffer.release_lock(session_id)  # AI 跑完，释放锁
+                await buffer.release_lock(session_id, lock_token)  # AI 跑完，释放锁
                 return {"response": response_text, "session_id": session_id}
 
+            except GraphConcurrencyTimeout:
+                await buffer.requeue_messages(session_id, batch["messages"])
+                await buffer.release_lock(session_id, lock_token)
+                raise HTTPException(status_code=503, detail="当前咨询量较大，请稍后再试。")
             except Exception as e:
-                await buffer.release_lock(session_id)
+                await buffer.release_lock(session_id, lock_token)
                 logger.error(f"❌ AI Error: {str(e)}")
                 raise HTTPException(status_code=500, detail="系统故障。")
 

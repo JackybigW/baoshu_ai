@@ -15,7 +15,12 @@ from pydantic import BaseModel
 from langchain_core.messages import SystemMessage,  AIMessage, ToolMessage
 from state import AgentState, CustomerProfile, IntentType
 from nodes.tools import summon_specialist_tool, search_products
-from utils.llm_factory import get_frontend_llm
+from utils.llm_factory import (
+    BACKUP_FIRST_STRATEGY,
+    get_frontend_llm,
+    get_llm,
+    normalize_llm_strategy,
+)
 from utils.logger import logger
 from config.prompts import (
     HIGH_VALUE_PERSONA,
@@ -30,6 +35,57 @@ llm = get_frontend_llm(temperature=0)
 
 # 顾问聊天模型 (温度稍高，更像人)
 llm_chat = get_frontend_llm(temperature=0.7)
+
+
+def _resolve_frontend_llm(state: AgentState, *, temperature: float):
+    runtime_config = state.get("runtime_config") or {}
+    explicit_llm = runtime_config.get("frontend_llm")
+    if explicit_llm is not None:
+        return explicit_llm
+
+    runtime_model = runtime_config.get("frontend_model")
+    runtime_strategy = normalize_llm_strategy(runtime_config.get("llm_strategy"))
+    runtime_temperature = runtime_config.get("frontend_temperature", temperature)
+
+    if runtime_model:
+        normalized_runtime_model = str(runtime_model).strip().lower().replace("-", "_")
+        if normalized_runtime_model in {"frontend", "default", "frontend_default"}:
+            resolved = get_frontend_llm(
+                temperature=runtime_temperature,
+                strategy=runtime_strategy,
+            )
+            if resolved is not None:
+                return resolved
+        elif normalized_runtime_model in {"backup", "backup_first", "backup_chain", "fallback"}:
+            resolved = get_frontend_llm(
+                temperature=runtime_temperature,
+                strategy=BACKUP_FIRST_STRATEGY,
+            )
+            if resolved is not None:
+                return resolved
+        else:
+            resolved = get_llm(runtime_model, temperature=runtime_temperature, allow_missing=True)
+            if resolved is not None:
+                return resolved
+
+    if runtime_strategy != "primary":
+        resolved = get_frontend_llm(
+            temperature=runtime_temperature,
+            strategy=runtime_strategy,
+        )
+        if resolved is not None:
+            return resolved
+
+    if runtime_temperature != temperature:
+        resolved = get_frontend_llm(temperature=runtime_temperature, strategy=runtime_strategy)
+        if resolved is not None:
+            return resolved
+
+    return llm if temperature == 0 else llm_chat
+
+
+def _resolve_frontend_chat_llm(state: AgentState):
+    return _resolve_frontend_llm(state, temperature=0.7)
 
 
 def _format_destination_preference(profile: CustomerProfile) -> str:
@@ -63,9 +119,10 @@ def high_value_node(state: AgentState):
 
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
+    active_chat_llm = _resolve_frontend_chat_llm(state)
 
     tools = [summon_specialist_tool]
-    llm_with_tools = llm_chat.bind_tools(tools)
+    llm_with_tools = active_chat_llm.bind_tools(tools)
     closing_pressure = ""
     if len(messages) >= 16:
         closing_pressure = "\n【⚠️系统警告】对话过长，请尽快寻找理由拉群转人工！"
@@ -124,11 +181,12 @@ def art_node(state: AgentState):
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
+    active_chat_llm = _resolve_frontend_chat_llm(state)
     
     # 1. 绑定工具
     tools = [summon_specialist_tool]
     # 强制绑定工具，但允许它不调用 (即继续聊天)
-    llm_with_tools = llm_chat.bind_tools(tools)
+    llm_with_tools = active_chat_llm.bind_tools(tools)
     closing_pressure = ""
     if len(messages) >= 16: # 稍微给点空间，大概5-6轮对话
         closing_pressure = "\n【⚠️系统警告】对话过长，客户可能流失。请立刻寻找理由拉群，停止追问细节！"
@@ -160,6 +218,7 @@ def interviewer_node(state: AgentState):
     logger.info("--- 🎤 Interviewer ---")
     profile = state.get("profile") or CustomerProfile()
     missing = profile.missing_fields
+    active_chat_llm = _resolve_frontend_chat_llm(state)
     # 获取上下文
     user_role = profile.user_role      # "学生" / "家长"
     if not missing:
@@ -256,7 +315,7 @@ def interviewer_node(state: AgentState):
 
     # 调用
     messages = [SystemMessage(content=system_prompt)] + state["messages"]
-    response = llm_chat.invoke(messages) # 前台对话使用 llm_chat
+    response = active_chat_llm.invoke(messages) # 前台对话使用 llm_chat
     
     # Split处理
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
@@ -278,11 +337,12 @@ def consultant_node(state: AgentState):
     messages = state["messages"]
     msg_count = len(messages)
     is_sales_mode = (intent == IntentType.SALES_READY)
+    active_chat_llm = _resolve_frontend_chat_llm(state)
     
     logger.info(f"--- 🎯 Consultant: {'收网模式' if is_sales_mode else '方案模式'} ---")
     
     tools = [summon_specialist_tool]
-    llm_with_tools = llm_chat.bind_tools(tools)
+    llm_with_tools = active_chat_llm.bind_tools(tools)
 
     retrieved_context = search_products(profile)
     last_user_msg = messages[-1].content if messages else ""
@@ -463,10 +523,11 @@ def low_budget_node(state: AgentState):
     
     profile = state.get("profile") or CustomerProfile()
     messages = state["messages"]
+    active_chat_llm = _resolve_frontend_chat_llm(state)
     
     # 绑定工具
     tools = [summon_specialist_tool]
-    llm_with_tools = llm_chat.bind_tools(tools)
+    llm_with_tools = active_chat_llm.bind_tools(tools)
     
     closing_pressure = ""
     if len(messages) >= 12:
@@ -500,6 +561,7 @@ def human_handoff_node(state: AgentState):
     
     messages = state["messages"]
     profile = state.get("profile") or CustomerProfile()
+    active_chat_llm = _resolve_frontend_chat_llm(state)
     last_msg = messages[-1]
     if isinstance(last_msg, AIMessage) and last_msg.tool_calls:
         logger.info(">>> 检测到未闭环的 Tool Call，正在构造 ToolMessage...")
@@ -516,7 +578,7 @@ def human_handoff_node(state: AgentState):
     
     system_prompt = HUMAN_HANDOFF_SYSTEM_PROMPT
 
-    response = llm_chat.invoke([SystemMessage(content=system_prompt)] + messages)
+    response = active_chat_llm.invoke([SystemMessage(content=system_prompt)] + messages)
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
     split_texts = raw_content.split("|||")
     ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
@@ -526,11 +588,12 @@ def human_handoff_node(state: AgentState):
 def chit_chat_node(state: AgentState):
     logger.info("--- ☕ Chit Chat: 纯闲聊模式 ---")
     messages = state["messages"]
+    active_chat_llm = _resolve_frontend_chat_llm(state)
     
     system_prompt = CHIT_CHAT_SYSTEM_PROMPT
     
     # 简单的直接调用
-    response = llm_chat.invoke([SystemMessage(content=system_prompt)] + messages)
+    response = active_chat_llm.invoke([SystemMessage(content=system_prompt)] + messages)
     raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
     split_texts = raw_content.split("|||")
     # 把切分后的文本重新封装成多个 AIMessage

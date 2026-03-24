@@ -236,6 +236,68 @@ def test_consultant_node_normal_mode_uses_search_results(monkeypatch):
     assert [msg.content for msg in result["messages"]] == ["方案A", "你能接受吗"]
 
 
+def test_classifier_node_uses_backup_runtime_strategy(monkeypatch):
+    default_llm = RecordingStructuredLLM(SimpleNamespace(intent="NEED_CONSULTING"))
+    backup_llm = RecordingStructuredLLM(SimpleNamespace(intent="HIGH_VALUE"))
+
+    monkeypatch.setattr(perception, "llm", default_llm)
+    monkeypatch.setattr(
+        perception,
+        "get_backend_llm",
+        lambda temperature=0, strategy="primary": backup_llm if strategy == "backup_first" else default_llm,
+    )
+
+    state = {
+        "messages": [HumanMessage(content="我准备冲顶尖学校")],
+        "profile": CustomerProfile(),
+        "last_intent": None,
+        "dialog_status": "START",
+        "runtime_config": {"llm_strategy": "backup_first"},
+    }
+
+    result = perception.classifier_node(state)
+
+    assert result["last_intent"] == "HIGH_VALUE"
+    assert backup_llm.calls
+    assert not default_llm.calls
+
+
+def test_consultant_node_uses_backup_runtime_strategy(monkeypatch):
+    default_llm = RecordingToolLLM(SimpleNamespace(content="主链路回复", tool_calls=[], id="default_resp"))
+    backup_llm = RecordingToolLLM(SimpleNamespace(content="备援回复|||继续聊", tool_calls=[], id="backup_resp"))
+
+    monkeypatch.setattr(consultants, "llm_chat", default_llm)
+    monkeypatch.setattr(
+        consultants,
+        "get_frontend_llm",
+        lambda temperature=0.7, strategy="primary": backup_llm if strategy == "backup_first" else default_llm,
+    )
+    monkeypatch.setattr(consultants, "search_products", lambda _profile: "命中 1 个方案")
+
+    profile = CustomerProfile(
+        user_role="学生",
+        educationStage="本科",
+        destination_preference=["英国"],
+        academic_background="GPA 3.6",
+        abroad_readiness="直接出国",
+    )
+    profile.budget.amount = 40
+    profile.budget.period = BudgetPeriod.ANNUAL
+
+    state = {
+        "messages": [HumanMessage(content="给我一个方案")],
+        "profile": profile,
+        "last_intent": IntentType.NEED_CONSULTING,
+        "runtime_config": {"llm_strategy": "backup_first"},
+    }
+
+    result = consultants.consultant_node(state)
+
+    assert backup_llm.calls
+    assert not default_llm.calls
+    assert [msg.content for msg in result["messages"]] == ["备援回复", "继续聊"]
+
+
 def test_search_products_supports_annual_budget_filter():
     profile = CustomerProfile(
         educationStage="本科",
