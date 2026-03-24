@@ -1,5 +1,7 @@
 import asyncio
-from typing import Dict, Optional
+import os
+import uuid
+from typing import Any, Dict, Optional
 import redis.asyncio as redis
 from utils.logger import logger
 
@@ -11,6 +13,7 @@ class MessageBuffer:
         self.redis = redis.Redis(host=host, port=port, db=db, decode_responses=True)
         self.wait_time = wait_time 
         self.active_tasks: Dict[str, asyncio.Task] = {}
+        self.processing_lock_ttl = int(os.getenv("WEB_PROCESS_LOCK_TTL", "900"))
 
     async def add_message(self, session_id: str, message: str):
         """
@@ -37,7 +40,7 @@ class MessageBuffer:
         except asyncio.CancelledError:
             pass
 
-    async def get_message_batch(self, session_id: str) -> Optional[dict[str, list[str] | str]]:
+    async def get_message_batch(self, session_id: str) -> Optional[dict[str, Any]]:
         """
         尝试领取任务。
         规则：必须满足 (1) 没人在跑 (lock不存在) 且 (2) 消息已就绪 (ready存在)
@@ -55,13 +58,35 @@ class MessageBuffer:
             
             await self.redis.delete(f"buffer:{session_id}")
             # 设置处理锁，保护本次 AI 运行
-            await self.redis.set(f"lock:{session_id}", "1", ex=60)
+            lock_token = uuid.uuid4().hex
+            await self.redis.set(
+                f"lock:{session_id}",
+                lock_token,
+                ex=self.processing_lock_ttl,
+            )
             return {
                 "messages": messages,
                 "combined_text": "\n".join(messages),
+                "lock_token": lock_token,
             }
         
         return None
 
-    async def release_lock(self, session_id: str):
-        await self.redis.delete(f"lock:{session_id}")
+    async def release_lock(self, session_id: str, lock_token: Optional[str] = None):
+        lock_key = f"lock:{session_id}"
+        if lock_token is None:
+            await self.redis.delete(lock_key)
+            return
+
+        if await self.redis.get(lock_key) == lock_token:
+            await self.redis.delete(lock_key)
+
+    async def requeue_messages(self, session_id: str, messages: list[str]):
+        cleaned = [message.strip() for message in messages if message and message.strip()]
+        if not cleaned:
+            return
+
+        await self.redis.rpush(f"buffer:{session_id}", *cleaned)
+        await self.redis.expire(f"buffer:{session_id}", 600)
+        await self.redis.set(f"ready:{session_id}", "1", ex=60)
+        logger.info(f"🔁 Requeued {len(cleaned)} buffered messages for {session_id}")
