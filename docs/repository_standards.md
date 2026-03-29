@@ -45,4 +45,10 @@
 
 ## 发布
 
-发布细节不再写在仓库文档里。默认入口是 `deploy.sh`，默认流程以 `baoshu-git-deploy` skill 为准。
+- 默认入口仍然是 `deploy.sh`
+- 默认 review / ship / merge 流程改为项目内 gstack：
+  - `/gstack-review`
+  - `/gstack-ship`
+  - `/gstack-land-and-deploy`
+- `CLAUDE.md` 中的 `## Deploy Configuration` 是 gstack deploy 技能的仓库内事实来源
+- 如果 gstack 的 deploy 配置与 `deploy.sh` 不一致，以 `deploy.sh` 的真实行为为准，并同步更新 `CLAUDE.md`
