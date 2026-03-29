@@ -30,6 +30,7 @@ test_debug.py
 gha-creds-*.json
 3.3_plan.txt
 notes/academic_background_eval.txt
+.agents/skills/gstack/node_modules/
 
 # OS artifacts
 .DS_Store
