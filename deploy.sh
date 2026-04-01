@@ -63,6 +63,7 @@ Options:
   --main-branch <name>            Main release branch. Default: main
   --sync-mode <safe|mirror>       safe: no delete, mirror: enable delete
   --allow-delete                  Alias for --sync-mode mirror
+  --dry-run                       Preview rsync changes without syncing
   --use-systemd <auto|always|never>
                                   Prefer systemd restart when available
   --service-name <name>           Explicit systemd service name
@@ -78,7 +79,7 @@ Options:
 Environment overrides:
   SERVER_IP, SERVER_USER, REMOTE_PATH, ENV_NAME, REMOTE_CONDA_SH, LOCAL_CONDA_SH,
   REMOTE_LOG_FILE, GIT_REMOTE, MAIN_BRANCH, SYSTEMD_CANDIDATES_CSV,
-  SYSTEMD_UNIT_SOURCE_PATH,
+  SYSTEMD_UNIT_SOURCE_PATH, DRY_RUN,
   PIP_INDEX_URL, PIP_TRUSTED_HOST.
 EOF
 }
@@ -165,6 +166,10 @@ parse_args() {
         ;;
       --allow-delete)
         SYNC_MODE="mirror"
+        shift
+        ;;
+      --dry-run)
+        DRY_RUN="y"
         shift
         ;;
       --use-systemd)
@@ -351,6 +356,7 @@ sync_files() {
     --exclude=logs
     --exclude=README.pdf
     --exclude=nodes_eval/extractor_eval/failure_analyses/_archived
+    --exclude=.agents
     "--filter=P /.env"
     "--filter=P /.env.*"
     "--filter=P /output.log"
@@ -371,6 +377,11 @@ sync_files() {
     log "🚀 安全同步本地工作区到服务器（默认不删除远端状态文件）..."
   fi
 
+  if [[ "${DRY_RUN:-n}" == "y" ]]; then
+    rsync_opts+=(--dry-run)
+    log "🔍 预览模式：不会实际同步任何文件"
+  fi
+
   rsync "${rsync_opts[@]}" ./ "$SERVER_USER@$SERVER_IP:$REMOTE_PATH"
 }
 
@@ -378,7 +389,7 @@ remote_deploy() {
   local quick_tests_csv
   quick_tests_csv="$(join_csv "${QUICK_TESTS[@]}")"
 
-  ssh -T "$SERVER_USER@$SERVER_IP" \
+  ssh -o ConnectTimeout=10 -o BatchMode=yes -T "$SERVER_USER@$SERVER_IP" \
     "REMOTE_PATH=$(printf '%q' "$REMOTE_PATH") \
 ENV_NAME=$(printf '%q' "$ENV_NAME") \
 REMOTE_CONDA_SH=$(printf '%q' "$REMOTE_CONDA_SH") \
