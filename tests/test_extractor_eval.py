@@ -1,5 +1,7 @@
 import asyncio
 import json
+import threading
+import time
 from pathlib import Path
 
 from nodes_eval.extractor_eval.benchmark import score_profiles
@@ -7,6 +9,7 @@ from nodes_eval.extractor_eval.failure_analysis import generate_failure_analysis
 from nodes_eval.extractor_eval.run_eval import (
     load_cases,
     run_cases_async,
+    run_model_results,
     summarize_case_results,
     summarize_model_runs,
 )
@@ -346,3 +349,61 @@ def test_run_cases_async_preserves_case_order_for_single_model(monkeypatch):
     results = asyncio.run(run_cases_async(cases, StubModelConfig(), semantic_matcher=None, concurrency=2))
 
     assert [item["case_id"] for item in results] == sorted(case.case_id for case in cases)
+
+
+def test_run_cases_async_caps_inflight_work_per_model(monkeypatch):
+    cases = load_cases(DATASET_PATH)[:4]
+    concurrency = 2
+    lock = threading.Lock()
+    inflight = 0
+    max_inflight = 0
+
+    class StubModelConfig:
+        label = "deepseek"
+
+    def fake_run_single_case(case, model_config, semantic_matcher):
+        nonlocal inflight, max_inflight
+        with lock:
+            inflight += 1
+            max_inflight = max(max_inflight, inflight)
+        time.sleep(0.05)
+        with lock:
+            inflight -= 1
+        return {
+            "llm": {"label": model_config.label},
+            "case_id": case.case_id,
+            "tags": case.tags,
+            "input": {},
+            "expected": {},
+            "actual": {},
+            "error": None,
+            "score": {"overall_score": 100.0},
+        }
+
+    monkeypatch.setattr("nodes_eval.extractor_eval.run_eval.run_single_case", fake_run_single_case)
+
+    asyncio.run(run_cases_async(cases, StubModelConfig(), semantic_matcher=None, concurrency=concurrency))
+
+    assert max_inflight == concurrency
+
+
+def test_run_model_results_processes_models_sequentially(monkeypatch):
+    cases = load_cases(DATASET_PATH)[:2]
+
+    class StubModelConfig:
+        def __init__(self, label):
+            self.label = label
+
+    model_configs = [StubModelConfig("model_a"), StubModelConfig("model_b")]
+    call_order = []
+
+    async def fake_run_cases_async(cases, model_config, semantic_matcher, concurrency):
+        call_order.append(model_config.label)
+        return [{"llm": {"label": model_config.label}, "case_id": case.case_id} for case in cases]
+
+    monkeypatch.setattr("nodes_eval.extractor_eval.run_eval.run_cases_async", fake_run_cases_async)
+
+    results = run_model_results(cases, model_configs, semantic_matcher=None, concurrency=8)
+
+    assert call_order == ["model_a", "model_b"]
+    assert list(results) == ["model_a", "model_b"]

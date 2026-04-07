@@ -210,6 +210,17 @@ async def run_cases_async(cases: List[EvalCase], model_config: Any, concurrency:
     return results
 
 
+def run_model_results(
+    cases: List[EvalCase],
+    model_configs: List[Any],
+    concurrency: int,
+) -> Dict[str, List[Dict[str, Any]]]:
+    grouped_results: Dict[str, List[Dict[str, Any]]] = {}
+    for model_config in model_configs:
+        grouped_results[model_config.label] = asyncio.run(run_cases_async(cases, model_config, concurrency))
+    return grouped_results
+
+
 def write_run_overview(*, run_root: Path, dataset_path: Path, model_runs: List[Dict[str, Any]]) -> None:
     leaderboard = summarize_model_runs(model_runs)
     lines = [
@@ -269,9 +280,11 @@ def main() -> None:
     run_timestamp = datetime.now()
     run_root = Path(__file__).resolve().parent / "failure_analyses" / run_timestamp.strftime("%Y%m%d_%H%M%S")
 
+    grouped_results = run_model_results(cases, model_configs, args.concurrency)
+
     model_runs: List[Dict[str, Any]] = []
     for model_config in model_configs:
-        results = asyncio.run(run_cases_async(cases, model_config, args.concurrency))
+        results = grouped_results[model_config.label]
         summary = summarize_case_results(results)
         payload = {
             "llm": model_config.to_dict(),

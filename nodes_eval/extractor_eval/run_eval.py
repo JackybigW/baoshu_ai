@@ -351,6 +351,20 @@ async def run_cases_async(
     return results
 
 
+def run_model_results(
+    cases: List[EvalCase],
+    model_configs: List[EvalModelConfig],
+    semantic_matcher: Optional[DeepSeekSemanticMatcher],
+    concurrency: int,
+) -> Dict[str, List[Dict[str, Any]]]:
+    grouped_results: Dict[str, List[Dict[str, Any]]] = {}
+    for model_config in model_configs:
+        grouped_results[model_config.label] = asyncio.run(
+            run_cases_async(cases, model_config, semantic_matcher, concurrency)
+        )
+    return grouped_results
+
+
 def _per_model_log_path(label: str) -> Path:
     return DEFAULT_LOG_DIR / f"extractor_eval_{label}.log"
 
@@ -413,11 +427,11 @@ def main() -> None:
     run_timestamp = datetime.now()
     run_root = Path(__file__).resolve().parent / "failure_analyses" / run_timestamp.strftime("%Y%m%d_%H%M%S")
 
+    grouped_results = run_model_results(cases, model_configs, semantic_matcher, args.concurrency)
+
     model_runs: List[Dict[str, Any]] = []
     for model_config in model_configs:
-        results = asyncio.run(
-            run_cases_async(cases, model_config, semantic_matcher, args.concurrency)
-        )
+        results = grouped_results[model_config.label]
         summary = summarize_case_results(results)
         payload = {
             "llm": model_config.to_dict(),
