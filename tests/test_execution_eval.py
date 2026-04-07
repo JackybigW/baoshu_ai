@@ -91,6 +91,47 @@ def test_score_execution_output_normalizes_judge_failure_tags():
     assert "关键要点缺失" in breakdown.failure_tags
 
 
+def test_score_execution_output_penalizes_forbidden_regexes_in_format_score():
+    breakdown = score_execution_output(
+        node_name="chit_chat",
+        contract={
+            "must_call_tool": False,
+            "min_segments": 1,
+            "max_segments": 3,
+            "forbidden_regexes": [r"（[^）]+）"],
+            "skip_rubric": True,
+        },
+        case_input={},
+        output_messages=[AIMessage(content="哈哈（捂脸）我也是这么想的")],
+        actual_status=None,
+        judge=None,
+    )
+
+    assert breakdown.format_score is not None
+    assert breakdown.format_score < 1.0
+    assert breakdown.failure_tags.count("格式违规") == 1
+
+
+def test_score_execution_output_penalizes_missing_required_context_terms():
+    breakdown = score_execution_output(
+        node_name="interviewer",
+        contract={
+            "must_call_tool": False,
+            "min_segments": 1,
+            "max_segments": 3,
+            "required_context_terms": [["预算", "费用"], ["港澳", "英国"]],
+            "skip_rubric": True,
+        },
+        case_input={},
+        output_messages=[AIMessage(content="我们可以继续聊聊你的情况，再往下推进。")],
+        actual_status=None,
+        judge=None,
+    )
+
+    assert breakdown.keyword_score == 0.0
+    assert breakdown.failure_tags.count("关键要点缺失") == 1
+
+
 def test_summarize_case_results_aggregates_execution_metrics():
     summary = summarize_case_results(
         [

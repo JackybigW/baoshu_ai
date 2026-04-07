@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 
@@ -155,6 +156,7 @@ def _format_score(
     min_segments: int,
     max_segments: int,
     max_chars_per_segment: Optional[int],
+    forbidden_regexes: Sequence[str],
 ) -> Tuple[float, List[str]]:
     if not output_messages:
         return 0.0, ["空回复"]
@@ -182,6 +184,11 @@ def _format_score(
         score -= 0.2
         if "格式违规" not in failure_tags:
             failure_tags.append("格式违规")
+    if forbidden_regexes:
+        if any(re.search(pattern, output_text) for pattern in forbidden_regexes):
+            score -= 0.35
+            if "格式违规" not in failure_tags:
+                failure_tags.append("格式违规")
     return max(0.0, score), failure_tags
 
 
@@ -230,16 +237,20 @@ def score_execution_output(
         min_segments=int(contract.get("min_segments", 1)),
         max_segments=int(contract.get("max_segments", 3)),
         max_chars_per_segment=contract.get("max_chars_per_segment"),
+        forbidden_regexes=contract.get("forbidden_regexes") or [],
     )
     active_weight_total += 15
     component_points += format_score * 15
     failure_tags.extend(format_failures)
 
     keyword_score: Optional[float] = None
-    if contract.get("required_keyword_groups") or contract.get("forbidden_keywords"):
+    required_groups = list(contract.get("required_keyword_groups") or []) + list(
+        contract.get("required_context_terms") or []
+    )
+    if required_groups or contract.get("forbidden_keywords"):
         keyword_score, keyword_failures = _keyword_score(
             output_text,
-            contract.get("required_keyword_groups") or [],
+            required_groups,
             contract.get("forbidden_keywords") or [],
         )
         active_weight_total += 15
