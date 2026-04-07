@@ -26,6 +26,11 @@ test_debug.py
 .pytest_cache/
 
 .vscode/
+.idea/
+.claude/
+.codex/
+.cursor/
+.windsurf/
 .gemini/
 gha-creds-*.json
 3.3_plan.txt

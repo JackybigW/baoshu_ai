@@ -349,6 +349,11 @@ sync_files() {
     --exclude=._*
     --exclude=.venv
     --exclude=.vscode
+    --exclude=.idea
+    --exclude=.claude
+    --exclude=.codex
+    --exclude=.cursor
+    --exclude=.windsurf
     --exclude=.obsidian
     --exclude=.pytest_cache
     --exclude=.mypy_cache
