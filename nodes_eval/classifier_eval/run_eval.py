@@ -198,25 +198,16 @@ def append_log(
     )
 
 
-async def run_cases_async(cases: List[EvalCase], model_configs: List[Any], concurrency: int) -> Dict[str, List[Dict[str, Any]]]:
+async def run_cases_async(cases: List[EvalCase], model_config: Any, concurrency: int) -> List[Dict[str, Any]]:
     semaphore = asyncio.Semaphore(max(1, concurrency))
-    grouped_results: Dict[str, List[Dict[str, Any]]] = {config.label: [] for config in model_configs}
 
-    async def run_with_limit(case: EvalCase, model_config: Any) -> Dict[str, Any]:
+    async def run_with_limit(case: EvalCase) -> Dict[str, Any]:
         async with semaphore:
             return await asyncio.to_thread(run_single_case, case, model_config)
 
-    tasks = [
-        run_with_limit(case, model_config)
-        for model_config in model_configs
-        for case in cases
-    ]
-    raw_results = await asyncio.gather(*tasks)
-    for item in raw_results:
-        grouped_results[item["llm"]["label"]].append(item)
-    for results in grouped_results.values():
-        results.sort(key=lambda item: item["case_id"])
-    return grouped_results
+    results = await asyncio.gather(*(run_with_limit(case) for case in cases))
+    results.sort(key=lambda item: item["case_id"])
+    return results
 
 
 def write_run_overview(*, run_root: Path, dataset_path: Path, model_runs: List[Dict[str, Any]]) -> None:
@@ -257,7 +248,7 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help="Run classifier with a specific LLM alias. Repeatable. If omitted, uses backend_default.",
     )
-    parser.add_argument("--concurrency", type=int, default=8, help="Max number of case executions across all requested LLMs.")
+    parser.add_argument("--concurrency", type=int, default=8, help="Max number of case executions to run concurrently within one requested LLM.")
     parser.add_argument("--output-json", default="", help="Optional path to write full result json.")
     return parser.parse_args()
 
@@ -278,11 +269,9 @@ def main() -> None:
     run_timestamp = datetime.now()
     run_root = Path(__file__).resolve().parent / "failure_analyses" / run_timestamp.strftime("%Y%m%d_%H%M%S")
 
-    grouped_results = asyncio.run(run_cases_async(cases, model_configs, args.concurrency))
-
     model_runs: List[Dict[str, Any]] = []
     for model_config in model_configs:
-        results = grouped_results[model_config.label]
+        results = asyncio.run(run_cases_async(cases, model_config, args.concurrency))
         summary = summarize_case_results(results)
         payload = {
             "llm": model_config.to_dict(),

@@ -48,6 +48,8 @@ python nodes_eval/classifier_eval/run_eval.py --output-json /tmp/classifier_eval
 
 如果不传 `--llm`，默认跑 `backend_default`。
 
+传多个 `--llm` 时，会在同一份黄金集上逐个模型运行；每个模型内部按 case 并发，并输出统一 leaderboard。
+
 ## 输出产物
 
 - 主日志：`nodes_eval/classifier_eval/eval_classifier.log`

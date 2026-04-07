@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 
@@ -5,6 +6,7 @@ from nodes_eval.extractor_eval.benchmark import score_profiles
 from nodes_eval.extractor_eval.failure_analysis import generate_failure_analysis
 from nodes_eval.extractor_eval.run_eval import (
     load_cases,
+    run_cases_async,
     summarize_case_results,
     summarize_model_runs,
 )
@@ -319,3 +321,28 @@ def test_failure_analysis_groups_results_under_model_label(tmp_path: Path):
     assert (output_dir / "summary.md").exists()
     summary_text = (output_dir / "summary.md").read_text(encoding="utf-8")
     assert "llm_label: `qwen`" in summary_text
+
+
+def test_run_cases_async_preserves_case_order_for_single_model(monkeypatch):
+    cases = load_cases(DATASET_PATH)[:3]
+
+    class StubModelConfig:
+        label = "deepseek"
+
+    def fake_run_single_case(case, model_config, semantic_matcher):
+        return {
+            "llm": {"label": model_config.label},
+            "case_id": case.case_id,
+            "tags": case.tags,
+            "input": {},
+            "expected": {},
+            "actual": {},
+            "error": None,
+            "score": {"overall_score": float(ord(case.case_id[-1]))},
+        }
+
+    monkeypatch.setattr("nodes_eval.extractor_eval.run_eval.run_single_case", fake_run_single_case)
+
+    results = asyncio.run(run_cases_async(cases, StubModelConfig(), semantic_matcher=None, concurrency=2))
+
+    assert [item["case_id"] for item in results] == sorted(case.case_id for case in cases)

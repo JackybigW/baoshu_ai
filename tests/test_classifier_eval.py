@@ -1,9 +1,10 @@
+import asyncio
 import json
 from pathlib import Path
 
 from nodes_eval.classifier_eval.benchmark import score_classifier_result
 from nodes_eval.classifier_eval.failure_analysis import generate_failure_analysis
-from nodes_eval.classifier_eval.run_eval import load_cases, summarize_case_results
+from nodes_eval.classifier_eval.run_eval import load_cases, run_cases_async, summarize_case_results
 
 
 DATASET_PATH = Path(__file__).resolve().parents[1] / "nodes_eval/classifier_eval/golden_dataset.json"
@@ -103,3 +104,28 @@ def test_classifier_failure_analysis_orders_missed_handoff_first(tmp_path: Path)
     summary_text = (output_dir / "summary.md").read_text(encoding="utf-8")
     assert abnormal_cases[0]["case_id"] == "clf_001"
     assert "llm_model: `deepseek-v3-2-251201`" in summary_text
+
+
+def test_run_cases_async_preserves_case_order_for_single_model(monkeypatch):
+    cases = load_cases(DATASET_PATH)[:3]
+
+    class StubModelConfig:
+        label = "deepseek"
+
+    def fake_run_single_case(case, model_config):
+        return {
+            "llm": {"label": model_config.label},
+            "case_id": case.case_id,
+            "tags": case.tags,
+            "input": {},
+            "expected": {},
+            "actual": {},
+            "error": None,
+            "score": {"overall_score": float(ord(case.case_id[-1]))},
+        }
+
+    monkeypatch.setattr("nodes_eval.classifier_eval.run_eval.run_single_case", fake_run_single_case)
+
+    results = asyncio.run(run_cases_async(cases, StubModelConfig(), concurrency=2))
+
+    assert [item["case_id"] for item in results] == sorted(case.case_id for case in cases)

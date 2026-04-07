@@ -75,7 +75,7 @@ python nodes_eval/extractor_eval/run_eval.py --output-json /tmp/extractor_eval_r
 
 如果不传 `--llm`，默认跑 `backend_default`，也就是线上 extractor 当前 backend fallback chain。
 
-传多个 `--llm` 时，会在同一份黄金集和 benchmark 上并发跑多模型，并输出统一 leaderboard。
+传多个 `--llm` 时，会在同一份黄金集和 benchmark 上逐个模型运行；每个模型内部按 case 并发，并输出统一 leaderboard。
 
 ## 输出产物
 
@@ -107,6 +107,6 @@ nodes_eval/extractor_eval/failure_analyses/20260318_153000/
 
 说明：
 
-- `run_eval.py` 现在会在“case x llm”维度并发执行，默认总并发 `--concurrency 8`
+- `run_eval.py` 现在会按模型顺序运行，每个模型内部按 case 并发执行；默认单模型并发 `--concurrency 8`
 - 单 case 请求失败不会中断整批，会在 summary 里累计 `error_count`
 - `--output-json` 会写出完整 run payload，包含 leaderboard、各 LLM 的 summary、日志路径和 failure analysis 目录

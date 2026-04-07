@@ -329,35 +329,26 @@ def parse_args() -> argparse.Namespace:
         "--concurrency",
         type=int,
         default=8,
-        help="Max number of case executions to run concurrently across all requested LLMs.",
+        help="Max number of case executions to run concurrently within one requested LLM.",
     )
     return parser.parse_args()
 
 
 async def run_cases_async(
     cases: List[EvalCase],
-    model_configs: List[EvalModelConfig],
+    model_config: EvalModelConfig,
     semantic_matcher: Optional[DeepSeekSemanticMatcher],
     concurrency: int,
-) -> Dict[str, List[Dict[str, Any]]]:
+) -> List[Dict[str, Any]]:
     semaphore = asyncio.Semaphore(max(1, concurrency))
-    grouped_results: Dict[str, List[Dict[str, Any]]] = {config.label: [] for config in model_configs}
 
-    async def run_with_limit(case: EvalCase, model_config: EvalModelConfig) -> Dict[str, Any]:
+    async def run_with_limit(case: EvalCase) -> Dict[str, Any]:
         async with semaphore:
             return await asyncio.to_thread(run_single_case, case, model_config, semantic_matcher)
 
-    tasks = [
-        run_with_limit(case, model_config)
-        for model_config in model_configs
-        for case in cases
-    ]
-    raw_results = await asyncio.gather(*tasks)
-    for item in raw_results:
-        grouped_results[item["llm"]["label"]].append(item)
-    for results in grouped_results.values():
-        results.sort(key=lambda item: item["case_id"])
-    return grouped_results
+    results = await asyncio.gather(*(run_with_limit(case) for case in cases))
+    results.sort(key=lambda item: item["case_id"])
+    return results
 
 
 def _per_model_log_path(label: str) -> Path:
@@ -422,13 +413,11 @@ def main() -> None:
     run_timestamp = datetime.now()
     run_root = Path(__file__).resolve().parent / "failure_analyses" / run_timestamp.strftime("%Y%m%d_%H%M%S")
 
-    grouped_results = asyncio.run(
-        run_cases_async(cases, model_configs, semantic_matcher, args.concurrency)
-    )
-
     model_runs: List[Dict[str, Any]] = []
     for model_config in model_configs:
-        results = grouped_results[model_config.label]
+        results = asyncio.run(
+            run_cases_async(cases, model_config, semantic_matcher, args.concurrency)
+        )
         summary = summarize_case_results(results)
         payload = {
             "llm": model_config.to_dict(),
