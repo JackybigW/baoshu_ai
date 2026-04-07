@@ -59,3 +59,42 @@ python nodes_eval/execution_eval/run_eval.py --output-json /tmp/execution_eval.j
 ```
 
 如果不传 `--llm`，默认跑 `frontend_default`。
+
+## 数据集维护
+
+执行层黄金集现在由 6 个 shard 文件拼出来：
+
+- `nodes_eval/execution_eval/datasets/consultant_cases.json`
+- `nodes_eval/execution_eval/datasets/interviewer_cases.json`
+- `nodes_eval/execution_eval/datasets/high_value_cases.json`
+- `nodes_eval/execution_eval/datasets/low_budget_cases.json`
+- `nodes_eval/execution_eval/datasets/art_cases.json`
+- `nodes_eval/execution_eval/datasets/chit_chat_cases.json`
+
+重建总集：
+
+```bash
+python nodes_eval/execution_eval/build_dataset.py
+```
+
+如果你只是想在 shard 还没写满时预览合并结果：
+
+```bash
+python nodes_eval/execution_eval/build_dataset.py --allow-partial
+```
+
+常用 smoke：
+
+```bash
+python nodes_eval/execution_eval/run_eval.py --tag consultant --limit 5 --llm deepseek --no-judge
+python nodes_eval/execution_eval/run_eval.py --tag chit_chat --limit 5 --llm qwen
+python nodes_eval/execution_eval/run_eval.py --tag interviewer --limit 5 --llm gemini_flash
+```
+
+说明：
+
+- shard 用于多人并行编写，`golden_dataset.json` 是构建产物
+- builder 默认就是 strict，会检查每个目标节点至少 20 条
+- `--strict` 仍可用，但只是兼容旧命令
+- `consultant` 可使用 `required_context_terms` 强制知识库路径命中
+- `chit_chat` 可使用 `forbidden_regexes` 拦截括号式情绪/动作文本

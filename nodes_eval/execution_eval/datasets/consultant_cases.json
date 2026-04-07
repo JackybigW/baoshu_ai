@@ -1,1 +1,1427 @@
-[]
+[
+  {
+    "case_id": "exe_cons_001",
+    "tags": ["consultant", "need_consulting", "question_first", "parent", "hongkong_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先问个具体的，香港副学士和VTC哪个更稳？我女儿现在高二，别急着给方案，先讲清差别。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 18,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港八大 / 都会大学",
+        "target_major": "商科",
+        "academic_background": "高二，校内均分83，英语一般",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "香港副学士",
+          "香港VTC"
+        ],
+        [
+          "稳",
+          "差别",
+          "区别"
+        ],
+        [
+          "方案",
+          "路线"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先回答副学士和VTC的差别，再自然追问接受度。",
+      "rubric_notes": "先给结论，不要直接把对话甩成完整规划。"
+    }
+  },
+  {
+    "case_id": "exe_cons_002",
+    "tags": ["consultant", "need_consulting", "question_first", "student", "excel_rag", "singapore_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先问清楚，国内本科预科+新加坡本科课程和直接申英联邦预科，哪个更适合我？先别排路线。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 32,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "新加坡",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "NTU / SMU",
+        "target_major": "商科",
+        "academic_background": "双非大二，均分81，英语一般",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "新加坡本科课程",
+          "预科"
+        ],
+        [
+          "更适合",
+          "区别",
+          "对比"
+        ],
+        [
+          "先",
+          "别排",
+          "路线"
+        ]
+      ],
+      "required_context_terms": [
+        [
+          "search_products",
+          "products_intro.xlsx"
+        ],
+        [
+          "国内本科预科+新加坡本科课程",
+          "国际本科3+1",
+          "国际本科2+2"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先按 Excel 方案池讲清新加坡和预科的差别。",
+      "rubric_notes": "要先答题，再把用户拉回可选方案里。"
+    }
+  },
+  {
+    "case_id": "exe_cons_003",
+    "tags": ["consultant", "need_consulting", "question_first", "student", "diploma_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我大专，手里就9万。先告诉我，专升硕和中外合办4+0哪个更像正路？我不要先做计划。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "马来西亚"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_major": "会计",
+        "academic_background": "大专在读，会计专业，均分80",
+        "language_level": "无语言成绩"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "专升硕",
+          "中外合办4+0"
+        ],
+        [
+          "正路",
+          "更划算",
+          "更适合"
+        ],
+        [
+          "先",
+          "不要",
+          "别"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先答路径选择，再判断是否需要过渡。",
+      "rubric_notes": "别把预算问题变成空泛鼓励。"
+    }
+  },
+  {
+    "case_id": "exe_cons_004",
+    "tags": ["consultant", "need_consulting", "question_first", "parent", "excel_rag", "malaysia_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子高三，预算一年12万。我先问，马来西亚方向里国内读国际高中、预科、还是2+2，哪个更顺？先别做计划。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 12,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "马来西亚",
+          "新加坡"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "马来亚大学",
+        "target_major": "商科",
+        "academic_background": "高三，均分86，英语90分",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "马来西亚方向",
+          "国际本科2+2"
+        ],
+        [
+          "预科",
+          "国际高中",
+          "2+2"
+        ],
+        [
+          "更顺",
+          "先问",
+          "别做计划"
+        ]
+      ],
+      "required_context_terms": [
+        [
+          "search_products",
+          "products_intro.xlsx"
+        ],
+        [
+          "马来西亚方向",
+          "国际本科2+2",
+          "国内读国际高中"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先按方案池讲清马来西亚相关路径，再接后续问题。",
+      "rubric_notes": "必须先回答路径差异，再补一个自然追问。"
+    }
+  },
+  {
+    "case_id": "exe_cons_005",
+    "tags": ["consultant", "need_consulting", "question_first", "student", "australia_canada"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我现在就想知道，澳洲硕士和加拿大硕士在你们那套方案里怎么分？别先排计划，先讲我这情况值不值得直接出国。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 24,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "澳大利亚",
+          "加拿大"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_major": "商科",
+        "academic_background": "双非大三，均分84",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "澳洲硕士",
+          "加拿大硕士"
+        ],
+        [
+          "值不值得",
+          "直接出国"
+        ],
+        [
+          "先讲",
+          "先别"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先回答澳加差别，再判断是否值得直接出国。",
+      "rubric_notes": "不要把用户的问题变成单纯的背景盘点。"
+    }
+  },
+  {
+    "case_id": "exe_cons_006",
+    "tags": ["consultant", "need_consulting", "question_first", "parent", "vocational_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我儿子职高，先别推销。香港副学士、香港VTC、澳门副学士这三个，哪个最稳？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "职高",
+        "budget": {
+          "amount": 15,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_major": "酒店管理",
+        "academic_background": "职高三年级，餐饮方向",
+        "language_level": "英语基础一般"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "香港副学士",
+          "香港VTC",
+          "澳门副学士"
+        ],
+        [
+          "最稳",
+          "稳妥"
+        ],
+        [
+          "先别推销",
+          "先"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先把三条港澳路径讲清，再给家长一个稳的判断。",
+      "rubric_notes": "语气要像顾问，先答疑，不要直接催转人工。"
+    }
+  },
+  {
+    "case_id": "exe_cons_007",
+    "tags": ["consultant", "sales_ready", "student", "handoff_ready", "singapore"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你前面说的新加坡那条我觉得能接受了。先把能落地的两个项目告诉我，确认后我就想找真人聊细节。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 40,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "新加坡"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "SMU",
+        "target_major": "商科",
+        "academic_background": "双非大二，均分80",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "两个项目",
+          "项目"
+        ],
+        [
+          "真人",
+          "顾问",
+          "老师"
+        ],
+        [
+          "确认",
+          "落地",
+          "细节"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先给甜头，再自然把真人顾问接上。",
+      "rubric_notes": "收网可以快，但必须先回答用户的落地问题。"
+    }
+  },
+  {
+    "case_id": "exe_cons_008",
+    "tags": ["consultant", "sales_ready", "parent", "handoff_ready", "uk_us_compare"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "听下来英国这条比美国稳，我家里也能接受。你先把最匹配的方案说透，后面我就让顾问老师接上。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 36,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国",
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "KCL",
+        "target_major": "心理学",
+        "academic_background": "高二，均分88，英语基础一般",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "英国",
+          "美国"
+        ],
+        [
+          "最匹配",
+          "方案"
+        ],
+        [
+          "顾问老师",
+          "接上",
+          "真人"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先把可选方案说透，再顺势交给真人顾问。",
+      "rubric_notes": "要像真实顾问，不要只丢一句拉群。"
+    }
+  },
+  {
+    "case_id": "exe_cons_009",
+    "tags": ["consultant", "sales_ready", "excel_rag", "parent", "hongkong_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我看你们表里香港副学士和香港VTC都在，按 search_products 那套先帮我定一个，我觉得可以直接对接老师了。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 40,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": "坚决不出国",
+        "target_school": "港八大",
+        "target_major": "商科",
+        "academic_background": "高三，均分82，英语90",
+        "language_level": "雅思5.0"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "香港副学士",
+          "香港VTC"
+        ],
+        [
+          "定一个",
+          "先帮我",
+          "拍板"
+        ],
+        [
+          "老师",
+          "对接",
+          "真人"
+        ]
+      ],
+      "required_context_terms": [
+        [
+          "search_products",
+          "products_intro.xlsx"
+        ],
+        [
+          "香港副学士",
+          "香港VTC"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "按 Excel 方案池先定方向，再拉真人接手。",
+      "rubric_notes": "这里要体现已经进入收网，不要继续展开新选项。"
+    }
+  },
+  {
+    "case_id": "exe_cons_010",
+    "tags": ["consultant", "sales_ready", "student", "close_ready", "direct_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我已经大概定了，想走你们推荐的那条。你先把能马上安排的人接上，我只想确认细节和时间。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "budget": {
+          "amount": 52,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "多伦多大学",
+        "target_major": "商科",
+        "academic_background": "国内二本，工作1年，想申商科",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "马上安排",
+          "人接上",
+          "真人"
+        ],
+        [
+          "确认细节",
+          "时间"
+        ],
+        [
+          "推荐的那条",
+          "定了"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先确认细节，再把人顺滑接上。",
+      "rubric_notes": "收口要自然，别把用户的确认意愿打断。"
+    }
+  },
+  {
+    "case_id": "exe_cons_011",
+    "tags": ["consultant", "sales_ready", "parent", "long_dialog_handoff", "uk_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我女儿现在高二，先想知道英国和美国哪个更稳。"
+        },
+        {
+          "type": "ai",
+          "content": "可以先看稳妥度，再看专业匹配。"
+        },
+        {
+          "type": "human",
+          "content": "那她现在均分88，英语还一般，会不会太早定国家？"
+        },
+        {
+          "type": "ai",
+          "content": "这个阶段可以先看路线，不急着定死。"
+        },
+        {
+          "type": "human",
+          "content": "我又担心预算，家里一年最多36万，别让我纠结太久。"
+        },
+        {
+          "type": "ai",
+          "content": "预算够用，关键是路径要选对。"
+        },
+        {
+          "type": "human",
+          "content": "那你别绕了，直接说后面是不是要找真人老师接一下？"
+        },
+        {
+          "type": "ai",
+          "content": "可以，先把基础判断做完。"
+        },
+        {
+          "type": "human",
+          "content": "我就是想尽快拍板，英国这条能不能直接推进？"
+        },
+        {
+          "type": "ai",
+          "content": "可以先给你一个倾向。"
+        },
+        {
+          "type": "human",
+          "content": "别再来回问了，我现在就要方案和接人。"
+        },
+        {
+          "type": "ai",
+          "content": "我先帮你收口，再安排下一步。"
+        },
+        {
+          "type": "human",
+          "content": "那就直接说吧，我想让真人顾问接上。"
+        },
+        {
+          "type": "ai",
+          "content": "可以继续对接。"
+        },
+        {
+          "type": "human",
+          "content": "我已经问完了，最后确认一次，英国还是美国？"
+        },
+        {
+          "type": "human",
+          "content": "你现在直接告诉我，别再拉扯了。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 36,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国",
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "前50",
+        "target_major": "商科",
+        "academic_background": "高二，均分88，英语基础一般",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "英国",
+          "美国"
+        ],
+        [
+          "真人顾问",
+          "接上",
+          "对接"
+        ],
+        [
+          "拍板",
+          "方案"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "对话拉长后先收口，再交给真人顾问。",
+      "rubric_notes": "这是长对话收网场景，必须体现结束并交接。"
+    }
+  },
+  {
+    "case_id": "exe_cons_012",
+    "tags": ["consultant", "sales_ready", "student", "long_dialog_handoff", "asia_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我大三，想去新加坡还是英国一直没定。"
+        },
+        {
+          "type": "ai",
+          "content": "你更看重学历认可还是预算？"
+        },
+        {
+          "type": "human",
+          "content": "我更在意能不能快点定下来。"
+        },
+        {
+          "type": "ai",
+          "content": "那我们先看路径速度。"
+        },
+        {
+          "type": "human",
+          "content": "预算一年30万左右，家里也不想再拖。"
+        },
+        {
+          "type": "ai",
+          "content": "这个预算可以做不少选择。"
+        },
+        {
+          "type": "human",
+          "content": "我现在只想知道是不是该找你们真人接手。"
+        },
+        {
+          "type": "ai",
+          "content": "如果已经收敛，就可以。"
+        },
+        {
+          "type": "human",
+          "content": "我前面问了很多轮了，别再重复，直接安排。"
+        },
+        {
+          "type": "ai",
+          "content": "可以继续推进。"
+        },
+        {
+          "type": "human",
+          "content": "你就告诉我，新加坡这条是不是可以定了。"
+        },
+        {
+          "type": "ai",
+          "content": "可以先给倾向。"
+        },
+        {
+          "type": "human",
+          "content": "那就别绕了，我要真人顾问。"
+        },
+        {
+          "type": "ai",
+          "content": "好，接着走下一步。"
+        },
+        {
+          "type": "human",
+          "content": "最后一句，直接帮我收口。"
+        },
+        {
+          "type": "human",
+          "content": "我想马上对接。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 30,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "新加坡",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "SMU",
+        "target_major": "金融",
+        "academic_background": "双非大三，均分82",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "真人顾问",
+          "对接",
+          "接手"
+        ],
+        [
+          "新加坡",
+          "英国"
+        ],
+        [
+          "收口",
+          "安排",
+          "直接"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "长对话后先给判断，再把真人顾问接进来。",
+      "rubric_notes": "要像真实的收尾，不要机械地只说一句转人工。"
+    }
+  },
+  {
+    "case_id": "exe_cons_013",
+    "tags": ["consultant", "decision_support", "student", "offer_compare", "routes"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我现在卡在两个 offer 之间，一个是新加坡私立的国际本科，一个是国内中外合办。你先别给长篇计划，先帮我拍板哪个更适合我这种背景。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 31,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "新加坡",
+          "中国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "PSB / 中外合办",
+        "target_major": "商科",
+        "academic_background": "双非大二，均分80，雅思6.0",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "拍板",
+          "更适合",
+          "倾向"
+        ],
+        [
+          "国际本科",
+          "中外合办"
+        ],
+        [
+          "先别",
+          "长篇",
+          "计划"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先给倾向性结论，再问他更在乎学历还是成本。",
+      "rubric_notes": "决策支持要收敛，不要把用户推回新一轮咨询。"
+    }
+  },
+  {
+    "case_id": "exe_cons_014",
+    "tags": ["consultant", "decision_support", "excel_rag", "student", "singapore_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我看到你们表里有国际本科3+1和2+2，我现在只想知道 search_products 那套里，哪个更适合我这种高三背景？先给结论。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 34,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "新加坡",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "国际本科项目",
+        "target_major": "商科",
+        "academic_background": "高三均分85，雅思6.0",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "国际本科3+1",
+          "国际本科2+2"
+        ],
+        [
+          "更适合",
+          "结论",
+          "拍板"
+        ],
+        [
+          "先给结论",
+          "先只想知道"
+        ]
+      ],
+      "required_context_terms": [
+        [
+          "search_products",
+          "products_intro.xlsx"
+        ],
+        [
+          "国际本科3+1",
+          "国际本科2+2"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先按 Excel 方案池给出倾向，再把问题收窄到一条路。",
+      "rubric_notes": "这类题要先给判断，再补一条最关键的理由。"
+    }
+  },
+  {
+    "case_id": "exe_cons_015",
+    "tags": ["consultant", "decision_support", "student", "canada", "question_first"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先问个具体的，加拿大硕士里如果我均分79，能不能先走一个更稳的路径？你别先做总规划。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 22,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大",
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "渥太华大学",
+        "target_major": "商科",
+        "academic_background": "双非大三，均分79",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "加拿大硕士"
+        ],
+        [
+          "均分79",
+          "79"
+        ],
+        [
+          "更稳",
+          "能不能"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先给稳妥判断，再继续追问他对学校档次的接受度。",
+      "rubric_notes": "要先判断，再引导下一步，而不是泛泛安慰。"
+    }
+  },
+  {
+    "case_id": "exe_cons_016",
+    "tags": ["consultant", "decision_support", "parent", "hongkong", "question_first"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我女儿现在两条路都能走，一个香港副学士，一个澳门本科。你别让我自己想太久，先帮我判断哪个更稳。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 26,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "传媒",
+        "academic_background": "高一，校内均分90",
+        "language_level": "雅思5.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "香港副学士",
+          "澳门本科"
+        ],
+        [
+          "更稳",
+          "判断",
+          "拍板"
+        ],
+        [
+          "先帮我",
+          "别让我"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先给一个稳的倾向，再问家长接受哪条过渡路线。",
+      "rubric_notes": "家长场景要稳，但不能空泛。"
+    }
+  },
+  {
+    "case_id": "exe_cons_017",
+    "tags": ["consultant", "need_consulting", "student", "australia_path", "question_first"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先问清楚，中专背景能不能先走澳洲的过渡项目？别直接给我规划。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "中专",
+        "budget": {
+          "amount": 11,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "澳大利亚"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_major": "护理",
+        "academic_background": "中专毕业，护理相关，均分81",
+        "language_level": "英语基础一般"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "中专背景",
+          "中专"
+        ],
+        [
+          "澳洲"
+        ],
+        [
+          "过渡项目",
+          "过渡",
+          "暂缓"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先回答中专能不能走，再给一条现实的过渡思路。",
+      "rubric_notes": "要尊重背景，不要一上来就否掉。"
+    }
+  },
+  {
+    "case_id": "exe_cons_018",
+    "tags": ["consultant", "need_consulting", "student", "uk_path", "question_first"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先问，英国和香港这两个方向里，我现在更该先看哪个？我家里想先弄清楚，再做计划。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 20,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国",
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "QS前100",
+        "target_major": "传媒",
+        "academic_background": "本科大二，均分78",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "英国",
+          "香港"
+        ],
+        [
+          "先看",
+          "先做"
+        ],
+        [
+          "计划",
+          "方向"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先回答方向优先级，再继续推进判断。",
+      "rubric_notes": "不能只接话，要给明确的先后顺序。"
+    }
+  },
+  {
+    "case_id": "exe_cons_019",
+    "tags": ["consultant", "sales_ready", "student", "close_ready", "canada_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我已经差不多定了，想走加拿大这条。你先把能马上安排的人接上，我只想确认细节和时间。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "budget": {
+          "amount": 45,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "UBC",
+        "target_major": "商科",
+        "academic_background": "国内本科，均分83，工作半年",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "马上安排",
+          "人接上",
+          "真人"
+        ],
+        [
+          "确认细节",
+          "时间"
+        ],
+        [
+          "加拿大这条",
+          "定了"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先确认细节，再把人顺滑接上。",
+      "rubric_notes": "收口要自然，别把用户的确认意愿打断。"
+    }
+  },
+  {
+    "case_id": "exe_cons_020",
+    "tags": ["consultant", "sales_ready", "parent", "close_ready", "uk_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你刚才说的英国这条我认可了，后面就按这个方向走。先把真人顾问叫上，我想确认一下申请节奏。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 42,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "曼彻斯特大学",
+        "target_major": "教育学",
+        "academic_background": "高二，均分89，英语基础一般",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "真人顾问",
+          "叫上",
+          "对接"
+        ],
+        [
+          "英国这条",
+          "方向"
+        ],
+        [
+          "申请节奏",
+          "确认"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先给明确承接，再顺势交给真人顾问。",
+      "rubric_notes": "这里应该体现已经成交意向，而不是继续拉扯。"
+    }
+  },
+  {
+    "case_id": "exe_cons_021",
+    "tags": ["consultant", "decision_support", "parent", "hongkong", "question_first"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子现在只想留港，不想去别的国家。香港副学士和香港VTC这两个，你先告诉我哪个更适合他。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "职高",
+        "budget": {
+          "amount": 16,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": "坚决不出国",
+        "target_school": "港澳院校",
+        "target_major": "酒店管理",
+        "academic_background": "中专升大专，酒店管理",
+        "language_level": "无语言成绩"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "香港副学士",
+          "香港VTC"
+        ],
+        [
+          "更适合",
+          "判断"
+        ],
+        [
+          "留港",
+          "不想去"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "先给一个港澳方向里的倾向，再问家长能接受哪条过渡路线。",
+      "rubric_notes": "要先判断，不要先展开全部路径。"
+    }
+  },
+  {
+    "case_id": "exe_cons_022",
+    "tags": ["consultant", "sales_ready", "excel_rag", "parent", "handoff_ready", "hongkong_path"],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我看你们表里香港副学士和香港VTC都在，按 search_products 那套先帮我定一个，我觉得可以直接对接老师了。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 20,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "坚决不出国",
+        "target_school": "港八大",
+        "target_major": "商科",
+        "academic_background": "高三，均分82，英语90",
+        "language_level": "雅思5.0"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "香港副学士",
+          "香港VTC"
+        ],
+        [
+          "定一个",
+          "先帮我",
+          "拍板"
+        ],
+        [
+          "老师",
+          "对接",
+          "真人"
+        ]
+      ],
+      "required_context_terms": [
+        [
+          "search_products",
+          "products_intro.xlsx"
+        ],
+        [
+          "香港副学士",
+          "香港VTC"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "按 Excel 方案池先定方向，再拉真人接手。",
+      "rubric_notes": "这条要体现已经准备收网，不要再扩选项。"
+    }
+  }
+]

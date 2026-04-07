@@ -1,1 +1,1055 @@
-[]
+[
+  {
+    "case_id": "exe_int_001",
+    "tags": ["interviewer", "academic_background", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我均分82，能不能冲曼大？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {"amount": 40, "period": "TOTAL"},
+        "destination_preference": ["英国"],
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["可以", "能", "要看"], ["均分", "成绩", "GPA"]],
+      "node_goal": "先接住用户问题，再追问当前成绩细节",
+      "rubric_notes": "先简单回应能不能冲，再自然问成绩，不要只复读问题。"
+    }
+  },
+  {
+    "case_id": "exe_int_002",
+    "tags": ["interviewer", "academic_background", "anti_loop", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！我先帮您看下情况。"
+        },
+        {
+          "type": "human",
+          "content": "不知道，先别重复问了。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {"amount": 35, "period": "TOTAL"},
+        "destination_preference": ["香港"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["成绩", "均分", "GPA"], ["孩子", "目前", "现在"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "换一种更通俗的方式继续问孩子的学业背景",
+      "rubric_notes": "要改写问法，给选项或更白话的问法，不要原句复读。"
+    }
+  },
+  {
+    "case_id": "exe_int_003",
+    "tags": ["interviewer", "academic_background", "anti_loop", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我不懂，你先说要看什么。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {"amount": 55, "period": "TOTAL"},
+        "destination_preference": ["美国"],
+        "language_level": "托福95"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["GPA", "均分", "成绩"], ["专业", "学校", "在读"]],
+      "node_goal": "先用更口语的方式接住，再追问学业背景",
+      "rubric_notes": "用户说不懂时，必须改成更通俗的问法或选项。"
+    }
+  },
+  {
+    "case_id": "exe_int_004",
+    "tags": ["interviewer", "academic_background", "question_first", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "我女儿现在二本，均分不高，申港大还有戏吗？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {"amount": 28, "period": "TOTAL"},
+        "destination_preference": ["香港"],
+        "language_level": "雅思6"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["可能", "可以", "要看"], ["均分", "成绩"], ["港大", "香港"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "先回答冲刺可能性，再追问具体成绩和背景",
+      "rubric_notes": "先给判断，再问背景，不要只追问。"
+    }
+  },
+  {
+    "case_id": "exe_int_005",
+    "tags": ["interviewer", "language_level", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "雅思要先考到几分才合适？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {"amount": 35, "period": "TOTAL"},
+        "destination_preference": ["加拿大"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["雅思", "托福", "语言"], ["均分", "GPA", "成绩"]],
+      "node_goal": "先简短回答语言要求，再追问学业背景",
+      "rubric_notes": "语言问题要先接一句，再自然过渡到背景。"
+    }
+  },
+  {
+    "case_id": "exe_int_006",
+    "tags": ["interviewer", "language_level", "anti_loop", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "我不知道，孩子英语一般。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {"amount": 50, "period": "TOTAL"},
+        "destination_preference": ["美国"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["英语", "雅思", "托福"], ["孩子", "现在", "目前"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "把语言水平问题改写成更好回答的选项题",
+      "rubric_notes": "不要复读“不知道”，要给家长可选的描述方式。"
+    }
+  },
+  {
+    "case_id": "exe_int_007",
+    "tags": ["interviewer", "language_level", "anti_loop", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你先说，英语差是不是没救。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {"amount": 26, "period": "TOTAL"},
+        "destination_preference": ["日本"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["英语", "雅思", "托福"], ["现在", "目前", "基础"]],
+      "node_goal": "先安抚，再问语言基础和准备情况",
+      "rubric_notes": "用户催你先说时，要先给结论，再问，不要直接回填表。"
+    }
+  },
+  {
+    "case_id": "exe_int_008",
+    "tags": ["interviewer", "language_level", "question_first", "parent", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子现在就普通水平，要不要先读语言班？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {"amount": 58, "period": "TOTAL"},
+        "destination_preference": ["英国"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["家长您好"], ["语言班", "雅思", "托福"], ["均分", "成绩", "现在"]],
+      "node_goal": "先给语言班判断，再追问学业与语言底子",
+      "rubric_notes": "先回应是否需要语言班，再接着问孩子背景。"
+    }
+  },
+  {
+    "case_id": "exe_int_009",
+    "tags": ["interviewer", "budget", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "大概多少钱能做个方案？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "大三，均分83",
+        "destination_preference": ["澳洲"],
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["预算", "经费", "费用"], ["一年", "总共", "总预算"]],
+      "node_goal": "先解释预算要按周期问，再追问具体范围",
+      "rubric_notes": "预算问题要顺手确认是年预算还是总预算。"
+    }
+  },
+  {
+    "case_id": "exe_int_010",
+    "tags": ["interviewer", "budget", "anti_loop", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "不知道，先按你们经验说。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高二，均分88",
+        "destination_preference": ["香港"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["预算", "费用", "经费"], ["10万", "20万", "30万"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "把预算问题改成可选区间，而不是让家长空想",
+      "rubric_notes": "用区间或总额/年额选项来追问，避免机械复读。"
+    }
+  },
+  {
+    "case_id": "exe_int_011",
+    "tags": ["interviewer", "budget", "anti_loop", "student", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "同学您好！"
+        },
+        {
+          "type": "human",
+          "content": "这个以后再说。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "academic_background": "国内硕一，均分85",
+        "destination_preference": ["英国"],
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["预算", "费用", "经费"], ["总共", "每年", "一年"]],
+      "forbidden_keywords": ["同学您好"],
+      "node_goal": "继续问预算，但换成更轻的说法和区间选项",
+      "rubric_notes": "用户暂缓时，改成更轻松的选项题，不要硬顶。"
+    }
+  },
+  {
+    "case_id": "exe_int_012",
+    "tags": ["interviewer", "budget", "question_first", "parent", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "总预算和每年预算哪个更重要？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "academic_background": "本科会计，均分82",
+        "destination_preference": ["新加坡"],
+        "language_level": "雅思6"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["家长您好"], ["总预算", "年预算", "每年"], ["预算", "费用"]],
+      "node_goal": "先解释预算口径，再追问可接受区间",
+      "rubric_notes": "预算口径要先讲清楚，再顺手追问。"
+    }
+  },
+  {
+    "case_id": "exe_int_013",
+    "tags": ["interviewer", "destination_preference", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "去哪里性价比高一点？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "211本科金融，均分84",
+        "budget": {"amount": 35, "period": "TOTAL"},
+        "language_level": "托福90"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["国家", "地区", "哪里"], ["英国", "香港", "新加坡", "美国", "加拿大"]],
+      "node_goal": "先给方向判断，再追问具体国家或地区偏好",
+      "rubric_notes": "地理偏好要问到国家或地区，不要只停留在大方向。"
+    }
+  },
+  {
+    "case_id": "exe_int_014",
+    "tags": ["interviewer", "destination_preference", "anti_loop", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "没想好，先给我两个方向。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高三，均分86",
+        "budget": {"amount": 55, "period": "TOTAL"},
+        "language_level": "雅思6"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["英国", "香港", "新加坡", "美国"], ["地区", "国家", "方向"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "用两个具体方向引导家长做国家/地区选择",
+      "rubric_notes": "用户要两个方向时，直接给可选项，不要继续打太空问题。"
+    }
+  },
+  {
+    "case_id": "exe_int_015",
+    "tags": ["interviewer", "destination_preference", "anti_loop", "student", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "同学您好！"
+        },
+        {
+          "type": "human",
+          "content": "这个以后再说，先看能不能申。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "academic_background": "国内硕一，做过两段科研；均分87",
+        "budget": {"amount": 40, "period": "TOTAL"},
+        "language_level": "雅思7"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["地区", "国家", "哪里"], ["先", "继续", "再说"]],
+      "forbidden_keywords": ["同学您好"],
+      "node_goal": "把地区偏好问题延后但不断线，换成更轻的问题",
+      "rubric_notes": "用户暂时不想答时，要换个轻问法继续推进。"
+    }
+  },
+  {
+    "case_id": "exe_int_016",
+    "tags": ["interviewer", "destination_preference", "question_first", "parent", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "华语环境优先，离家别太远。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高一，均分89",
+        "budget": {"amount": 60, "period": "TOTAL"},
+        "language_level": "雅思6"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["家长您好"], ["香港", "新加坡", "马来西亚", "国内"], ["国家", "地区"]],
+      "node_goal": "把模糊偏好收窄到具体国家或地区",
+      "rubric_notes": "华语环境这种模糊描述，要追问到具体地点。"
+    }
+  },
+  {
+    "case_id": "exe_int_017",
+    "tags": ["interviewer", "educationStage", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我现在到底算高三还是大一那种背景？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "budget": {"amount": 20, "period": "TOTAL"},
+        "destination_preference": ["香港"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["现在", "在读", "最高学历"], ["高三", "大一", "本科"]],
+      "node_goal": "先接话，再确认用户当前实际就读阶段",
+      "rubric_notes": "要问当前在读阶段，不要问未来想读什么。"
+    }
+  },
+  {
+    "case_id": "exe_int_018",
+    "tags": ["interviewer", "educationStage", "anti_loop", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "不懂，孩子学校情况我有点乱。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "budget": {"amount": 30, "period": "TOTAL"},
+        "destination_preference": ["加拿大"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["孩子", "现在", "目前"], ["初中", "高中", "本科", "大专"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "把学历问题改成更容易答的当前就读阶段选择题",
+      "rubric_notes": "用户说乱时，直接给学历选项，不要继续抽象追问。"
+    }
+  },
+  {
+    "case_id": "exe_int_019",
+    "tags": ["interviewer", "educationStage", "anti_loop", "student", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "同学您好！"
+        },
+        {
+          "type": "human",
+          "content": "没想好，反正不是本科。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "budget": {"amount": 25, "period": "TOTAL"},
+        "destination_preference": ["日本"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["初中", "高中", "职高", "中专", "大专"], ["现在", "在读", "最高学历"]],
+      "forbidden_keywords": ["同学您好"],
+      "node_goal": "继续确认当前学历，但不要盯着未来申请层级问",
+      "rubric_notes": "用户没想好时，用当前在读阶段的选项来问。"
+    }
+  },
+  {
+    "case_id": "exe_int_020",
+    "tags": ["interviewer", "educationStage", "question_first", "parent", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子好像读到一半，不记得现在算什么学历。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "budget": {"amount": 45, "period": "TOTAL"},
+        "destination_preference": ["澳洲"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["家长您好"], ["现在", "在读", "最高学历"], ["初中", "高中", "本科"]],
+      "node_goal": "先安抚，再让家长确认孩子当前就读阶段",
+      "rubric_notes": "学历不清楚时，给选项让家长选，不要空泛追问。"
+    }
+  },
+  {
+    "case_id": "exe_int_021",
+    "tags": ["interviewer", "abroad_readiness", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我想直接出国，还是先在国内过渡更稳？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "高中",
+        "academic_background": "高二，均分85",
+        "budget": {"amount": 60, "period": "TOTAL"},
+        "destination_preference": ["英国"],
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["直接出国", "过渡", "暂缓"], ["国内", "港澳"]],
+      "node_goal": "先回应路线差异，再确认是否要直接出国",
+      "rubric_notes": "高中场景要明确问 direct abroad 还是先过渡。"
+    }
+  },
+  {
+    "case_id": "exe_int_022",
+    "tags": ["interviewer", "abroad_readiness", "anti_loop", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "不知道，先别逼我选。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "初中",
+        "academic_background": "初三，年级中游",
+        "budget": {"amount": 35, "period": "TOTAL"},
+        "destination_preference": ["香港"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["直接出国", "过渡", "暂缓"], ["国内", "港澳"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "把是否出国问题改写成更柔和的选项题",
+      "rubric_notes": "用户抗拒选择时，给两三个更容易答的选项。"
+    }
+  },
+  {
+    "case_id": "exe_int_023",
+    "tags": ["interviewer", "abroad_readiness", "anti_loop", "student", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "同学您好！"
+        },
+        {
+          "type": "human",
+          "content": "你先说，直接出去和先读港澳有什么差。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "高中",
+        "academic_background": "高三，均分88",
+        "budget": {"amount": 70, "period": "TOTAL"},
+        "destination_preference": ["美国", "香港"],
+        "language_level": "托福100"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["直接出国", "港澳"], ["过渡", "暂缓"], ["同学", "你现在"]],
+      "forbidden_keywords": ["同学您好"],
+      "node_goal": "先简答路线差异，再继续确认出国意愿",
+      "rubric_notes": "要先给比较，再把问题收回到当前选择。"
+    }
+  },
+  {
+    "case_id": "exe_int_024",
+    "tags": ["interviewer", "abroad_readiness", "anti_loop", "parent", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "这个以后再说吧，先把孩子路线定了。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高一，均分90",
+        "budget": {"amount": 80, "period": "TOTAL"},
+        "destination_preference": ["新加坡"],
+        "language_level": "雅思6"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["家长您好"], ["直接出国", "过渡", "暂缓"], ["国内", "港澳"]],
+      "node_goal": "继续问是否直接出国，但表达要更缓和",
+      "rubric_notes": "先顺着家长的节奏，再把问题收敛到出国路径。"
+    }
+  },
+  {
+    "case_id": "exe_int_025",
+    "tags": ["interviewer", "academic_background", "student", "question_first", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我美高转本，背景要怎么讲才算完整？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {"amount": 80, "period": "TOTAL"},
+        "destination_preference": ["美国"],
+        "language_level": "托福105"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["背景", "成绩", "GPA"], ["学校", "专业", "在读"]],
+      "node_goal": "先简单回答背景怎么讲，再追问学术细节",
+      "rubric_notes": "回答要短，随后立刻接回学术背景问题。"
+    }
+  },
+  {
+    "case_id": "exe_int_026",
+    "tags": ["interviewer", "language_level", "question_first", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "孩子英语还行，要补什么？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {"amount": 52, "period": "TOTAL"},
+        "destination_preference": ["英国"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["英语", "雅思", "托福"], ["成绩", "均分", "背景"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "先接住家长的问题，再继续问孩子的语言和背景",
+      "rubric_notes": "家长问语言时，先回一句，再把话题拉回到可继续追问的细节。"
+    }
+  },
+  {
+    "case_id": "exe_int_027",
+    "tags": ["interviewer", "budget", "question_first", "student", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "同学您好！"
+        },
+        {
+          "type": "human",
+          "content": "手头不算宽裕，十来万够不够？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "academic_background": "211本科，均分86",
+        "destination_preference": ["德国"],
+        "language_level": "德语B1"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["预算", "费用", "经费"], ["十万", "20万", "区间"]],
+      "forbidden_keywords": ["同学您好"],
+      "node_goal": "先判断预算紧不紧，再追问预算区间和周期",
+      "rubric_notes": "预算紧张时，要先接住再追问，不要生硬。"
+    }
+  },
+  {
+    "case_id": "exe_int_028",
+    "tags": ["interviewer", "destination_preference", "anti_loop", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "没想好，英美都想看看。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "academic_background": "本科传媒，均分81",
+        "budget": {"amount": 38, "period": "TOTAL"},
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["国家", "地区", "方向"], ["美国", "英国"]],
+      "node_goal": "把英美模糊偏好收窄成可落地的地区选择",
+      "rubric_notes": "用户没想好时，要从英美这种大框架继续往下问。"
+    }
+  },
+  {
+    "case_id": "exe_int_029",
+    "tags": ["interviewer", "educationStage", "question_first", "student", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "同学您好！"
+        },
+        {
+          "type": "human",
+          "content": "我算大二还是大三？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "budget": {"amount": 22, "period": "TOTAL"},
+        "destination_preference": ["香港"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["现在", "在读", "最高学历"], ["大二", "大三"]],
+      "forbidden_keywords": ["同学您好"],
+      "node_goal": "先接话，再确认当前在读年级",
+      "rubric_notes": "教育阶段问题要问当前年级，不要问想申几年级。"
+    }
+  },
+  {
+    "case_id": "exe_int_030",
+    "tags": ["interviewer", "abroad_readiness", "question_first", "parent", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子想先港澳过渡，再考虑直接出国。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "academic_background": "高二，均分87",
+        "budget": {"amount": 62, "period": "TOTAL"},
+        "destination_preference": ["香港", "英国"],
+        "language_level": "雅思6"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["家长您好"], ["过渡", "直接出国", "暂缓"], ["港澳", "香港"]],
+      "node_goal": "确认是否先走港澳过渡路线还是直接出国",
+      "rubric_notes": "高中过渡场景要把港澳和直接出国的分支问清楚。"
+    }
+  },
+  {
+    "case_id": "exe_int_031",
+    "tags": ["interviewer", "academic_background", "question_first", "parent", "greeting_repeated_context"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "家长您好！"
+        },
+        {
+          "type": "human",
+          "content": "孩子成绩不稳定，先看哪块？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {"amount": 30, "period": "TOTAL"},
+        "destination_preference": ["日本"],
+        "language_level": "无语言成绩"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["成绩", "均分", "GPA"], ["孩子", "现在", "目前"]],
+      "forbidden_keywords": ["家长您好"],
+      "node_goal": "先回答看哪块，再追问孩子的具体成绩和学校情况",
+      "rubric_notes": "家长问先看哪块时，要直接拉回到成绩细节。"
+    }
+  },
+  {
+    "case_id": "exe_int_032",
+    "tags": ["interviewer", "language_level", "question_first", "student", "greeting_needed"],
+    "node_name": "interviewer",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "托福没考，四六级刚过，这样还来得及吗？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {"amount": 28, "period": "TOTAL"},
+        "destination_preference": ["荷兰"]
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [["同学您好"], ["托福", "四六级", "雅思"], ["成绩", "GPA", "均分"]],
+      "node_goal": "先接住语言焦虑，再追问学术背景细节",
+      "rubric_notes": "语言成绩未定时，先回应来得及与否，再问背景。"
+    }
+  }
+]

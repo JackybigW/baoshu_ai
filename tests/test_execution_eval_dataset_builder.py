@@ -10,6 +10,8 @@ from nodes_eval.execution_eval.build_dataset import build_execution_dataset
 
 NODES = ["consultant", "interviewer", "high_value", "low_budget", "art", "chit_chat"]
 SHARD_FILENAMES = [f"{node}_cases.json" for node in NODES]
+REPO_DATASETS_DIR = Path(__file__).resolve().parents[1] / "nodes_eval/execution_eval/datasets"
+REPO_GOLDEN_PATH = Path(__file__).resolve().parents[1] / "nodes_eval/execution_eval/golden_dataset.json"
 
 
 def _write_shard(path: Path, node_name: str, case_ids: list[str]) -> None:
@@ -37,7 +39,7 @@ def test_build_execution_dataset_merges_scaffold_shards(tmp_path: Path):
         _write_empty_shard(datasets_dir / shard_filename)
 
     output_path = tmp_path / "golden_dataset.json"
-    build_execution_dataset(datasets_dir=datasets_dir, output_path=output_path)
+    build_execution_dataset(datasets_dir=datasets_dir, output_path=output_path, strict=False)
 
     merged = json.loads(output_path.read_text(encoding="utf-8"))
     assert merged == []
@@ -90,3 +92,15 @@ def test_build_execution_dataset_rejects_invalid_regex_patterns(tmp_path: Path):
 
     with pytest.raises(ValueError, match="invalid forbidden_regexes"):
         build_execution_dataset(datasets_dir=datasets_dir, output_path=tmp_path / "golden_dataset.json", strict=False)
+
+
+def test_build_execution_dataset_matches_checked_in_golden_dataset():
+    output_path = REPO_GOLDEN_PATH.parent / "_tmp_built_execution_dataset.json"
+    try:
+        build_execution_dataset(datasets_dir=REPO_DATASETS_DIR, output_path=output_path, strict=True)
+        committed = json.loads(REPO_GOLDEN_PATH.read_text(encoding="utf-8"))
+        rebuilt = json.loads(output_path.read_text(encoding="utf-8"))
+        assert rebuilt == committed
+    finally:
+        if output_path.exists():
+            output_path.unlink()

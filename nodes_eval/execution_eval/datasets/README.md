@@ -12,8 +12,8 @@
 每个 shard 文件名必须与节点名一致，例如 `consultant_cases.json`、`art_cases.json`。
 `nodes_eval/execution_eval/build_dataset.py` 会按这个注册表合并 shard，并生成
 `nodes_eval/execution_eval/golden_dataset.json`。
-默认 builder 以 scaffold 模式运行，允许这些文件先为空；正式 authoring 完成后，
-请使用 `--strict` 或 `strict=True` 强制检查每个 shard 至少 20 条 case。
+默认 builder 以 strict 模式运行，正式 authoring 完成后直接执行即可；
+如果只是想在 shard 未写满时预览合并结果，再使用 `--allow-partial`。
 
 ## 所有权
 
@@ -40,5 +40,5 @@
 ## 提交流程
 
 1. 在对应 shard 文件里新增或修改 case。
-2. 运行 `python nodes_eval/execution_eval/build_dataset.py` 合并检查。
-3. 完成后加上 `--strict` 复查，确认最终输出满足每个节点最少 20 条、`case_id` 无重复、`node_name` 无漂移。
+2. 运行 `python nodes_eval/execution_eval/build_dataset.py` 做正式合并检查。
+3. 如果只是临时预览合并结果，改用 `python nodes_eval/execution_eval/build_dataset.py --allow-partial`。

@@ -1,5 +1,6 @@
 import asyncio
 import json
+from collections import Counter
 from pathlib import Path
 
 from langchain_core.messages import AIMessage, ToolMessage
@@ -27,9 +28,27 @@ class RecordingJudge:
         return 0.8, "ok", []
 
 
-def test_execution_golden_dataset_has_14_cases():
+def test_execution_golden_dataset_has_large_node_coverage():
     cases = load_cases(DATASET_PATH)
-    assert len(cases) == 14
+    assert len(cases) >= 120
+
+
+def test_execution_golden_dataset_has_minimum_cases_per_target_node():
+    cases = load_cases(DATASET_PATH)
+    counts = Counter(case.node_name for case in cases)
+
+    assert counts["consultant"] >= 20
+    assert counts["interviewer"] >= 20
+    assert counts["high_value"] >= 20
+    assert counts["low_budget"] >= 20
+    assert counts["art"] >= 20
+    assert counts["chit_chat"] >= 20
+
+
+def test_execution_golden_dataset_contains_chit_chat_bracket_guards():
+    cases = load_cases(DATASET_PATH)
+    chat_cases = [case for case in cases if case.node_name == "chit_chat"]
+    assert any(case.expected.forbidden_regexes for case in chat_cases)
 
 
 def test_score_execution_output_detects_missing_required_tool_call():

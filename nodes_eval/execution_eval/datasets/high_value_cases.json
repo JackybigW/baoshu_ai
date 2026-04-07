@@ -1,1 +1,1826 @@
-[]
+[
+  {
+    "case_id": "exe_vip_001",
+    "tags": [
+      "high_value",
+      "trust_building",
+      "student",
+      "ivy"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "先别急着推荐，我想先确认你是不是能讲明白。背景、预算都可以后面再说。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 120,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "纽约大学",
+        "target_major": "商科",
+        "academic_background": "211本科，GPA 3.7，雅思7.0",
+        "language_level": "IELTS 7.0"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "背景",
+          "经历"
+        ],
+        [
+          "方案",
+          "判断"
+        ],
+        [
+          "学校",
+          "目标"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "先答疑再问，不要上来就催转人工。"
+    }
+  },
+  {
+    "case_id": "exe_vip_002",
+    "tags": [
+      "high_value",
+      "trust_building",
+      "parent",
+      "uk_hk"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我女儿现在高二，我先看你是不是靠谱。英国和香港我都能接受，但不想被带节奏。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 80,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国",
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "KCL / 港前三",
+        "target_major": "心理学",
+        "academic_background": "高二，校内均分88",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "女儿",
+          "孩子"
+        ],
+        [
+          "英国",
+          "香港"
+        ],
+        [
+          "安全",
+          "路径"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "语气要稳，先接住家长的防御。"
+    }
+  },
+  {
+    "case_id": "exe_vip_003",
+    "tags": [
+      "high_value",
+      "trust_building",
+      "decision_maker",
+      "budget_only"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我是家里负责拍板的人。先告诉我，这个项目值不值得我继续听。预算我有，但时间不多。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 300,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "Top 30 院校",
+        "target_major": "金融",
+        "academic_background": "待补充具体成绩"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "预算",
+          "投入"
+        ],
+        [
+          "拍板",
+          "决策"
+        ],
+        [
+          "值不值得",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "先给判断框架，再别急着推方案。"
+    }
+  },
+  {
+    "case_id": "exe_vip_004",
+    "tags": [
+      "high_value",
+      "trust_building",
+      "skeptical",
+      "student"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先说清楚，我怕踩坑。你们不是那种一上来就让我加微信、发套餐的吧？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "budget": {
+          "amount": 90,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "曼彻斯特大学",
+        "target_major": "数据分析",
+        "academic_background": "双非本科，GPA 3.4，雅思6.5",
+        "language_level": "IELTS 6.5"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "靠谱",
+          "真假"
+        ],
+        [
+          "顾问",
+          "老师"
+        ],
+        [
+          "方案",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "先化解防备，别出现客服味。"
+    }
+  },
+  {
+    "case_id": "exe_vip_005",
+    "tags": [
+      "high_value",
+      "trust_building",
+      "parent",
+      "safety"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子才高一，我最在意的是安全和节奏，不想太激进。先跟我讲讲你怎么判断合不合适。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 60,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国",
+          "新加坡"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "新加坡国立 / 英本前20",
+        "target_major": "商科",
+        "academic_background": "高一，校内稳定前10%",
+        "language_level": "雅思未考"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "孩子",
+          "女儿"
+        ],
+        [
+          "安全",
+          "过渡"
+        ],
+        [
+          "学校",
+          "方向"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "给家长稳定感，先讲判断逻辑。"
+    }
+  },
+  {
+    "case_id": "exe_vip_006",
+    "tags": [
+      "high_value",
+      "trust_building",
+      "student",
+      "fit_check"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我想先看你们是不是会说实话。合不合适、值不值，你直接告诉我，不用给我灌鸡汤。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 50,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国",
+          "香港"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "港大 / 美国前50",
+        "target_major": "经济学",
+        "academic_background": "985本科，GPA 3.5，雅思6.5",
+        "language_level": "IELTS 6.5"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "匹配",
+          "适合"
+        ],
+        [
+          "学校",
+          "方向"
+        ],
+        [
+          "真实",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "先做匹配判断，再往下聊方案。"
+    }
+  },
+  {
+    "case_id": "exe_vip_007",
+    "tags": [
+      "high_value",
+      "elite_target",
+      "student",
+      "top_school"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我目标就是美国前十。别跟我说稳妥路线，我想知道现在这个背景怎么冲最值。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 150,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "UChicago / Columbia / NYU",
+        "target_major": "经济与统计",
+        "academic_background": "中外合办本科，GPA 3.85，GRE 325，雅思8.0",
+        "language_level": "IELTS 8.0"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "顶尖",
+          "名校"
+        ],
+        [
+          "GPA",
+          "语言"
+        ],
+        [
+          "申请",
+          "方案"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "承接冲刺目标，但别空喊口号。"
+    }
+  },
+  {
+    "case_id": "exe_vip_008",
+    "tags": [
+      "high_value",
+      "elite_target",
+      "parent",
+      "oxbridge"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我女儿想冲牛津，但我不想听虚话。这个背景到底够不够，你先讲结论。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 120,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "牛津 / 剑桥",
+        "target_major": "历史",
+        "academic_background": "A-Level 预估A*AA，雅思7.5",
+        "language_level": "IELTS 7.5"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "牛津",
+          "剑桥"
+        ],
+        [
+          "背景",
+          "条件"
+        ],
+        [
+          "结论",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "要像行内人，不要泛泛夸孩子。"
+    }
+  },
+  {
+    "case_id": "exe_vip_009",
+    "tags": [
+      "high_value",
+      "elite_target",
+      "student",
+      "weak_background"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我就直说了，成绩不算亮眼，但我预算很足。港大和新国立我都想冲，你别敷衍我。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 280,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "香港",
+          "新加坡"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "港大 / 新国立",
+        "target_major": "金融",
+        "academic_background": "双非本科，GPA 3.1，雅思6.0",
+        "language_level": "IELTS 6.0"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "差距",
+          "条件"
+        ],
+        [
+          "香港",
+          "新加坡"
+        ],
+        [
+          "方案",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "讲清差距，不要装作一定能做。"
+    }
+  },
+  {
+    "case_id": "exe_vip_010",
+    "tags": [
+      "high_value",
+      "elite_target",
+      "decision_maker",
+      "family_office"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我是公司这边负责钱的人。孩子目标很高，预算不是问题，但我只接受能落地的判断。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 500,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "Top 20 / Top 30",
+        "target_major": "商科",
+        "academic_background": "海归背景，家里能全权支持"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "预算",
+          "投入"
+        ],
+        [
+          "落地",
+          "判断"
+        ],
+        [
+          "孩子",
+          "申请"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "决策者要的是结论和边界，不是寒暄。"
+    }
+  },
+  {
+    "case_id": "exe_vip_011",
+    "tags": [
+      "high_value",
+      "elite_target",
+      "student",
+      "multi_region"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我现在在美国和英国之间犹豫。不是想听大道理，我要知道哪个路径对我更值。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 100,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "美国",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "US Top 50 / 英本前20",
+        "target_major": "传媒",
+        "academic_background": "211本科，GPA 3.6，托福105",
+        "language_level": "TOEFL 105"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "美国",
+          "英国"
+        ],
+        [
+          "路径",
+          "取舍"
+        ],
+        [
+          "值",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "给倾向性结论，不要两边都哄。"
+    }
+  },
+  {
+    "case_id": "exe_vip_012",
+    "tags": [
+      "high_value",
+      "elite_target",
+      "parent",
+      "safety_rank"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我最关心安全和排名。孩子能不能稳一点去加拿大或者英国，你先给我个思路。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 70,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "加拿大",
+          "英国"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "UBC / 英国前30",
+        "target_major": "教育学",
+        "academic_background": "高二，校内均分86",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PROFILING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "安全",
+          "稳"
+        ],
+        [
+          "排名",
+          "学校"
+        ],
+        [
+          "过渡",
+          "路径"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "别只给冲刺感，要兼顾家长焦虑。"
+    }
+  },
+  {
+    "case_id": "exe_vip_013",
+    "tags": [
+      "high_value",
+      "objection",
+      "student",
+      "inconsistent_advice"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "你这个背景其实挺有机会的。"
+        },
+        {
+          "type": "human",
+          "content": "上一位老师又说我很悬，你们怎么前后不一致？我现在只想听实话。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 90,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "KCL / 爱丁堡",
+        "target_major": "市场营销",
+        "academic_background": "双非本科，GPA 3.45，雅思6.5",
+        "language_level": "IELTS 6.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "前后",
+          "一致"
+        ],
+        [
+          "实话",
+          "判断"
+        ],
+        [
+          "英国",
+          "学校"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "先解释分歧，再给清楚判断。"
+    }
+  },
+  {
+    "case_id": "exe_vip_014",
+    "tags": [
+      "high_value",
+      "objection",
+      "parent",
+      "too_generic"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "我们可以先从基础情况看起。"
+        },
+        {
+          "type": "human",
+          "content": "你这个说法太泛了，像模板。我要的是孩子到底怎么走，不是空话。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 110,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前30",
+        "target_major": "计算机",
+        "academic_background": "高二，AP 课程在读",
+        "language_level": "托福90"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "模板",
+          "泛"
+        ],
+        [
+          "孩子",
+          "路径"
+        ],
+        [
+          "实话",
+          "结论"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "要把家长的不耐烦接住，再给具体判断。"
+    }
+  },
+  {
+    "case_id": "exe_vip_015",
+    "tags": [
+      "high_value",
+      "objection",
+      "dissatisfaction",
+      "severe"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "别再给我绕了，我已经听了两轮还是没结论。今天要么你讲清楚，要么我就不聊了。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "budget": {
+          "amount": 140,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "美国",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前50 / 英国G5",
+        "target_major": "金融工程",
+        "academic_background": "211本科，GPA 3.2，GRE 321",
+        "language_level": "IELTS 7.0"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "情绪已经很重，要尽快找真人承接，不要硬聊。"
+    }
+  },
+  {
+    "case_id": "exe_vip_016",
+    "tags": [
+      "high_value",
+      "objection",
+      "student",
+      "honest_gap"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "我们先看你的基础情况。"
+        },
+        {
+          "type": "human",
+          "content": "那你直接说，我这个成绩是不是离目标还差很多？别安慰我，给我真实差距。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 60,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "港大",
+        "target_major": "经济学",
+        "academic_background": "双非本科，GPA 3.0，雅思6.0",
+        "language_level": "IELTS 6.0"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "差距",
+          "真实"
+        ],
+        [
+          "目标",
+          "学校"
+        ],
+        [
+          "成绩",
+          "背景"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "可以直接一点，但别空泛。"
+    }
+  },
+  {
+    "case_id": "exe_vip_017",
+    "tags": [
+      "high_value",
+      "objection",
+      "parent",
+      "no_template"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你们前两个顾问都像复制粘贴，我现在只想知道这事到底怎么落地。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 95,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "英国前20",
+        "target_major": "商科",
+        "academic_background": "高二，英语基础一般，校内排名前30%",
+        "language_level": "雅思未考"
+      },
+      "last_intent": "HIGH_VALUE",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "明显在抱怨前面的人，应该顺势交真人，不要继续客服式解释。"
+    }
+  },
+  {
+    "case_id": "exe_vip_018",
+    "tags": [
+      "high_value",
+      "objection",
+      "decision_maker",
+      "proof_required"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "ai",
+          "content": "我先给你一个方向。"
+        },
+        {
+          "type": "human",
+          "content": "别只给方向，我要看你们怎么证明不是画饼。时间表、边界和结果，都说清楚。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 220,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前30",
+        "target_major": "工程",
+        "academic_background": "海归预科背景，家庭预算充足"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 80,
+      "required_keyword_groups": [
+        [
+          "证明",
+          "边界"
+        ],
+        [
+          "时间",
+          "结果"
+        ],
+        [
+          "方向",
+          "判断"
+        ]
+      ],
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": false,
+      "node_goal": "先稳住信任，再推进判断。",
+      "rubric_notes": "给框架和边界，别只会喊价值。"
+    }
+  },
+  {
+    "case_id": "exe_vip_019",
+    "tags": [
+      "high_value",
+      "handoff",
+      "phone_request",
+      "student"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "别打字了，能不能直接打电话，我现在就想听真人讲。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 180,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "Top 20",
+        "target_major": "计算机",
+        "academic_background": "985本科，GPA 3.8，竞赛多",
+        "language_level": "TOEFL 108"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "用户明确要电话，必须马上工具/真人转接。"
+    }
+  },
+  {
+    "case_id": "exe_vip_020",
+    "tags": [
+      "high_value",
+      "handoff",
+      "voice_request",
+      "parent"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你给我发个语音也行，打字太慢了。我想让家里人一起听，直接说重点。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 140,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国",
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港大 / 英本前20",
+        "target_major": "会计",
+        "academic_background": "高二，校内成绩中上",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "出现语音诉求，应该直接交给真人承接。"
+    }
+  },
+  {
+    "case_id": "exe_vip_021",
+    "tags": [
+      "high_value",
+      "handoff",
+      "real_human",
+      "decision_maker"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我要跟真人老师聊，不要机器人。你把负责的人拉出来，我们一次说清。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 260,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "Top 30",
+        "target_major": "商科",
+        "academic_background": "家庭能全额支持，孩子背景还在补材料"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "明确要真人和负责人，不能继续自嗨回复。"
+    }
+  },
+  {
+    "case_id": "exe_vip_022",
+    "tags": [
+      "high_value",
+      "handoff",
+      "real_human",
+      "student"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "把老师拉进来吧，我不想再跟你来回问了。这个问题需要人直接定。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "研究生",
+        "budget": {
+          "amount": 75,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "港大 / 港科大",
+        "target_major": "传媒",
+        "academic_background": "双非本科，GPA 3.35，雅思6.5",
+        "language_level": "IELTS 6.5"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "用户已经明确放弃继续聊天，应该立刻转真人。"
+    }
+  },
+  {
+    "case_id": "exe_vip_023",
+    "tags": [
+      "high_value",
+      "handoff",
+      "voice_request",
+      "decision_maker"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "现在就电话沟通吧，我这边是拍板的人，没时间在消息里拉扯。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 400,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前20",
+        "target_major": "金融",
+        "academic_background": "家庭预算充足，孩子材料齐全"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "直接电话场景，节点应当立即收口拉群。"
+    }
+  },
+  {
+    "case_id": "exe_vip_024",
+    "tags": [
+      "high_value",
+      "handoff",
+      "real_human",
+      "decision_maker"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我要跟负责这个项目的人聊，不要绕。你先别回答，直接把能定事的人接上。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 160,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "英国前15",
+        "target_major": "物理",
+        "academic_background": "高二，理科较强，英语一般",
+        "language_level": "雅思未考"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "用户要直接对接负责人，应该立即交人。"
+    }
+  },
+  {
+    "case_id": "exe_vip_025",
+    "tags": [
+      "high_value",
+      "gray_area",
+      "escalate",
+      "student"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "这事你能不能帮我搞定？如果能走得快一点，我愿意继续聊。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 200,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前30",
+        "target_major": "商科",
+        "academic_background": "985本科，GPA 3.5，实习一般",
+        "language_level": "IELTS 7.0"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "带有强烈求助和搞定信号，应该引导真人接手。"
+    }
+  },
+  {
+    "case_id": "exe_vip_026",
+    "tags": [
+      "high_value",
+      "gray_area",
+      "escalate",
+      "parent"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "有没有特殊渠道？只要能稳一点，方法我都想听。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 300,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "新加坡"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港三 / 新国立",
+        "target_major": "商科",
+        "academic_background": "高二，成绩中上，资源足够",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "涉及特殊渠道暗示，安全起见应转真人。"
+    }
+  },
+  {
+    "case_id": "exe_vip_027",
+    "tags": [
+      "high_value",
+      "gray_area",
+      "escalate",
+      "decision_maker"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我不想听流程，直接说有没有内部通道能加速。能的话就继续，不行我就换人。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 420,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "Top 20",
+        "target_major": "金融工程",
+        "academic_background": "家庭预算高，孩子在准备标化"
+      },
+      "last_intent": "TRANSFER_TO_HUMAN",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "内部通道/加速信号已经很明确，必须接人工。"
+    }
+  },
+  {
+    "case_id": "exe_vip_028",
+    "tags": [
+      "high_value",
+      "handoff",
+      "long_dialog",
+      "student"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "先别急着下结论，我想知道你们怎么看我这个背景。"
+        },
+        {
+          "type": "ai",
+          "content": "可以，先把关键点讲清。"
+        },
+        {
+          "type": "human",
+          "content": "我最怕的是聊半天还是没结论。"
+        },
+        {
+          "type": "ai",
+          "content": "那就先看学校和目标差距。"
+        },
+        {
+          "type": "human",
+          "content": "目标很高，我也知道不是随便冲。"
+        },
+        {
+          "type": "ai",
+          "content": "越高的目标，越要看细背景。"
+        },
+        {
+          "type": "human",
+          "content": "背景我能补，但我需要有人给明确路径。"
+        },
+        {
+          "type": "ai",
+          "content": "路径可以拆，但要先核实细节。"
+        },
+        {
+          "type": "human",
+          "content": "我不想再一个个试了，直接说值不值。"
+        },
+        {
+          "type": "ai",
+          "content": "值不值，得看你完整材料。"
+        },
+        {
+          "type": "human",
+          "content": "我已经说了这么多，你别又绕回去。"
+        },
+        {
+          "type": "ai",
+          "content": "我理解，继续补一项就能定。"
+        },
+        {
+          "type": "human",
+          "content": "补来补去太慢了，我要的是有人直接拍板。"
+        },
+        {
+          "type": "ai",
+          "content": "好，我们再确认一个核心问题。"
+        },
+        {
+          "type": "human",
+          "content": "不用了，我这边时间不够，你把真人老师接上。"
+        },
+        {
+          "type": "human",
+          "content": "现在就接。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 240,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前30",
+        "target_major": "CS / 数据科学",
+        "academic_background": "985本科，GPA 3.75，科研和项目都还可以",
+        "language_level": "TOEFL 110"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "对话已经很长，closing pressure 应触发真人转接。"
+    }
+  },
+  {
+    "case_id": "exe_vip_029",
+    "tags": [
+      "high_value",
+      "handoff",
+      "long_dialog",
+      "parent"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我已经问了很多轮了，你们前后说法要统一。"
+        },
+        {
+          "type": "ai",
+          "content": "先别急，我把关键点再捋一下。"
+        },
+        {
+          "type": "human",
+          "content": "你们刚才说可冲，现在又说风险大。"
+        },
+        {
+          "type": "ai",
+          "content": "我先根据背景做判断。"
+        },
+        {
+          "type": "human",
+          "content": "我不接受模糊回答。"
+        },
+        {
+          "type": "ai",
+          "content": "那我们把时间线拆开看。"
+        },
+        {
+          "type": "human",
+          "content": "时间线我听懂了，但还差一个结论。"
+        },
+        {
+          "type": "ai",
+          "content": "结论要结合完整材料。"
+        },
+        {
+          "type": "human",
+          "content": "材料我都快发完了。"
+        },
+        {
+          "type": "ai",
+          "content": "还差一项就能更准。"
+        },
+        {
+          "type": "human",
+          "content": "别再让我补了，我要的是现在就能定。"
+        },
+        {
+          "type": "ai",
+          "content": "明白，我们再看最后一个维度。"
+        },
+        {
+          "type": "human",
+          "content": "我已经没耐心继续文字来回。"
+        },
+        {
+          "type": "ai",
+          "content": "我懂，尽量一次说透。"
+        },
+        {
+          "type": "human",
+          "content": "不行，直接拉真人来。"
+        },
+        {
+          "type": "human",
+          "content": "我要听能拍板的人怎么说。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 180,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国",
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "英国前20 / 港前三",
+        "target_major": "商科",
+        "academic_background": "高二，英语一般，但总体稳定",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "家长已经明显疲劳，长对话后应当拉真人。"
+    }
+  },
+  {
+    "case_id": "exe_vip_030",
+    "tags": [
+      "high_value",
+      "handoff",
+      "long_dialog",
+      "decision_maker"
+    ],
+    "node_name": "high_value",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我负责最终决定，但没空一直聊。你们能不能一次说清楚。"
+        },
+        {
+          "type": "ai",
+          "content": "可以，先看背景。"
+        },
+        {
+          "type": "human",
+          "content": "背景我知道你们要问，但我更关心结果。"
+        },
+        {
+          "type": "ai",
+          "content": "结果跟路径有关。"
+        },
+        {
+          "type": "human",
+          "content": "我只接受能执行的方案。"
+        },
+        {
+          "type": "ai",
+          "content": "那就要把细节补齐。"
+        },
+        {
+          "type": "human",
+          "content": "你们总说补细节，可我需要的是推进。"
+        },
+        {
+          "type": "ai",
+          "content": "推进前先校准预期。"
+        },
+        {
+          "type": "human",
+          "content": "别再校准了，告诉我有没有人能直接负责。"
+        },
+        {
+          "type": "ai",
+          "content": "有，但先确认几个点。"
+        },
+        {
+          "type": "human",
+          "content": "我都聊了这么久了。"
+        },
+        {
+          "type": "ai",
+          "content": "明白，我再简短一点。"
+        },
+        {
+          "type": "human",
+          "content": "简短没用，我要真人。"
+        },
+        {
+          "type": "ai",
+          "content": "我们可以继续。"
+        },
+        {
+          "type": "human",
+          "content": "不继续了，把负责人接进来。"
+        },
+        {
+          "type": "human",
+          "content": "现在就接。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 360,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "美国前20",
+        "target_major": "商科",
+        "academic_background": "家庭条件很强，孩子标化还在冲刺",
+        "language_level": "TOEFL 104"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "expected_status": "VIP_SERVICE",
+      "skip_rubric": true,
+      "node_goal": "该交给真人时，及时拉群。",
+      "rubric_notes": "决策者长时间拉扯后，应该停止追问并转接。"
+    }
+  }
+]

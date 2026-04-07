@@ -6,6 +6,10 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, List, Mapping
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 
 SHARD_REGISTRY: Mapping[str, str] = {
     "consultant": "consultant_cases.json",
@@ -26,6 +30,8 @@ def _load_json(path: Path) -> Any:
 
 
 def _validate_case(case: Any, *, shard_name: str, shard_path: Path) -> Dict[str, Any]:
+    from nodes_eval.execution_eval.run_eval import EvalCase
+
     if not isinstance(case, dict):
         raise ValueError(f"{shard_path}: each case must be a JSON object")
 
@@ -47,6 +53,11 @@ def _validate_case(case: Any, *, shard_name: str, shard_path: Path) -> Dict[str,
             raise ValueError(
                 f"{shard_path}: case_id {case_id} has invalid forbidden_regexes pattern {pattern!r}: {exc}"
             ) from exc
+
+    try:
+        EvalCase.model_validate(case)
+    except Exception as exc:
+        raise ValueError(f"{shard_path}: case_id {case_id} failed schema validation: {exc}") from exc
 
     return case
 
@@ -90,18 +101,12 @@ def build_execution_dataset(
     *,
     datasets_dir: Path | str = DEFAULT_DATASETS_DIR,
     output_path: Path | str = DEFAULT_OUTPUT_PATH,
-    strict: bool = False,
+    strict: bool = True,
 ) -> Path:
     merged = merge_shards(datasets_dir=datasets_dir, strict=strict)
     destination = Path(output_path)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    if not strict:
-        print(
-            f"execution dataset scaffold build wrote {len(merged)} cases to {destination}. "
-            f"Run with --strict after all shards reach {MIN_CASES_PER_NODE} cases.",
-            file=sys.stderr,
-        )
     return destination
 
 
@@ -109,7 +114,7 @@ def build_dataset(
     *,
     datasets_dir: Path | str = DEFAULT_DATASETS_DIR,
     output_path: Path | str = DEFAULT_OUTPUT_PATH,
-    strict: bool = False,
+    strict: bool = True,
 ) -> Path:
     return build_execution_dataset(datasets_dir=datasets_dir, output_path=output_path, strict=strict)
 
@@ -120,9 +125,22 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Merge execution-eval dataset shards.")
     parser.add_argument("--datasets-dir", type=Path, default=DEFAULT_DATASETS_DIR)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_PATH)
-    parser.add_argument("--strict", action="store_true", help="enforce the 20-case minimum per shard")
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="accepted for backward compatibility; strict mode is already the default",
+    )
+    parser.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="allow shard counts below the 20-case minimum and still write output",
+    )
     args = parser.parse_args()
-    output_path = build_execution_dataset(datasets_dir=args.datasets_dir, output_path=args.output, strict=args.strict)
+    output_path = build_execution_dataset(
+        datasets_dir=args.datasets_dir,
+        output_path=args.output,
+        strict=not args.allow_partial,
+    )
     print(output_path)
 
 

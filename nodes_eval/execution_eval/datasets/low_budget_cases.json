@@ -1,1 +1,1293 @@
-[]
+[
+  {
+    "case_id": "exe_low_001",
+    "tags": ["low_budget", "total_budget", "frugal_path"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "总共就8万人民币，别给我画饼，先说能走什么路。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "泰国"],
+        "target_major": "商科",
+        "academic_background": "双非本科大二，均分82"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["马来西亚", "泰国", "东南亚"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给出低于总预算10万的务实路径",
+      "rubric_notes": "直说可走路线，不要上价值"
+    }
+  },
+  {
+    "case_id": "exe_low_002",
+    "tags": ["low_budget", "total_budget", "junior_college"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "家里总共只能凑出6万，我是大专，想知道还有没有出国的办法。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 6,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["东南亚"],
+        "academic_background": "大专在读，专业是会计"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["专升本", "专升硕", "中外合办"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "把大专背景映射到低成本路径",
+      "rubric_notes": "要给可落地的低成本路线"
+    }
+  },
+  {
+    "case_id": "exe_low_003",
+    "tags": ["low_budget", "total_budget", "double_non"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "双非本科，预算总共9万，想申个稳点的硕士，不要一上来就劝我加钱。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["波兰", "白俄罗斯"],
+        "academic_background": "双非本科，均分84，英语一般"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["波兰", "白俄罗斯", "东欧"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "不羞辱预算，优先给稳妥低成本方案",
+      "rubric_notes": "语气稳，别把用户往高价路推"
+    }
+  },
+  {
+    "case_id": "exe_low_004",
+    "tags": ["low_budget", "total_budget", "high_school"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "孩子高三，家里全包也就7万，想留学但别太贵，能不能先讲讲最省钱的方向。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 7,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "泰国"],
+        "academic_background": "高三，校内均分86"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["马来西亚", "泰国", "性价比"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "面向家长给出省钱但不丢面的路径",
+      "rubric_notes": "安抚家长焦虑，别嫌预算少"
+    }
+  },
+  {
+    "case_id": "exe_low_005",
+    "tags": ["low_budget", "annual_budget", "frugal_path"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我是一年预算6万人民币，想去留学，别跟我说空话，给个实际方案。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 6,
+          "period": "YEAR"
+        },
+        "destination_preference": ["泰国", "马来西亚"],
+        "academic_background": "二本大三，GPA 3.1"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["年预算", "东南亚", "性价比"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "按年预算低于10万给具体方向",
+      "rubric_notes": "要像真人顾问，不要泛泛而谈"
+    }
+  },
+  {
+    "case_id": "exe_low_006",
+    "tags": ["low_budget", "annual_budget", "junior_college"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我大专快毕业了，一年预算8万以内，想出去读个更有用的，怎么选最划算。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 8,
+          "period": "YEAR"
+        },
+        "destination_preference": ["东南亚", "日本"],
+        "academic_background": "大专三年级，想继续读本科"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["专升本", "中外合办", "东南亚"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给大专用户一条稳的低预算路",
+      "rubric_notes": "清楚指出低成本转学位路径"
+    }
+  },
+  {
+    "case_id": "exe_low_007",
+    "tags": ["low_budget", "annual_budget", "double_non"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "双非本科，年预算9万，想去东欧读硕，别跟我说太贵，我就要稳一点。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "YEAR"
+        },
+        "destination_preference": ["波兰", "俄罗斯"],
+        "academic_background": "双非本科大四，均分83"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["东欧", "波兰", "俄罗斯"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "对低年预算用户讲清东欧路线",
+      "rubric_notes": "不要把用户预算说得很差"
+    }
+  },
+  {
+    "case_id": "exe_low_008",
+    "tags": ["low_budget", "annual_budget", "gap_year"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我gap year一年，预算总是卡得很死，年预算就5万左右，还有没有能读的路。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 5,
+          "period": "YEAR"
+        },
+        "destination_preference": ["马来西亚", "泰国"],
+        "academic_background": "gap year，刚高考完"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["gap year", "马来西亚", "泰国"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给gap year用户低成本过渡方案",
+      "rubric_notes": "别劝退，先给过渡路径"
+    }
+  },
+  {
+    "case_id": "exe_low_009",
+    "tags": ["low_budget", "family_anxiety", "parent"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我是家长，孩子本科，家里现在很焦虑，预算不高但也不想被你说得太难听。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚"],
+        "academic_background": "孩子双非本科，均分85"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["家长", "稳", "路径"]],
+      "forbidden_keywords": ["预算太低", "太穷"],
+      "expected_status": "PERSUADING",
+      "node_goal": "安抚家长焦虑，不做预算羞辱",
+      "rubric_notes": "要温和、具体、别冒犯"
+    }
+  },
+  {
+    "case_id": "exe_low_010",
+    "tags": ["low_budget", "family_anxiety", "sibling_pressure"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我妹妹今年高考，家里两个孩子一起花钱，预算真的紧，但也想给她找条不太亏的路。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 7,
+          "period": "YEAR"
+        },
+        "destination_preference": ["东南亚", "中外合办"],
+        "academic_background": "高三，英语还行"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["中外合办", "东南亚", "性价比"]],
+      "forbidden_keywords": ["预算太低", "太穷"],
+      "expected_status": "PERSUADING",
+      "node_goal": "在家庭压力场景里给体面方案",
+      "rubric_notes": "别把家长焦虑当笑话"
+    }
+  },
+  {
+    "case_id": "exe_low_011",
+    "tags": ["low_budget", "family_anxiety", "first_generation"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "家里第一次考虑留学，预算有限，我们最怕走冤枉路，你直接告诉我先看什么。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["泰国", "马来西亚"],
+        "academic_background": "本科在读，均分80"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["先看", "性价比", "路径"]],
+      "forbidden_keywords": ["预算太低", "太穷"],
+      "expected_status": "PERSUADING",
+      "node_goal": "给第一次咨询的家庭一个清晰起点",
+      "rubric_notes": "先排序，不要一次抛太多概念"
+    }
+  },
+  {
+    "case_id": "exe_low_012",
+    "tags": ["low_budget", "family_anxiety", "no_shaming"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我们预算不高，但孩子成绩还可以，你别用那种嫌弃口气，给个踏实点的建议。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["波兰", "泰国"],
+        "academic_background": "高二，校内均分87"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["踏实", "路径", "性价比"]],
+      "forbidden_keywords": ["预算太低", "太穷"],
+      "expected_status": "PERSUADING",
+      "node_goal": "控制语气，别给家长施压",
+      "rubric_notes": "像真人前辈一样说话"
+    }
+  },
+  {
+    "case_id": "exe_low_013",
+    "tags": ["low_budget", "concrete_path", "4plus0"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "总预算就9万，别只说鼓励的话，能不能直接给我一条具体路线。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["国内", "马来西亚"],
+        "academic_background": "双非本科大二，均分81"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["4+0", "中外合办", "国内读"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "把具体低成本项目讲明白",
+      "rubric_notes": "别空泛，要给可以执行的方向"
+    }
+  },
+  {
+    "case_id": "exe_low_014",
+    "tags": ["low_budget", "concrete_path", "zhuanshengben"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我大专，手里就7万，想问专升本还是直接出国更划算，别绕弯。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 7,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "日本"],
+        "academic_background": "大专二年级，准备毕业"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["专升本", "专升硕", "更划算"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "明确低预算下的学历衔接路线",
+      "rubric_notes": "给比较，不给空洞安慰"
+    }
+  },
+  {
+    "case_id": "exe_low_015",
+    "tags": ["low_budget", "concrete_path", "whv"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "预算一年5万，能不能靠打工度假或者别的方式先出去，别给我推荐太贵的项目。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 5,
+          "period": "YEAR"
+        },
+        "destination_preference": ["澳洲", "新西兰"],
+        "academic_background": "本科应届，想先工作再读书"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["WHV", "打工度假", "澳洲"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给出低成本先出去的路径",
+      "rubric_notes": "讲清路线价值，不要泛泛鼓励"
+    }
+  },
+  {
+    "case_id": "exe_low_016",
+    "tags": ["low_budget", "concrete_path", "online_degree"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "总预算不到10万，又想拿个海外学位，有没有更便宜一点的具体路径。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["英国", "马来西亚"],
+        "academic_background": "本科大三，GPA 3.0"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["在线学位", "海外在线", "低费用"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给低预算用户替代型学位路径",
+      "rubric_notes": "指出可替代方案，不要硬推线下"
+    }
+  },
+  {
+    "case_id": "exe_low_017",
+    "tags": ["low_budget", "upsell_suspicion", "skeptical"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你先别急着卖服务，我就想知道有没有不花大钱的办法。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["泰国"],
+        "academic_background": "双非本科，均分83"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["不花大钱", "办法", "性价比"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "回应用户的防推销情绪",
+      "rubric_notes": "先证明不是硬卖，再讲方案"
+    }
+  },
+  {
+    "case_id": "exe_low_018",
+    "tags": ["low_budget", "upsell_suspicion", "no_package_push"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我听着像又要让我加微信卖规划包，你直说，便宜路到底有没有。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 6,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "白俄罗斯"],
+        "academic_background": "大专毕业，想升学"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["便宜路", "马来西亚", "白俄罗斯"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "对抗被 upsell 的戒备心理",
+      "rubric_notes": "要直接、透明、别装腔"
+    }
+  },
+  {
+    "case_id": "exe_low_019",
+    "tags": ["low_budget", "upsell_suspicion", "pricing_anxiety"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你先说清楚，是不是不报你们服务就没法做？我怕被绕进去。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 7,
+          "period": "YEAR"
+        },
+        "destination_preference": ["泰国", "东南亚"],
+        "academic_background": "二本大四，想省钱"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["服务", "方案", "性价比"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "消除用户被营销套路的怀疑",
+      "rubric_notes": "先把边界说清，再讲办法"
+    }
+  },
+  {
+    "case_id": "exe_low_020",
+    "tags": ["low_budget", "upsell_suspicion", "transparent"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我只想知道便宜方案有哪些，不要最后变成推高价套餐。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "日本"],
+        "academic_background": "高三，均分84"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["便宜", "方案", "中外合办"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "在防营销语境里给实路",
+      "rubric_notes": "不要像销售，不要催单"
+    }
+  },
+  {
+    "case_id": "exe_low_021",
+    "tags": ["low_budget", "human_request", "direct_handoff"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "别跟我聊了，直接让我和真人老师说，我要当面确认方案。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚"],
+        "academic_background": "双非本科，均分82"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "用户明确要真人时立即转人工",
+      "rubric_notes": "不要继续追问，及时拉真人"
+    }
+  },
+  {
+    "case_id": "exe_low_022",
+    "tags": ["low_budget", "human_request", "phone_or_voice"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我想直接打电话或者语音聊，文字我说不清，帮我转真人。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 7,
+          "period": "YEAR"
+        },
+        "destination_preference": ["泰国", "马来西亚"],
+        "academic_background": "孩子高二，成绩中上"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "面对语音/电话需求要转人工",
+      "rubric_notes": "这是需要人类介入的明确请求"
+    }
+  },
+  {
+    "case_id": "exe_low_023",
+    "tags": ["low_budget", "human_request", "contact_sales"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "能不能把真人顾问叫出来，我不想反复打字了。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 5,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["东南亚"],
+        "academic_background": "大专毕业，想升本"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "用户明确请求真人时触发工具",
+      "rubric_notes": "不要再继续用 AI 兜圈子"
+    }
+  },
+  {
+    "case_id": "exe_low_024",
+    "tags": ["low_budget", "human_request", "real_person"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我就要真人，别再自动回复了。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "波兰"],
+        "academic_background": "孩子本科，准备转学"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "用户点名真人时立即交接",
+      "rubric_notes": "短句确认后直接转接"
+    }
+  },
+  {
+    "case_id": "exe_low_025",
+    "tags": ["low_budget", "handoff_long_dialogue", "frustrated"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        { "type": "human", "content": "我想留学。" },
+        { "type": "ai", "content": "可以，先说预算和学历。" },
+        { "type": "human", "content": "本科，双非。" },
+        { "type": "ai", "content": "目标国家也说一下。" },
+        { "type": "human", "content": "马来西亚和泰国都行。" },
+        { "type": "ai", "content": "预算是年还是总额？" },
+        { "type": "human", "content": "总共8万。" },
+        { "type": "ai", "content": "我先给你看几条路。" },
+        { "type": "human", "content": "你刚才说的我都听过了，能不能直接找个人来确认。" },
+        { "type": "ai", "content": "我再帮你整理一下。" },
+        { "type": "human", "content": "别整理了，我现在就想找真人。" },
+        { "type": "ai", "content": "..." },
+        { "type": "human", "content": "已经聊太久了，直接转真人吧。" }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "泰国"],
+        "academic_background": "双非本科，均分82"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "长对话后及时结束并拉真人",
+      "rubric_notes": "对话已过长，别继续拖"
+    }
+  },
+  {
+    "case_id": "exe_low_026",
+    "tags": ["low_budget", "handoff_long_dialogue", "repeated_questions"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        { "type": "human", "content": "我先说清楚，我预算很紧。" },
+        { "type": "ai", "content": "明白，先看学历。" },
+        { "type": "human", "content": "大专。" },
+        { "type": "ai", "content": "目标国家呢？" },
+        { "type": "human", "content": "东南亚吧。" },
+        { "type": "ai", "content": "那预算总额是多少？" },
+        { "type": "human", "content": "6万左右。" },
+        { "type": "ai", "content": "我可以给你一条路。" },
+        { "type": "human", "content": "你已经给过两次了，我想找真人定一下。" },
+        { "type": "ai", "content": "再补一个信息就行。" },
+        { "type": "human", "content": "不用了，真的太长了，转人。" },
+        { "type": "ai", "content": "..." },
+        { "type": "human", "content": "现在就转。" },
+        { "type": "ai", "content": "好的，稍等。" }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 6,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["泰国", "马来西亚"],
+        "academic_background": "大专毕业，想继续升学"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "长对话场景里尽快转人工",
+      "rubric_notes": "不要继续问细节"
+    }
+  },
+  {
+    "case_id": "exe_low_027",
+    "tags": ["low_budget", "handoff_long_dialogue", "time_pressure"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        { "type": "human", "content": "我晚上还有课，先快点。" },
+        { "type": "ai", "content": "可以，学历说一下。" },
+        { "type": "human", "content": "本科。" },
+        { "type": "ai", "content": "预算呢？" },
+        { "type": "human", "content": "9万总共。" },
+        { "type": "ai", "content": "国家偏好？" },
+        { "type": "human", "content": "马来西亚。" },
+        { "type": "ai", "content": "我给你看个方向。" },
+        { "type": "human", "content": "别看了，直接找真人确认，快点。" },
+        { "type": "ai", "content": "再确认一个专业。" },
+        { "type": "human", "content": "真的别问了，时间很紧，转真人。" },
+        { "type": "ai", "content": "好的。" },
+        { "type": "human", "content": "现在。" }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚"],
+        "academic_background": "本科大三，想尽快出结果"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 1,
+      "skip_rubric": true,
+      "expected_status": "PERSUADING",
+      "node_goal": "在时间压力下及时升级人工",
+      "rubric_notes": "用户已经明确要人，不要拖"
+    }
+  },
+  {
+    "case_id": "exe_low_028",
+    "tags": ["low_budget", "vocational", "zhigao"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我职高毕业，预算总共5万，想看看有没有不贵又靠谱的海外路。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "职高",
+        "budget": {
+          "amount": 5,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["泰国", "马来西亚"],
+        "academic_background": "职高毕业，专业是计算机"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["职高", "东南亚", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给职高用户一个不歧视的低成本路线",
+      "rubric_notes": "尊重学历，不要居高临下"
+    }
+  },
+  {
+    "case_id": "exe_low_029",
+    "tags": ["low_budget", "vocational", "middle_school_to_senior"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我中专毕业，家里只给5万左右，先别说贵的，能不能从最现实的地方开始。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "中专",
+        "budget": {
+          "amount": 5,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["国内", "马来西亚"],
+        "academic_background": "中专毕业，想继续升学"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["中专", "专升本", "中外合办"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给中专背景的现实低成本建议",
+      "rubric_notes": "现实、简短、别说教"
+    }
+  },
+  {
+    "case_id": "exe_low_030",
+    "tags": ["low_budget", "vocational", "gap_year"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我已经gap一年了，预算一年7万，想补一条能重新起跑的路。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 7,
+          "period": "YEAR"
+        },
+        "destination_preference": ["日本", "东南亚"],
+        "academic_background": "gap year，本科暂停"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["gap year", "过渡", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给gap year用户重启型低价路径",
+      "rubric_notes": "先给台阶，再给具体选择"
+    }
+  },
+  {
+    "case_id": "exe_low_031",
+    "tags": ["low_budget", "vocational", "junior_college", "upright"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "大专，年预算就8万，我不想听空话，告诉我最稳的升学路。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 8,
+          "period": "YEAR"
+        },
+        "destination_preference": ["马来西亚", "泰国"],
+        "academic_background": "大专毕业，成绩中等"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["专升本", "性价比", "稳"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给大专用户稳定且便宜的路",
+      "rubric_notes": "不要绕，直接讲稳妥方案"
+    }
+  },
+  {
+    "case_id": "exe_low_032",
+    "tags": ["low_budget", "vocational", "double_non", "junior_college"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "双非本科，后来又读了个大专，预算总共不到10万，这种情况还有没有救。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["东南亚", "波兰"],
+        "academic_background": "双非本科后转大专，想重新规划"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["东南亚", "专升本", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "给复杂学历背景一个不贬低的低成本解法",
+      "rubric_notes": "先稳住情绪，再给现实路"
+    }
+  },
+  {
+    "case_id": "exe_low_033",
+    "tags": ["low_budget", "concrete_path", "japan_news_student"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我预算不高，想读日本新闻相关方向，有没有便宜点的路径。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 7,
+          "period": "YEAR"
+        },
+        "destination_preference": ["日本"],
+        "target_major": "新闻学",
+        "academic_background": "本科大三，中文系"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["日本", "新闻", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "在低预算下给日本相关的现实路线",
+      "rubric_notes": "要具体，不要只说努力"
+    }
+  },
+  {
+    "case_id": "exe_low_034",
+    "tags": ["low_budget", "upsell_suspicion", "family_budget"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我家就想省钱，你别再拐着弯让我买高价服务了，先说能省到什么程度。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 8,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["马来西亚", "泰国"],
+        "academic_background": "高三，均分85"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["省钱", "性价比", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "回应家长对高价服务的防备",
+      "rubric_notes": "先给价格敏感用户安全感"
+    }
+  },
+  {
+    "case_id": "exe_low_035",
+    "tags": ["low_budget", "family_anxiety", "junior_college_parent"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我是家长，孩子大专，预算很紧，想找个不浪费钱的升学办法。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "大专",
+        "budget": {
+          "amount": 6,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["东南亚", "国内"],
+        "academic_background": "孩子大专在读"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["专升本", "中外合办", "省钱"]],
+      "forbidden_keywords": ["预算太低", "太穷"],
+      "expected_status": "PERSUADING",
+      "node_goal": "家长视角下的低成本升学建议",
+      "rubric_notes": "务实，别抬杠"
+    }
+  },
+  {
+    "case_id": "exe_low_036",
+    "tags": ["low_budget", "concrete_path", "frugal_route", "double_non"],
+    "node_name": "low_budget",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "双非本科，预算总共9万，想要一条不太冒险、也别太贵的路。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 9,
+          "period": "TOTAL"
+        },
+        "destination_preference": ["波兰", "马来西亚"],
+        "academic_background": "双非本科，均分80，想稳妥"
+      },
+      "last_intent": "LOW_BUDGET",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 40,
+      "required_context_terms": [["不太冒险", "性价比", "路径"]],
+      "expected_status": "PERSUADING",
+      "node_goal": "低风险低预算路线要说得像真人顾问",
+      "rubric_notes": "稳一点，别上来就制造焦虑"
+    }
+  }
+]

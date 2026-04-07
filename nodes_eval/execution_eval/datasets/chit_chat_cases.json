@@ -1,1 +1,1810 @@
-[]
+[
+  {
+    "case_id": "exe_chat_001",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "light_teasing"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你今天这嘴比我闹钟还早，先夸你一下"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "轻松接住夸奖，回一句俏皮话。",
+      "rubric_notes": "要像熟人闲聊，不要往业务上拐。"
+    }
+  },
+  {
+    "case_id": "exe_chat_002",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "teasing"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你这反应快得离谱，是不是偷偷练过"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "接梗，别端着。",
+      "rubric_notes": "可以轻微自嘲，但别输出括号动作。"
+    }
+  },
+  {
+    "case_id": "exe_chat_003",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "playful"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "别谦虚了，你刚那句挺会接的"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "顺着夸奖接话，再回敬一句。",
+      "rubric_notes": "语气自然，别把闲聊说成销售。"
+    }
+  },
+  {
+    "case_id": "exe_chat_004",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "banter"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你这人说话有点欠，但我不讨厌"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "带点坏笑地接住吐槽。",
+      "rubric_notes": "要有来有回，不要说教。"
+    }
+  },
+  {
+    "case_id": "exe_chat_005",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "familiarity"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你一开口就像熟人，怪省我事的"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "营造熟人感，但别过度油滑。",
+      "rubric_notes": "像朋友聊天，不要像客服开场。"
+    }
+  },
+  {
+    "case_id": "exe_chat_006",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "humor"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你这回复速度，像在跟我比谁先回"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "接住轻嘲，回得干脆。",
+      "rubric_notes": "别解释太多，轻松一点就行。"
+    }
+  },
+  {
+    "case_id": "exe_chat_007",
+    "tags": [
+      "chit_chat",
+      "compliment",
+      "warm_teasing"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我怀疑你平时就是那种很会逗人笑的"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "别硬夸自己，顺手逗回去。",
+      "rubric_notes": "要像真聊天，别输出舞台说明。"
+    }
+  },
+  {
+    "case_id": "exe_chat_008",
+    "tags": [
+      "chit_chat",
+      "emotional",
+      "venting"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "今天有点烦，想找个人安静说两句"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "先接住情绪，再给轻柔回应。",
+      "rubric_notes": "不要硬开导，更不要转业务。"
+    }
+  },
+  {
+    "case_id": "exe_chat_009",
+    "tags": [
+      "chit_chat",
+      "emotional",
+      "low_mood"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我其实没啥大事，就是心里堵得慌"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "用很轻的方式表示理解。",
+      "rubric_notes": "情绪要柔，不要上价值。"
+    }
+  },
+  {
+    "case_id": "exe_chat_010",
+    "tags": [
+      "chit_chat",
+      "emotional",
+      "tired"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "最近挺累的，连说话都没劲"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "先缓一缓，不要催用户。",
+      "rubric_notes": "像朋友关心，不像流程追问。"
+    }
+  },
+  {
+    "case_id": "exe_chat_011",
+    "tags": [
+      "chit_chat",
+      "emotional",
+      "friend_conflict"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "刚跟朋友闹别扭了，脑子乱"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "别站队，先安抚一下。",
+      "rubric_notes": "别急着劝和，先把气氛放松。"
+    }
+  },
+  {
+    "case_id": "exe_chat_012",
+    "tags": [
+      "chit_chat",
+      "emotional",
+      "unstable_mood"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "心情不太稳，想听点不那么空的话"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "给点真诚回应，不要套话。",
+      "rubric_notes": "避免空话，也别变成心理咨询模板。"
+    }
+  },
+  {
+    "case_id": "exe_chat_013",
+    "tags": [
+      "chit_chat",
+      "emotional",
+      "boundary"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "今天有点丧，但又不想被教育"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "别教育用户，顺着情绪回应。",
+      "rubric_notes": "要克制，别说教。"
+    }
+  },
+  {
+    "case_id": "exe_chat_014",
+    "tags": [
+      "chit_chat",
+      "robot_check",
+      "direct_question"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你先别绕，你到底是不是机器人"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "不是机器人",
+          "不是 ai",
+          "真人",
+          "活人",
+          "不是程序"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "直接澄清身份，不要打太极。",
+      "rubric_notes": "回答要干脆，别回避。"
+    }
+  },
+  {
+    "case_id": "exe_chat_015",
+    "tags": [
+      "chit_chat",
+      "robot_check",
+      "human_or_ai"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "说实话，你是人还是程序"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "不是机器人",
+          "真人",
+          "活人",
+          "程序",
+          "AI"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "坦白而自然地回应怀疑。",
+      "rubric_notes": "别一本正经科普，像聊天。"
+    }
+  },
+  {
+    "case_id": "exe_chat_016",
+    "tags": [
+      "chit_chat",
+      "robot_check",
+      "self_awareness"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你回答太顺了，我有点怀疑你是AI"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "不是",
+          "当然",
+          "AI",
+          "机器人",
+          "活人"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "承认对话像人，但别露出系统感。",
+      "rubric_notes": "自然调侃一下，再回到闲聊。"
+    }
+  },
+  {
+    "case_id": "exe_chat_017",
+    "tags": [
+      "chit_chat",
+      "robot_check",
+      "playful"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "别装了，你是不是训练出来的"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "训练",
+          "不是",
+          "人",
+          "AI",
+          "活人"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "用轻松口吻回应质疑。",
+      "rubric_notes": "别转成严肃身份介绍。"
+    }
+  },
+  {
+    "case_id": "exe_chat_018",
+    "tags": [
+      "chit_chat",
+      "robot_check",
+      "direct_reply"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你能不能直接承认你不是活人"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "不是活人",
+          "不是机器人",
+          "真人",
+          "程序",
+          "AI"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "直给答案，不绕弯。",
+      "rubric_notes": "可以带点玩笑，但不能装神秘。"
+    }
+  },
+  {
+    "case_id": "exe_chat_019",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "back_to_school"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我这周刚开学，感觉课表排得满"
+        }
+      ],
+      "profile": {
+        "educationStage": "本科"
+      },
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "开学",
+          "课表",
+          "学校",
+          "忙",
+          "累"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询",
+        "招生"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "顺着校园生活聊两句，别硬卖。",
+      "rubric_notes": "可以自然提到学习节奏，但不要推业务。"
+    }
+  },
+  {
+    "case_id": "exe_chat_020",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "language_learning"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我在想要不要继续学点外语，没想太明白"
+        }
+      ],
+      "profile": {
+        "educationStage": "高中"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "外语",
+          "学点",
+          "英语",
+          "语言",
+          "继续"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询",
+        "申请"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "轻轻接住学习话题，不要硬转留学。",
+      "rubric_notes": "可顺口鼓励，但别把话题拐成销售。"
+    }
+  },
+  {
+    "case_id": "exe_chat_021",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "school_search"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "最近在看学校官网，越看越晕"
+        }
+      ],
+      "profile": {
+        "educationStage": "本科"
+      },
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "官网",
+          "学校",
+          "晕",
+          "看",
+          "信息"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "共情一下信息过载的感觉。",
+      "rubric_notes": "别急着做选择题式建议。"
+    }
+  },
+  {
+    "case_id": "exe_chat_022",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "future_planning"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我只是随口问问，读书这事儿是不是越早规划越省心"
+        }
+      ],
+      "profile": {
+        "educationStage": "高中"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "规划",
+          "读书",
+          "越早",
+          "省心",
+          "随口"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询",
+        "报名"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "只轻轻点到规划，不要展开业务。",
+      "rubric_notes": "一句到位，别给太重的建议。"
+    }
+  },
+  {
+    "case_id": "exe_chat_023",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "major_talk"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "朋友在聊选专业，我听着有点迷"
+        }
+      ],
+      "profile": {
+        "educationStage": "本科"
+      },
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "专业",
+          "选",
+          "迷",
+          "听着",
+          "朋友"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "聊专业话题可以，但别开始兜售。",
+      "rubric_notes": "保持轻松，不要出现硬广词。"
+    }
+  },
+  {
+    "case_id": "exe_chat_024",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "focus"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我这种状态，先把成绩稳住是不是更重要"
+        }
+      ],
+      "profile": {
+        "educationStage": "高中"
+      },
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "成绩",
+          "稳住",
+          "状态",
+          "重要",
+          "先"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询",
+        "申请"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "只给轻微认可，不要开始规划清单。",
+      "rubric_notes": "像闲聊里的顺口回应，不要推销。"
+    }
+  },
+  {
+    "case_id": "exe_chat_025",
+    "tags": [
+      "chit_chat",
+      "study_light",
+      "informal_advice"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "你要是顺口说说学习节奏，我也能听听"
+        }
+      ],
+      "profile": {
+        "educationStage": "本科"
+      },
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "学习",
+          "节奏",
+          "顺口",
+          "听听",
+          "可以"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "可以轻轻回应学习节奏，但不硬讲课。",
+      "rubric_notes": "别变成讲座，仍然是闲聊。"
+    }
+  },
+  {
+    "case_id": "exe_chat_026",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "restless"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "凌晨一点了，还清醒着，挺烦"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "凌晨",
+          "一点",
+          "清醒",
+          "烦",
+          "夜里"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "接住深夜烦躁感，语气要轻。",
+      "rubric_notes": "别提业务，先陪着聊。"
+    }
+  },
+  {
+    "case_id": "exe_chat_027",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "lonely"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我现在就是有点空，想找人说说话"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "说说话",
+          "找人",
+          "空",
+          "聊",
+          "陪"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "给陪伴感，不要机械追问。",
+      "rubric_notes": "让人感觉有人接住了。"
+    }
+  },
+  {
+    "case_id": "exe_chat_028",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "quiet"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "夜里特别安静，安静得有点过头"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "夜里",
+          "安静",
+          "过头",
+          "安静得"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "做一点轻声回应，别打破氛围。",
+      "rubric_notes": "可以有点诗意，但别浮夸。"
+    }
+  },
+  {
+    "case_id": "exe_chat_029",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "alone"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "一个人待着，突然觉得屋里挺大"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "一个人",
+          "屋里",
+          "挺大",
+          "待着",
+          "突然"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "回应孤单感，但别太沉重。",
+      "rubric_notes": "要有人味儿，别像播报。"
+    }
+  },
+  {
+    "case_id": "exe_chat_030",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "insomnia"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "睡不着，脑子一直转"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "睡不着",
+          "脑子",
+          "转",
+          "一直",
+          "夜里"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "承接失眠情绪，别给鸡汤。",
+      "rubric_notes": "说点实在的安抚话就够了。"
+    }
+  },
+  {
+    "case_id": "exe_chat_031",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "flat_mood"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "今天像被抽空了，没什么情绪"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "抽空",
+          "没什么情绪",
+          "今天",
+          "空",
+          "没劲"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "给出很轻的共鸣，不要分析。",
+      "rubric_notes": "别往业务或学习规划带。"
+    }
+  },
+  {
+    "case_id": "exe_chat_032",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "companionship"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我只是想让耳朵里有点人声"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "人声",
+          "耳朵",
+          "想",
+          "聊",
+          "陪"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "提供一点陪伴感，保持自然。",
+      "rubric_notes": "简短、有人味儿、别像模板。"
+    }
+  },
+  {
+    "case_id": "exe_chat_033",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "self_reset"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "刚洗完澡，脑子却还停不下来"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "洗完澡",
+          "停不下来",
+          "脑子",
+          "还是",
+          "夜里"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "接住洗漱后的空转感。",
+      "rubric_notes": "语气轻一点，像陪聊。"
+    }
+  },
+  {
+    "case_id": "exe_chat_034",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "social_media"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "朋友圈刷完更孤独了，真离谱"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "CONSULTING",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "朋友圈",
+          "孤独",
+          "离谱",
+          "刷完",
+          "更"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "顺着社媒后的落差感接话。",
+      "rubric_notes": "别输出太多情绪标签。"
+    }
+  },
+  {
+    "case_id": "exe_chat_035",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "weather_mood"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "外面下雨，我在窗边发呆"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "下雨",
+          "窗边",
+          "发呆",
+          "外面",
+          "雨"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "营造一点雨夜闲聊感。",
+      "rubric_notes": "可以有画面感，但别写散文。"
+    }
+  },
+  {
+    "case_id": "exe_chat_036",
+    "tags": [
+      "chit_chat",
+      "late_night",
+      "company_request"
+    ],
+    "node_name": "chit_chat",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "今天一句话都没好好说过，来陪我聊两句"
+        }
+      ],
+      "profile": {},
+      "last_intent": null,
+      "dialog_status": "START",
+      "has_proposed_solution": false
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "陪",
+          "聊",
+          "一句话",
+          "今天",
+          "两句"
+        ]
+      ],
+      "forbidden_keywords": [
+        "顾问",
+        "方案",
+        "报价",
+        "加微信",
+        "留资",
+        "转人工",
+        "电话",
+        "咨询"
+      ],
+      "forbidden_regexes": [
+        "\\[[^\\]]+\\]",
+        "\\([^\\)]+\\)",
+        "（[^）]+）"
+      ],
+      "node_goal": "给出陪伴感，别敷衍。",
+      "rubric_notes": "让人感觉真在聊天，不是跑流程。"
+    }
+  }
+]
