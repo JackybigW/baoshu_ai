@@ -122,13 +122,21 @@ def _build_model_configs(
     return configs
 
 
+def _resolved_chain_model_names(model_ids: Sequence[str]) -> str:
+    parts: List[str] = []
+    for model_id in model_ids:
+        descriptor = get_llm_descriptor(model_id)
+        parts.append(descriptor["resolved_model"])
+    return " -> ".join(parts)
+
+
 def build_backend_model_configs(model_ids: Sequence[str], *, temperature: float = 0.0) -> List[EvalModelConfig]:
     return _build_model_configs(
         model_ids,
         default_aliases=("backend", "default", "backend_default"),
         default_label="backend_default",
         default_provider="fallback_chain",
-        default_resolved_model="deepseek -> gemini_flash -> doubao",
+        default_resolved_model=_resolved_chain_model_names(("deepseek", "gemini_flash", "doubao")),
         default_builder=get_backend_llm,
         explicit_temperature=temperature,
     )
@@ -140,7 +148,7 @@ def build_frontend_model_configs(model_ids: Sequence[str], *, temperature: float
         default_aliases=("frontend", "default", "frontend_default"),
         default_label="frontend_default",
         default_provider="fallback_chain",
-        default_resolved_model="deepseek -> gemini_pro -> doubao",
+        default_resolved_model=_resolved_chain_model_names(("deepseek", "gemini_pro", "doubao")),
         default_builder=get_frontend_llm,
         explicit_temperature=temperature,
     )

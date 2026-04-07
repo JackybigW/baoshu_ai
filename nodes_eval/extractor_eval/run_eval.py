@@ -71,6 +71,14 @@ def load_cases(dataset_path: Path) -> List[EvalCase]:
     return [EvalCase.model_validate(item) for item in raw_cases]
 
 
+def _resolved_chain_model_names(model_ids: List[str]) -> str:
+    parts: List[str] = []
+    for model_id in model_ids:
+        descriptor = get_llm_descriptor(model_id)
+        parts.append(descriptor["resolved_model"])
+    return " -> ".join(parts)
+
+
 def build_model_configs(model_ids: List[str]) -> List[EvalModelConfig]:
     requested_models = model_ids or ["backend_default"]
     configs: List[EvalModelConfig] = []
@@ -97,7 +105,7 @@ def build_model_configs(model_ids: List[str]) -> List[EvalModelConfig]:
                     canonical_id="backend_default",
                     label=label,
                     provider="fallback_chain",
-                    resolved_model="deepseek -> gemini_flash -> doubao",
+                    resolved_model=_resolved_chain_model_names(["deepseek", "gemini_flash", "doubao"]),
                     llm=llm,
                 )
             )
@@ -376,6 +384,7 @@ def write_run_overview(
         lines.append(
             "- "
             f"`{row['llm_label']}` | "
+            f"model `{row['resolved_model']}` | "
             f"score `{row['overall_score']}` | "
             f"pass_rate `{row['pass_rate']}` | "
             f"hallucination `{row['hallucination_rate']}` | "

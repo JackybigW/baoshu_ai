@@ -158,6 +158,12 @@ def test_run_cases_async_preserves_case_order(monkeypatch):
 
 def test_execution_failure_analysis_prioritizes_missing_tool_calls(tmp_path: Path):
     payload = {
+        "llm": {
+            "label": "deepseek",
+            "canonical_id": "deepseek",
+            "provider": "openai",
+            "resolved_model": "deepseek-v3-2-251201",
+        },
         "summary": {
             "case_count": 2,
             "overall_score": 75.0,
@@ -192,4 +198,6 @@ def test_execution_failure_analysis_prioritizes_missing_tool_calls(tmp_path: Pat
 
     output_dir = generate_failure_analysis(payload, output_root=tmp_path)
     abnormal_cases = json.loads((output_dir / "abnormal_cases.json").read_text(encoding="utf-8"))
+    summary_text = (output_dir / "summary.md").read_text(encoding="utf-8")
     assert abnormal_cases[0]["case_id"] == "exe_005"
+    assert "llm_model: `deepseek-v3-2-251201`" in summary_text

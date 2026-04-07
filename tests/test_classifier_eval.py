@@ -64,6 +64,12 @@ def test_summarize_case_results_aggregates_classifier_metrics():
 
 def test_classifier_failure_analysis_orders_missed_handoff_first(tmp_path: Path):
     payload = {
+        "llm": {
+            "label": "deepseek",
+            "canonical_id": "deepseek",
+            "provider": "openai",
+            "resolved_model": "deepseek-v3-2-251201",
+        },
         "summary": {
             "case_count": 2,
             "overall_score": 70.0,
@@ -94,4 +100,6 @@ def test_classifier_failure_analysis_orders_missed_handoff_first(tmp_path: Path)
 
     output_dir = generate_failure_analysis(payload, output_root=tmp_path)
     abnormal_cases = json.loads((output_dir / "abnormal_cases.json").read_text(encoding="utf-8"))
+    summary_text = (output_dir / "summary.md").read_text(encoding="utf-8")
     assert abnormal_cases[0]["case_id"] == "clf_001"
+    assert "llm_model: `deepseek-v3-2-251201`" in summary_text

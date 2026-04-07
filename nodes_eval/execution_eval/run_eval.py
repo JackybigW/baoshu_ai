@@ -278,6 +278,7 @@ def write_run_overview(*, run_root: Path, dataset_path: Path, model_runs: List[D
         lines.append(
             "- "
             f"`{row['llm_label']}` | "
+            f"model `{row['resolved_model']}` | "
             f"score `{row['overall_score']}` | "
             f"tool `{row['tool_success_rate']}` | "
             f"rubric `{row['rubric_score']}` | "

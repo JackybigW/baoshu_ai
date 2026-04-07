@@ -32,6 +32,18 @@ def generate_failure_analysis(
         output_dir = output_dir / model_label
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    llm_meta = payload.get("llm") or {}
+    llm_header = []
+    if llm_meta:
+        llm_header.extend(
+            [
+                f"- llm_label: `{llm_meta.get('label', '')}`",
+                f"- llm_canonical: `{llm_meta.get('canonical_id', '')}`",
+                f"- llm_provider: `{llm_meta.get('provider', '')}`",
+                f"- llm_model: `{llm_meta.get('resolved_model', '')}`",
+            ]
+        )
+
     abnormal_cases: List[Dict[str, Any]] = []
     category_counter: Counter[str] = Counter()
     for item in payload["results"]:
@@ -59,6 +71,7 @@ def generate_failure_analysis(
         f"- rubric_score: `{payload['summary']['rubric_score']}`",
         f"- pass_rate: `{payload['summary']['pass_rate']}`",
         f"- error_count: `{payload['summary']['error_count']}`",
+        *llm_header,
         "",
         "## Category Counts",
         "",
