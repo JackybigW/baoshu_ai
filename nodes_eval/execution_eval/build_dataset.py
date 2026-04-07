@@ -1,17 +1,19 @@
 from __future__ import annotations
 
 import json
+import re
+import sys
 from pathlib import Path
 from typing import Any, Dict, List, Mapping
 
 
 SHARD_REGISTRY: Mapping[str, str] = {
-    "consultant": "consultant.json",
-    "interviewer": "interviewer.json",
-    "high_value": "high_value.json",
-    "low_budget": "low_budget.json",
-    "art": "art.json",
-    "chit_chat": "chit_chat.json",
+    "consultant": "consultant_cases.json",
+    "interviewer": "interviewer_cases.json",
+    "high_value": "high_value_cases.json",
+    "low_budget": "low_budget_cases.json",
+    "art": "art_cases.json",
+    "chit_chat": "chit_chat_cases.json",
 }
 
 MIN_CASES_PER_NODE = 20
@@ -37,10 +39,19 @@ def _validate_case(case: Any, *, shard_name: str, shard_path: Path) -> Dict[str,
             f"{shard_path}: case_id {case_id} declares node_name={node_name!r}, expected {shard_name!r}"
         )
 
+    expected = case.get("expected") or {}
+    for pattern in expected.get("forbidden_regexes") or []:
+        try:
+            re.compile(pattern)
+        except re.error as exc:
+            raise ValueError(
+                f"{shard_path}: case_id {case_id} has invalid forbidden_regexes pattern {pattern!r}: {exc}"
+            ) from exc
+
     return case
 
 
-def load_shard_cases(*, node_name: str, datasets_dir: Path) -> List[Dict[str, Any]]:
+def load_shard_cases(*, node_name: str, datasets_dir: Path, strict: bool) -> List[Dict[str, Any]]:
     shard_filename = SHARD_REGISTRY[node_name]
     shard_path = datasets_dir / shard_filename
     if not shard_path.exists():
@@ -51,20 +62,20 @@ def load_shard_cases(*, node_name: str, datasets_dir: Path) -> List[Dict[str, An
         raise ValueError(f"{shard_path}: shard must be a JSON array")
 
     cases = [_validate_case(case, shard_name=node_name, shard_path=shard_path) for case in payload]
-    if len(cases) < MIN_CASES_PER_NODE:
+    if strict and len(cases) < MIN_CASES_PER_NODE:
         raise ValueError(
             f"{shard_path}: expected at least {MIN_CASES_PER_NODE} cases, found {len(cases)}"
         )
     return cases
 
 
-def merge_shards(*, datasets_dir: Path | str = DEFAULT_DATASETS_DIR) -> List[Dict[str, Any]]:
+def merge_shards(*, datasets_dir: Path | str = DEFAULT_DATASETS_DIR, strict: bool = False) -> List[Dict[str, Any]]:
     base_dir = Path(datasets_dir)
     merged: List[Dict[str, Any]] = []
     seen_case_ids: set[str] = set()
 
     for node_name in SHARD_REGISTRY:
-        for case in load_shard_cases(node_name=node_name, datasets_dir=base_dir):
+        for case in load_shard_cases(node_name=node_name, datasets_dir=base_dir, strict=strict):
             case_id = case["case_id"]
             if case_id in seen_case_ids:
                 raise ValueError(f"duplicate case_id detected: {case_id}")
@@ -75,16 +86,32 @@ def merge_shards(*, datasets_dir: Path | str = DEFAULT_DATASETS_DIR) -> List[Dic
     return merged
 
 
+def build_execution_dataset(
+    *,
+    datasets_dir: Path | str = DEFAULT_DATASETS_DIR,
+    output_path: Path | str = DEFAULT_OUTPUT_PATH,
+    strict: bool = False,
+) -> Path:
+    merged = merge_shards(datasets_dir=datasets_dir, strict=strict)
+    destination = Path(output_path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if not strict:
+        print(
+            f"execution dataset scaffold build wrote {len(merged)} cases to {destination}. "
+            f"Run with --strict after all shards reach {MIN_CASES_PER_NODE} cases.",
+            file=sys.stderr,
+        )
+    return destination
+
+
 def build_dataset(
     *,
     datasets_dir: Path | str = DEFAULT_DATASETS_DIR,
     output_path: Path | str = DEFAULT_OUTPUT_PATH,
+    strict: bool = False,
 ) -> Path:
-    merged = merge_shards(datasets_dir=datasets_dir)
-    destination = Path(output_path)
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return destination
+    return build_execution_dataset(datasets_dir=datasets_dir, output_path=output_path, strict=strict)
 
 
 def main() -> None:
@@ -93,8 +120,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Merge execution-eval dataset shards.")
     parser.add_argument("--datasets-dir", type=Path, default=DEFAULT_DATASETS_DIR)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_PATH)
+    parser.add_argument("--strict", action="store_true", help="enforce the 20-case minimum per shard")
     args = parser.parse_args()
-    output_path = build_dataset(datasets_dir=args.datasets_dir, output_path=args.output)
+    output_path = build_execution_dataset(datasets_dir=args.datasets_dir, output_path=args.output, strict=args.strict)
     print(output_path)
 
 

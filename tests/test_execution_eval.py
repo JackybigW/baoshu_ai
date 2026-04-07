@@ -132,6 +132,25 @@ def test_score_execution_output_penalizes_missing_required_context_terms():
     assert breakdown.failure_tags.count("关键要点缺失") == 1
 
 
+def test_score_execution_output_no_judge_respects_required_context_terms():
+    breakdown = score_execution_output(
+        node_name="interviewer",
+        contract={
+            "must_call_tool": False,
+            "min_segments": 1,
+            "max_segments": 3,
+            "required_context_terms": [["预算", "费用"]],
+        },
+        case_input={},
+        output_messages=[AIMessage(content="我们可以继续聊聊你的情况，再往下推进。")],
+        actual_status=None,
+        judge=None,
+    )
+
+    assert breakdown.rubric_score == 0.0
+    assert breakdown.overall_score < 60
+
+
 def test_summarize_case_results_aggregates_execution_metrics():
     summary = summarize_case_results(
         [

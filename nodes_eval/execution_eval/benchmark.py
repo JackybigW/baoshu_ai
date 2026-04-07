@@ -112,7 +112,9 @@ class BackendRubricJudge:
     def _fallback(*, contract: Dict[str, Any], output_text: str) -> Tuple[float, str, List[str]]:
         if not output_text.strip():
             return 0.0, "fallback_empty_response", ["空回复"]
-        required_groups = contract.get("required_keyword_groups") or []
+        required_groups = list(contract.get("required_keyword_groups") or []) + list(
+            contract.get("required_context_terms") or []
+        )
         if required_groups:
             matched = 0
             lowered = output_text.lower()

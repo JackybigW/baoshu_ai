@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
+import re
 import sys
 from contextlib import contextmanager
 from datetime import datetime
@@ -10,7 +11,7 @@ from pathlib import Path
 from statistics import mean
 from typing import Any, Dict, Iterator, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -67,6 +68,16 @@ class EvalExpected(BaseModel):
     node_goal: str = Field(default="")
     rubric_notes: str = Field(default="")
     fatal_errors: List[str] = Field(default_factory=list)
+
+    @field_validator("forbidden_regexes")
+    @classmethod
+    def _validate_forbidden_regexes(cls, value: List[str]) -> List[str]:
+        for pattern in value:
+            try:
+                re.compile(pattern)
+            except re.error as exc:
+                raise ValueError(f"invalid forbidden_regexes pattern {pattern!r}: {exc}") from exc
+        return value
 
 
 class EvalCase(BaseModel):
