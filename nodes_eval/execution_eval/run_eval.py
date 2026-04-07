@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import asyncio
 import json
 import sys
 from contextlib import contextmanager
@@ -136,6 +137,23 @@ def run_single_case(case: EvalCase, *, judge: Optional[BackendRubricJudge]) -> D
         "error": error,
         "score": breakdown.to_dict(),
     }
+
+
+async def run_cases_async(
+    cases: List[EvalCase],
+    *,
+    judge: Optional[BackendRubricJudge],
+    concurrency: int,
+) -> List[Dict[str, Any]]:
+    semaphore = asyncio.Semaphore(max(1, concurrency))
+
+    async def run_with_limit(case: EvalCase) -> Dict[str, Any]:
+        async with semaphore:
+            return await asyncio.to_thread(run_single_case, case, judge=judge)
+
+    results = await asyncio.gather(*(run_with_limit(case) for case in cases))
+    results.sort(key=lambda item: item["case_id"])
+    return results
 
 
 def summarize_case_results(results: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -282,6 +300,12 @@ def parse_args() -> argparse.Namespace:
         default=[],
         help="Run execution nodes with a specific LLM alias. Repeatable. If omitted, uses frontend_default.",
     )
+    parser.add_argument(
+        "--concurrency",
+        type=int,
+        default=4,
+        help="Max number of execution-node cases to run concurrently within one requested LLM.",
+    )
     parser.add_argument("--no-judge", action="store_true", help="Disable rubric judge and only use deterministic/fallback scoring.")
     parser.add_argument("--output-json", default="", help="Optional path to write full result json.")
     return parser.parse_args()
@@ -307,7 +331,13 @@ def main() -> None:
     for model_config in model_configs:
         judge = None if args.no_judge else BackendRubricJudge()
         with temporary_frontend_llm(model_config.llm):
-            results = [run_single_case(case, judge=judge) for case in cases]
+            results = asyncio.run(
+                run_cases_async(
+                    cases,
+                    judge=judge,
+                    concurrency=args.concurrency,
+                )
+            )
 
         summary = summarize_case_results(results)
         payload = {

@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 
@@ -5,7 +6,7 @@ from langchain_core.messages import AIMessage, ToolMessage
 
 from nodes_eval.execution_eval.benchmark import score_execution_output
 from nodes_eval.execution_eval.failure_analysis import generate_failure_analysis
-from nodes_eval.execution_eval.run_eval import load_cases, summarize_case_results
+from nodes_eval.execution_eval.run_eval import load_cases, run_cases_async, summarize_case_results
 
 
 DATASET_PATH = Path(__file__).resolve().parents[1] / "nodes_eval/execution_eval/golden_dataset.json"
@@ -19,6 +20,11 @@ class StubJudge:
 
     def evaluate(self, **_kwargs):
         return self.score, self.reason, self.failure_tags
+
+
+class RecordingJudge:
+    def evaluate(self, **_kwargs):
+        return 0.8, "ok", []
 
 
 def test_execution_golden_dataset_has_14_cases():
@@ -126,6 +132,28 @@ def test_summarize_case_results_aggregates_execution_metrics():
     assert summary["keyword_score"] == 0.75
     assert summary["rubric_score"] == 0.7
     assert summary["error_count"] == 1
+
+
+def test_run_cases_async_preserves_case_order(monkeypatch):
+    cases = load_cases(DATASET_PATH)[:3]
+
+    def fake_run_single_case(case, *, judge):
+        return {
+            "case_id": case.case_id,
+            "node_name": case.node_name,
+            "tags": case.tags,
+            "input": {},
+            "expected": {},
+            "actual": {},
+            "error": None,
+            "score": {"overall_score": float(ord(case.case_id[-1]))},
+        }
+
+    monkeypatch.setattr("nodes_eval.execution_eval.run_eval.run_single_case", fake_run_single_case)
+
+    results = asyncio.run(run_cases_async(cases, judge=RecordingJudge(), concurrency=2))
+
+    assert [item["case_id"] for item in results] == sorted(case.case_id for case in cases)
 
 
 def test_execution_failure_analysis_prioritizes_missing_tool_calls(tmp_path: Path):
