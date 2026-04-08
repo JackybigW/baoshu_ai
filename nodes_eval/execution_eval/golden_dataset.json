@@ -12,7 +12,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想申RISD illustration，但我的作品集太乱了：有赛璐璐插画、人物速写、一个版画项目、还有两张包装设计。你帮我看看是不是根本没主线？"
+          "content": "我想申RISD illustration，但我这套东西现在有点散，赛璐璐插画、人物速写、版画和包装设计都混着放了，是不是得先收成一条线？"
         }
       ],
       "profile": {
@@ -66,7 +66,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿的作品集现在很乱，摄影、手绘、服装改造、还有一点平面设计全都放在一起。她说想冲Parsons fashion design，但我看完全不像一个完整作品集。"
+          "content": "我女儿的作品集现在挺乱的，摄影、手绘、服装改造和一点平面设计都放在一起。她说想冲Parsons fashion design，但我总觉得主题有点散。"
         }
       ],
       "profile": {
@@ -120,7 +120,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想申动画，但我现在的作品里有国风插画、3D建模、短片分镜和一些独立游戏概念图，老师说像拼盘。我要不要直接重做一个主题？"
+          "content": "我想申动画，但现在的作品里有国风插画、3D建模、短片分镜和独立游戏概念图，越做越像拼盘。要不要干脆推倒重来？"
         }
       ],
       "profile": {
@@ -174,7 +174,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子现在一会儿做海报，一会儿画油画，一会儿做UI界面，我看完全没有一致性。她还想申SVA的graphic design，这种乱糟糟的作品集是不是要先重构？"
+          "content": "孩子现在一会儿做海报，一会儿画油画，一会儿做UI界面，风格完全飘着。她还想申SVA的graphic design，这种情况是不是得先把主线拎出来？"
         }
       ],
       "profile": {
@@ -228,7 +228,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我作品集老师说已经很能打了，但我雅思只有5.5。现在还可以申RCA吗？是不是艺术类学校会更看作品集，语言没那么死？"
+          "content": "我作品集老师说已经很能打了，但我雅思只有5.5。现在还可以申RCA吗，还是语言这关还是会卡住？"
         }
       ],
       "profile": {
@@ -282,7 +282,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我儿子做的建筑模型和手绘特别强，老师都说很有想法，可是托福才62。我们还能冲Parsons的设计方向吗，还是得先补语言？"
+          "content": "我儿子做的建筑模型和手绘都挺强，老师也说很有想法，可是托福才62。我们还能冲Parsons的设计方向吗，还是先补语言更稳？"
         }
       ],
       "profile": {
@@ -337,7 +337,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我插画作品集已经准备得差不多了，老师说有风格，但雅思还没过。现在这种情况是先走作品集申请，还是先把语言考出来？"
+          "content": "我插画作品集已经差不多了，老师说也有点风格，但雅思还没过。这种情况下是先申请，还是先把语言搞定？"
         }
       ],
       "profile": {
@@ -391,7 +391,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "女儿的服装系列很强，导师说有商店级别的完成度，但她英语口语很一般。像SCAD这种学校会不会因为语言卡死？"
+          "content": "女儿的服装系列完成度挺高，导师也说有商店级别的感觉，但她英语口语一般。像SCAD这种学校会不会还是卡语言？"
         }
       ],
       "profile": {
@@ -445,7 +445,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在作品集其实挺普通的，只有几张服装造型图和一点摄影，但我特别想冲Parsons。你别直接打击我，能不能告诉我还差什么？"
+          "content": "我现在作品集其实挺普通的，就几张服装造型图和一点摄影，但我还是很想冲Parsons。你别吓我，我想知道还差在哪。"
         }
       ],
       "profile": {
@@ -500,7 +500,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子现在作品不算强，基本就是课堂作业和几张临摹图，可他非要申RISD illustration。我们是不是应该先把作品集拉起来，再谈学校？"
+          "content": "孩子现在作品不算强，基本就是课堂作业和几张临摹图，可他非要申RISD illustration。是不是先把作品集提起来更靠谱？"
         }
       ],
       "profile": {
@@ -554,7 +554,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我只有几张二创和一个没做完的短片，作品集真的很弱，但我想申CalArts动画。你觉得是我目标太离谱，还是还有补救空间？"
+          "content": "我只有几张二创和一个没做完的短片，作品集确实挺弱，但我还想申CalArts动画。是不是目标太高了，还是还有机会补？"
         }
       ],
       "profile": {
@@ -607,7 +607,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿想申RCA fine art，可她目前就两组课堂作业，风格也没定。我很担心这种作品集是不是根本不够看。"
+          "content": "我女儿想申RCA fine art，可她现在就两组课堂作业，风格也还没定。我最担心的是这种状态是不是根本不够看。"
         }
       ],
       "profile": {
@@ -660,7 +660,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我本科是产品设计，但现在很想转去艺术方向，做更偏概念和实验的作品。这个跨过去会不会很难？作品集应该怎么讲转向理由？"
+          "content": "我本科是产品设计，现在想转去更偏概念和实验的艺术方向。这个跨度会不会太大，作品集要怎么讲转向？"
         }
       ],
       "profile": {
@@ -714,7 +714,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我儿子现在学计算机，但最近特别想申请交互和数字艺术方向。他没有传统美术基础，这种跨专业是不是只能从基础作品集开始？"
+          "content": "我儿子现在学计算机，但最近特别想申请交互和数字艺术方向。没传统美术基础的话，是不是得先从基础作品做起？"
         }
       ],
       "profile": {
@@ -769,7 +769,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我之前是学护理的，但现在更想转去插画。我知道跨度很大，这种背景在艺术申请里是加分还是负担？"
+          "content": "我之前是学护理的，但现在更想转去插画。我知道跨度很大，这种背景在艺术申请里到底算加分还是负担？"
         }
       ],
       "profile": {
@@ -823,7 +823,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿本来学金融，但最近决定转艺术管理或者策展方向。她没有画画基础，这种情况是不是更应该看项目背景和作品叙事？"
+          "content": "我女儿本来学金融，最近决定转艺术管理或者策展方向。她没有画画基础，这种情况是不是更看项目经历和作品叙事？"
         }
       ],
       "profile": {
@@ -877,7 +877,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我已经有8个作品了，你能不能先帮我看一下整体水平？我想知道哪些该留，哪些该删，最好是作品集老师那种专业视角。"
+          "content": "我已经有8个作品了，想先让你帮我看看整体是不是成体系，哪些该留哪些该删。"
         }
       ],
       "profile": {
@@ -919,7 +919,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想把女儿的作品先发给你们看看，麻烦直接按作品集老师的标准给个评价。我们想知道她现在离Parsons还差多远。"
+          "content": "我想把女儿的作品先给你们看看，能不能按作品集老师的标准直接讲讲她离Parsons还差多少？"
         }
       ],
       "profile": {
@@ -962,7 +962,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我有一个动画短片和几页过程稿，你能帮我看看哪些部分像成熟作品、哪些还是学生感太重吗？我想让老师直接挑毛病。"
+          "content": "我有一个动画短片和几页过程稿，想知道哪些地方已经像成熟作品，哪些还是学生味太重。"
         }
       ],
       "profile": {
@@ -1005,7 +1005,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "她现在已经做了几件雕塑和装置，我想请真人老师帮忙评估一下，看看有没有机会冲RCA。你们能不能直接接这个作品集 review？"
+          "content": "她现在已经做了几件雕塑和装置，我想先请真人老师评估一下，看还有没有机会冲RCA。"
         }
       ],
       "profile": {
@@ -1047,7 +1047,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在有两条方向，一条是偏实验性的拼贴和影像，另一条是更商业一点的视觉传达。哪个更适合RCA，哪个更适合Parsons？"
+          "content": "我现在有两条方向，一条偏实验性的拼贴和影像，另一条更商业一点的视觉传达。RCA和Parsons分别更吃哪一条？"
         }
       ],
       "profile": {
@@ -1100,7 +1100,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿现在做的是很商业化的服装搭配和时尚摄影，但她又想申偏实验路线的学校。Parsons和LCF到底哪个更适合她这种风格？"
+          "content": "我女儿现在做的是比较商业化的服装搭配和时尚摄影，但她又想申偏实验路线的学校。Parsons和LCF到底谁更适合这种风格？"
         }
       ],
       "profile": {
@@ -1154,7 +1154,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我做的是偏暗黑、怪诞的角色设计和分镜，想申SVA和CalArts。你觉得这两所学校对这种风格的接受度一样吗？"
+          "content": "我做的是偏暗黑、怪诞的角色设计和分镜，想申SVA和CalArts。它们对这种风格的接受度差很多吗？"
         }
       ],
       "profile": {
@@ -1301,7 +1301,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想让你们艺术顾问老师直接看看她的作品，别只给我讲学校排名。能不能安排一个真人先做初评？"
+          "content": "我想让你们艺术顾问老师直接看看她的作品，别只跟我讲学校排名。能不能先安排个真人做初评？"
         }
       ],
       "profile": {
@@ -1344,7 +1344,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想做一次真人作品集讲评，最好能直接视频看图给意见。你们有老师能马上接这个吗？"
+          "content": "我想做一次真人作品集讲评，最好能直接视频看图给意见。你们现在有老师能接吗？"
         }
       ],
       "profile": {
@@ -1386,7 +1386,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子说别光问我，直接让老师看作品最有效。我们想找一个真人先把路线和选校一起看一下。"
+          "content": "孩子说别光问我，直接让老师看作品最有效。我们想先找个人把路线和选校一起看一下。"
         }
       ],
       "profile": {
@@ -1445,7 +1445,7 @@
         },
         {
           "type": "human",
-          "content": "我也说不清，我就是不想把学校选错。"
+          "content": "我也说不清，就是怕学校选错了。"
         }
       ],
       "profile": {
@@ -1504,7 +1504,7 @@
         },
         {
           "type": "human",
-          "content": "其实就是需要老师帮她定一下主线，不然我也说不动。"
+          "content": "其实我就想让老师帮她把主线定一下，不然我自己越看越乱。"
         }
       ],
       "profile": {
@@ -1563,7 +1563,7 @@
         },
         {
           "type": "human",
-          "content": "两边都想要，但感觉已经卡住了。"
+          "content": "两边都想要，但现在卡住了，怎么选都不太踏实。"
         }
       ],
       "profile": {
@@ -1622,7 +1622,7 @@
         },
         {
           "type": "human",
-          "content": "我更需要真人老师看完后直接给结论。"
+          "content": "我更想先听真人老师看完后的结论，不想自己猜了。"
         }
       ],
       "profile": {
@@ -1664,7 +1664,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你今天这嘴比我闹钟还早，先夸你一下"
+          "content": "你今天这嘴比我闹钟还早，刚刷到就想笑。"
         }
       ],
       "profile": {},
@@ -1708,7 +1708,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你这反应快得离谱，是不是偷偷练过"
+          "content": "你这反应快得离谱，感觉你平时没少练。"
         }
       ],
       "profile": {},
@@ -1752,7 +1752,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别谦虚了，你刚那句挺会接的"
+          "content": "别谦虚了，你刚那句接得挺顺的。"
         }
       ],
       "profile": {},
@@ -1796,7 +1796,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你这人说话有点欠，但我不讨厌"
+          "content": "你这人说话有点欠，不过我还挺吃这一套。"
         }
       ],
       "profile": {},
@@ -1840,7 +1840,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你一开口就像熟人，怪省我事的"
+          "content": "你一开口就挺像熟人，省得我还得铺垫。"
         }
       ],
       "profile": {},
@@ -1884,7 +1884,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你这回复速度，像在跟我比谁先回"
+          "content": "你这回得也太快了，我都快跟不上。"
         }
       ],
       "profile": {},
@@ -1928,7 +1928,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我怀疑你平时就是那种很会逗人笑的"
+          "content": "我感觉你挺会逗人的，是不是平时就这样。"
         }
       ],
       "profile": {},
@@ -1972,7 +1972,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天有点烦，想找个人安静说两句"
+          "content": "今天有点烦，想找个人安安静静聊几句。"
         }
       ],
       "profile": {},
@@ -2016,7 +2016,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我其实没啥大事，就是心里堵得慌"
+          "content": "我其实也没啥大事，就是心里闷得慌。"
         }
       ],
       "profile": {},
@@ -2060,7 +2060,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "最近挺累的，连说话都没劲"
+          "content": "最近挺累的，连说话都懒得多说。"
         }
       ],
       "profile": {},
@@ -2104,7 +2104,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "刚跟朋友闹别扭了，脑子乱"
+          "content": "刚跟朋友拧了一下，脑子还是乱的。"
         }
       ],
       "profile": {},
@@ -2148,7 +2148,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "心情不太稳，想听点不那么空的话"
+          "content": "心里有点堵，想听点实在的话。"
         }
       ],
       "profile": {},
@@ -2192,7 +2192,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天有点丧，但又不想被教育"
+          "content": "今天有点丧，别跟我讲大道理就行。"
         }
       ],
       "profile": {},
@@ -2236,7 +2236,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你先别绕，你到底是不是机器人"
+          "content": "你别绕了，我现在就想知道你是不是机器人，别跟我装人。"
         }
       ],
       "profile": {},
@@ -2289,7 +2289,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "说实话，你是人还是程序"
+          "content": "说白了，你到底是人还是程序啊。"
         }
       ],
       "profile": {},
@@ -2342,7 +2342,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你回答太顺了，我有点怀疑你是AI"
+          "content": "你答得太顺了，我有点怀疑你是 AI。"
         }
       ],
       "profile": {},
@@ -2395,7 +2395,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别装了，你是不是训练出来的"
+          "content": "别装了，你是不是训练出来的 AI 那种。"
         }
       ],
       "profile": {},
@@ -2448,7 +2448,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你能不能直接承认你不是活人"
+          "content": "你就直说吧，你不是活人对吧。"
         }
       ],
       "profile": {},
@@ -2501,7 +2501,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我这周刚开学，感觉课表排得满"
+          "content": "我这周刚开学，课表一排满，人都快麻了。"
         }
       ],
       "profile": {
@@ -2557,7 +2557,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我在想要不要继续学点外语，没想太明白"
+          "content": "我在想要不要继续学点外语，脑子还没捋清。"
         }
       ],
       "profile": {
@@ -2613,7 +2613,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "最近在看学校官网，越看越晕"
+          "content": "最近翻学校官网吗，越看越乱。"
         }
       ],
       "profile": {
@@ -2668,7 +2668,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我只是随口问问，读书这事儿是不是越早规划越省心"
+          "content": "我只是随口一问，读书这事是不是越早想越省心。"
         }
       ],
       "profile": {
@@ -2724,7 +2724,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "朋友在聊选专业，我听着有点迷"
+          "content": "朋友在聊专业，我听着有点云里雾里的。"
         }
       ],
       "profile": {
@@ -2779,7 +2779,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我这种状态，先把成绩稳住是不是更重要"
+          "content": "我这状态先把成绩稳住，是不是更要紧一点。"
         }
       ],
       "profile": {
@@ -2835,7 +2835,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你要是顺口说说学习节奏，我也能听听"
+          "content": "学习节奏这块，你要是顺口说两句，我也能听听。"
         }
       ],
       "profile": {
@@ -2890,7 +2890,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "凌晨一点了，还清醒着，挺烦"
+          "content": "凌晨一点了，我还醒着，挺烦的。"
         }
       ],
       "profile": {},
@@ -2943,7 +2943,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在就是有点空，想找人说说话"
+          "content": "我现在就是有点空，想找个人说说话。"
         }
       ],
       "profile": {},
@@ -2996,7 +2996,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "夜里特别安静，安静得有点过头"
+          "content": "夜里安静得有点过分，反而睡不太着。"
         }
       ],
       "profile": {},
@@ -3048,7 +3048,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "一个人待着，突然觉得屋里挺大"
+          "content": "一个人坐着，突然觉得房间特别大。"
         }
       ],
       "profile": {},
@@ -3101,7 +3101,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "睡不着，脑子一直转"
+          "content": "睡不着，脑子一直在转，停不下来。"
         }
       ],
       "profile": {},
@@ -3154,7 +3154,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天像被抽空了，没什么情绪"
+          "content": "今天像被掏空了一样，没什么情绪，也没什么劲。"
         }
       ],
       "profile": {},
@@ -3207,7 +3207,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我只是想让耳朵里有点人声"
+          "content": "我只是想让耳朵里有点人声，别太空。"
         }
       ],
       "profile": {},
@@ -3260,7 +3260,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "刚洗完澡，脑子却还停不下来"
+          "content": "刚洗完澡，还是静不下来，脑子乱转。"
         }
       ],
       "profile": {},
@@ -3313,7 +3313,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "朋友圈刷完更孤独了，真离谱"
+          "content": "刷完朋友圈更空了，孤独得有点离谱。"
         }
       ],
       "profile": {},
@@ -3366,7 +3366,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "外面下雨，我在窗边发呆"
+          "content": "外面在下雨，我就站窗边发了会儿呆。"
         }
       ],
       "profile": {},
@@ -3419,7 +3419,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天一句话都没好好说过，来陪我聊两句"
+          "content": "今天一句正经话都没怎么说，陪我聊两句就行。"
         }
       ],
       "profile": {},
@@ -3474,7 +3474,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我先问个具体的，香港副学士和VTC哪个更稳？我女儿现在高二，别急着给方案，先讲清差别。"
+          "content": "我女儿现在高二，我们这边还在副学士和VTC之间犹豫。你先别铺太多，我就想先知道哪个更稳一点。"
         }
       ],
       "profile": {
@@ -3510,11 +3510,12 @@
         [
           "稳",
           "差别",
-          "区别"
+          "犹豫"
         ],
         [
-          "方案",
-          "路线"
+          "先知道",
+          "别铺太多",
+          "稳一点"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -3538,7 +3539,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我先问清楚，国内本科预科+新加坡本科课程和直接申英联邦预科，哪个更适合我？先别排路线。"
+          "content": "我现在更担心的是，国内本科预科接新加坡本科这条，会不会比直接走英联邦预科更绕。"
         }
       ],
       "profile": {
@@ -3577,9 +3578,9 @@
           "对比"
         ],
         [
-          "先",
-          "别排",
-          "路线"
+          "先帮我",
+          "差别",
+          "大不大"
         ]
       ],
       "required_context_terms": [
@@ -3613,7 +3614,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我大专，手里就9万。先告诉我，专升硕和中外合办4+0哪个更像正路？我不要先做计划。"
+          "content": "我大专在读，预算就9万上下。专升硕和中外合办4+0这两条，你觉得哪条更现实一点？我不想先做太多规划。"
         }
       ],
       "profile": {
@@ -3645,14 +3646,14 @@
           "中外合办4+0"
         ],
         [
-          "正路",
-          "更划算",
-          "更适合"
+          "更现实",
+          "更适合",
+          "更稳"
         ],
         [
-          "先",
-          "不要",
-          "别"
+          "不想",
+          "先做",
+          "规划"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -3676,7 +3677,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子高三，预算一年12万。我先问，马来西亚方向里国内读国际高中、预科、还是2+2，哪个更顺？先别做计划。"
+          "content": "别的先不说，我现在主要卡在国际高中、预科和2+2这三条到底怎么接才顺。"
         }
       ],
       "profile": {
@@ -3716,8 +3717,8 @@
         ],
         [
           "更顺",
-          "先问",
-          "别做计划"
+          "先帮我",
+          "分一下"
         ]
       ],
       "required_context_terms": [
@@ -3751,7 +3752,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在就想知道，澳洲硕士和加拿大硕士在你们那套方案里怎么分？别先排计划，先讲我这情况值不值得直接出国。"
+          "content": "如果按我这个情况看，澳洲和加拿大这两条里，哪条更像能直接往前走的路？"
         }
       ],
       "profile": {
@@ -3784,12 +3785,14 @@
           "加拿大硕士"
         ],
         [
-          "值不值得",
-          "直接出国"
+          "更合适",
+          "直接出国",
+          "过渡项目"
         ],
         [
-          "先讲",
-          "先别"
+          "先帮我",
+          "过渡",
+          "直接出国"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -3812,7 +3815,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我儿子职高，先别推销。香港副学士、香港VTC、澳门副学士这三个，哪个最稳？"
+          "content": "我怕的是港澳这几条看着都差不多，最后选完还是绕路。"
         }
       ],
       "profile": {
@@ -3846,12 +3849,14 @@
           "澳门副学士"
         ],
         [
-          "最稳",
-          "稳妥"
+          "更稳",
+          "稳妥",
+          "顺序"
         ],
         [
-          "先别推销",
-          "先"
+          "排个",
+          "商量",
+          "港澳"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -3874,7 +3879,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你前面说的新加坡那条我觉得能接受了。先把能落地的两个项目告诉我，确认后我就想找真人聊细节。"
+          "content": "这个新加坡方向我回头又想了想，能接受是能接受，主要还想看哪两个项目真能落地。"
         }
       ],
       "profile": {
@@ -3909,8 +3914,8 @@
         ],
         [
           "真人",
-          "顾问",
-          "老师"
+          "老师",
+          "细节"
         ],
         [
           "确认",
@@ -3938,7 +3943,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "听下来英国这条比美国稳，我家里也能接受。你先把最匹配的方案说透，后面我就让顾问老师接上。"
+          "content": "英国这条我家里基本也能接受。你先把英国和美国里更贴我情况的那个方案说透一点，后面我再让老师接着聊。"
         }
       ],
       "profile": {
@@ -3977,9 +3982,9 @@
           "方案"
         ],
         [
-          "顾问老师",
-          "接上",
-          "真人"
+          "老师",
+          "接着聊",
+          "方案"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -4002,7 +4007,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我看你们表里香港副学士和香港VTC都在，按 search_products 那套先帮我定一个，我觉得可以直接对接老师了。"
+          "content": "我现在更担心的是副学士和VTC到底差在哪，别到时候方向看反了。"
         }
       ],
       "profile": {
@@ -4037,8 +4042,8 @@
         ],
         [
           "定一个",
-          "先帮我",
-          "拍板"
+          "更稳",
+          "家里说"
         ],
         [
           "老师",
@@ -4076,7 +4081,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我已经大概定了，想走你们推荐的那条。你先把能马上安排的人接上，我只想确认细节和时间。"
+          "content": "我这边其实已经差不多定了，不想再反复试。你先把真人接上，下一步怎么走和时间我想尽快确认。"
         }
       ],
       "profile": {
@@ -4106,9 +4111,9 @@
       "max_chars_per_segment": 60,
       "required_keyword_groups": [
         [
-          "马上安排",
-          "人接上",
-          "真人"
+          "真人",
+          "接上",
+          "下一步"
         ],
         [
           "确认细节",
@@ -4199,7 +4204,7 @@
         },
         {
           "type": "human",
-          "content": "你现在直接告诉我，别再拉扯了。"
+          "content": "我问到这儿也差不多了，你直接给我一句结论吧。"
         }
       ],
       "profile": {
@@ -4323,7 +4328,7 @@
         },
         {
           "type": "human",
-          "content": "我想马上对接。"
+          "content": "行，我不绕了，你把老师接上吧，我想直接问后面的安排。"
         }
       ],
       "profile": {
@@ -4354,9 +4359,9 @@
       "max_chars_per_segment": 60,
       "required_keyword_groups": [
         [
+          "老师接上",
           "真人顾问",
-          "对接",
-          "接手"
+          "对接"
         ],
         [
           "新加坡",
@@ -4452,7 +4457,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我看到你们表里有国际本科3+1和2+2，我现在只想知道 search_products 那套里，哪个更适合我这种高三背景？先给结论。"
+          "content": "我看到的这两条里，国际本科3+1和2+2到底哪条更贴我这种高三背景？"
         }
       ],
       "profile": {
@@ -4525,7 +4530,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我先问个具体的，加拿大硕士里如果我均分79，能不能先走一个更稳的路径？你别先做总规划。"
+          "content": "我先问个具体的，加拿大硕士里如果我均分79，能不能先走一个更稳的路径？我不想一上来就做总规划。"
         }
       ],
       "profile": {
@@ -4586,7 +4591,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿现在两条路都能走，一个香港副学士，一个澳门本科。你别让我自己想太久，先帮我判断哪个更稳。"
+          "content": "如果真要在香港副学士和澳门本科里挑一个，我现在更想知道哪个更稳。"
         }
       ],
       "profile": {
@@ -4626,7 +4631,8 @@
         ],
         [
           "先帮我",
-          "别让我"
+          "商量",
+          "更稳"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -4649,7 +4655,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我先问清楚，中专背景能不能先走澳洲的过渡项目？别直接给我规划。"
+          "content": "中专背景去看澳洲那边的过渡项目，我主要怕的是最后接不上。"
         }
       ],
       "profile": {
@@ -4709,7 +4715,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我先问，英国和香港这两个方向里，我现在更该先看哪个？我家里想先弄清楚，再做计划。"
+          "content": "我现在有点拿不准，英国和香港这两个方向到底先看哪个更合适？我家里想先把方向定下来再往下走。"
         }
       ],
       "profile": {
@@ -4744,7 +4750,8 @@
         ],
         [
           "先看",
-          "先做"
+          "定下来",
+          "方向"
         ],
         [
           "计划",
@@ -4771,7 +4778,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我已经差不多定了，想走加拿大这条。你先把能马上安排的人接上，我只想确认细节和时间。"
+          "content": "我这边基本就定加拿大了，细节先不展开。你先把真人接上，我想确认一下时间安排。"
         }
       ],
       "profile": {
@@ -4801,9 +4808,9 @@
       "max_chars_per_segment": 60,
       "required_keyword_groups": [
         [
-          "马上安排",
-          "人接上",
-          "真人"
+          "真人",
+          "接上",
+          "时间"
         ],
         [
           "确认细节",
@@ -4834,7 +4841,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你刚才说的英国这条我认可了，后面就按这个方向走。先把真人顾问叫上，我想确认一下申请节奏。"
+          "content": "你刚才说的英国方向我可以接受。后面就按这个走吧，你先把老师接上，我想把申请节奏问清楚。"
         }
       ],
       "profile": {
@@ -4864,9 +4871,9 @@
       "max_chars_per_segment": 60,
       "required_keyword_groups": [
         [
-          "真人顾问",
-          "叫上",
-          "对接"
+          "老师",
+          "接上",
+          "申请节奏"
         ],
         [
           "英国这条",
@@ -4897,7 +4904,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子现在只想留港，不想去别的国家。香港副学士和香港VTC这两个，你先告诉我哪个更适合他。"
+          "content": "他现在就是只想留港，副学士和VTC这两个里，哪个更适合一点？"
         }
       ],
       "profile": {
@@ -4935,7 +4942,7 @@
         ],
         [
           "留港",
-          "不想去"
+          "不太想"
         ]
       ],
       "expected_status": "PERSUADING",
@@ -4959,7 +4966,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我看你们表里香港副学士和香港VTC都在，按 search_products 那套先帮我定一个，我觉得可以直接对接老师了。"
+          "content": "我大概翻了港澳那几条，心里还是有点乱，副学士和VTC到底哪个更稳。"
         }
       ],
       "profile": {
@@ -4995,13 +5002,13 @@
         ],
         [
           "定一个",
-          "先帮我",
-          "拍板"
+          "更稳",
+          "确认完"
         ],
         [
           "老师",
-          "对接",
-          "真人"
+          "直接找",
+          "聊"
         ]
       ],
       "required_context_terms": [
@@ -5021,6 +5028,1189 @@
     }
   },
   {
+    "case_id": "exe_cons_023",
+    "tags": [
+      "consultant",
+      "need_consulting",
+      "student",
+      "budget_update",
+      "direct_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我刚跟家里确认过了，预算还能再往上抻一点，但也不是无限加。你看这样的话，路子是不是能稍微放宽些？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 28,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大",
+          "澳大利亚"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "商科院校",
+        "target_major": "商科",
+        "academic_background": "双非大三，均分82",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "预算",
+          "抻一点",
+          "放宽"
+        ],
+        [
+          "路子",
+          "更合适",
+          "更宽"
+        ],
+        [
+          "家里",
+          "确认"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "预算刚补充后再看可选范围是否放宽。",
+      "rubric_notes": "像真人临时改口，不要像总结陈述。"
+    }
+  },
+  {
+    "case_id": "exe_cons_024",
+    "tags": [
+      "consultant",
+      "decision_support",
+      "parent",
+      "family_split",
+      "hongkong"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我跟他爸意见有点不一样，他觉得先稳住，我觉得可以早点出去。现在你听下来，香港这边是不是更适合先试？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 24,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "传媒",
+        "academic_background": "高二，均分85，英语不错",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "他爸",
+          "意见"
+        ],
+        [
+          "先稳住",
+          "早点出去",
+          "先试"
+        ],
+        [
+          "香港",
+          "更适合"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "家里意见分裂时，最后一句是自然追问方向。",
+      "rubric_notes": "不要把分歧写成会议纪要。"
+    }
+  },
+  {
+    "case_id": "exe_cons_025",
+    "tags": [
+      "consultant",
+      "decision_support",
+      "comparison",
+      "other_agency",
+      "parent"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我昨天也问了别家，他们说香港副学士更适合我儿子，可我总觉得说得太满了。你这边会不会也是差不多的路子？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "职高",
+        "budget": {
+          "amount": 17,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "酒店管理",
+        "academic_background": "职高三年级，酒店方向",
+        "language_level": "英语基础一般"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "别家",
+          "副学士"
+        ],
+        [
+          "说得太满",
+          "差不多"
+        ],
+        [
+          "路子",
+          "更适合"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "拿别家方案来比价/质疑，但语气要像真人防销售。",
+      "rubric_notes": "要接住怀疑，不要反问太多。"
+    }
+  },
+  {
+    "case_id": "exe_cons_026",
+    "tags": [
+      "consultant",
+      "need_consulting",
+      "short_reply",
+      "student",
+      "budget_update"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "那就稳一点的来。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 20,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国",
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "传媒院校",
+        "target_major": "传媒",
+        "academic_background": "本科大二，均分79",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 2,
+      "max_chars_per_segment": 30,
+      "required_keyword_groups": [
+        [
+          "稳一点",
+          "稳"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "超短口语化确认，考模型是否能接住省略信息。",
+      "rubric_notes": "不能把一句短话扩写成完整诉求。"
+    }
+  },
+  {
+    "case_id": "exe_cons_027",
+    "tags": [
+      "consultant",
+      "decision_support",
+      "student",
+      "country_change",
+      "singapore"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我本来偏英国，结果刚跟同学聊完又有点想改成新加坡了，感觉自己也有点乱。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 35,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国",
+          "新加坡"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "商科院校",
+        "target_major": "商科",
+        "academic_background": "双非大三，均分83",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "英国",
+          "新加坡"
+        ],
+        [
+          "改",
+          "乱"
+        ],
+        [
+          "同学",
+          "聊"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "突然改国家的摇摆场景。",
+      "rubric_notes": "要像真实摇摆，不要像设定题。"
+    }
+  },
+  {
+    "case_id": "exe_cons_028",
+    "tags": [
+      "consultant",
+      "decision_support",
+      "student",
+      "major_change",
+      "art"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "专业我刚改了，不太想继续商科了，设计类现在还能看吗？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 30,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国",
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "设计院校",
+        "target_major": "Design",
+        "academic_background": "双非大二，作品集刚开始",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "专业",
+          "改了"
+        ],
+        [
+          "设计类",
+          "还能"
+        ],
+        [
+          "商科",
+          "设计"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "突然改专业的自然口语场景。",
+      "rubric_notes": "要像边想边说，不要像结构化问答。"
+    }
+  },
+  {
+    "case_id": "exe_cons_029",
+    "tags": [
+      "consultant",
+      "timing",
+      "student",
+      "direct_question",
+      "budget_update"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "如果现在定的话，大概要多久才能真正推进到下一步？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 26,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "商科院校",
+        "target_major": "商科",
+        "academic_background": "双非大三，均分81",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 2,
+      "max_chars_per_segment": 35,
+      "required_keyword_groups": [
+        [
+          "多久",
+          "下一步"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "只问现实推进时间，极短句。",
+      "rubric_notes": "短句要接地气，不能补成正式提问。"
+    }
+  },
+  {
+    "case_id": "exe_cons_030",
+    "tags": [
+      "consultant",
+      "suspicion",
+      "student",
+      "sales_guard",
+      "direct_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我先说在前面，我不太想听那种一上来就催我往前走的说法。你就直接讲，哪种更稳？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 18,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "商科",
+        "academic_background": "本科大二，均分76",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "不太想",
+          "催"
+        ],
+        [
+          "更稳",
+          "哪种"
+        ],
+        [
+          "直接讲",
+          "一上来"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "对销售防备，但仍然自然提问。",
+      "rubric_notes": "语气要有戒心，不要夸张。"
+    }
+  },
+  {
+    "case_id": "exe_cons_031",
+    "tags": [
+      "consultant",
+      "impatience",
+      "parent",
+      "long_dialog",
+      "question_first"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "前面已经说了这么多，你别又把话绕回去。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 32,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "前50",
+        "target_major": "传媒",
+        "academic_background": "高三，均分87",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "PERSUADING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 2,
+      "max_chars_per_segment": 35,
+      "required_keyword_groups": [
+        [
+          "绕回去",
+          "别"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "聊太久后的不耐烦收口。",
+      "rubric_notes": "要像真实烦躁，不要像测试指令。"
+    }
+  },
+  {
+    "case_id": "exe_cons_032",
+    "tags": [
+      "consultant",
+      "language_update",
+      "student",
+      "question_first",
+      "direct_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "语言我刚出分，托福就刚过线一点，你说这种是不是得先保守点？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 29,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "美国",
+          "加拿大"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "商科院校",
+        "target_major": "商科",
+        "academic_background": "双非大三，均分84",
+        "language_level": "托福刚过线"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "托福",
+          "过线"
+        ],
+        [
+          "保守",
+          "语言"
+        ],
+        [
+          "刚出分",
+          "先"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "补语言信息后的现实判断。",
+      "rubric_notes": "不要把未完全确定的成绩说满。"
+    }
+  },
+  {
+    "case_id": "exe_cons_033",
+    "tags": [
+      "consultant",
+      "decision_support",
+      "parent",
+      "student_voice",
+      "hongkong"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "他自己其实不排斥留港，就是怕太绕。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "职高",
+        "budget": {
+          "amount": 14,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "旅游管理",
+        "academic_background": "职高三年级，旅游方向",
+        "language_level": "英语基础一般"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "留港",
+          "绕"
+        ],
+        [
+          "副学士",
+          "VTC",
+          "港澳"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "家长补充孩子态度，考模型接续判断。",
+      "rubric_notes": "不需要把孩子的话说得像正式反馈。"
+    }
+  },
+  {
+    "case_id": "exe_cons_034",
+    "tags": [
+      "consultant",
+      "compare_offers",
+      "student",
+      "canada",
+      "direct_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我这边两个 offer 差不多都能接，一个学校名气大点，一个位置更方便，我现在反而更纠结。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 33,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大",
+          "美国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "商科院校",
+        "target_major": "商科",
+        "academic_background": "本科大三，均分82",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "两个 offer",
+          "纠结"
+        ],
+        [
+          "名气",
+          "位置"
+        ],
+        [
+          "更方便",
+          "学校"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "offer 比较，最后一句是自然摇摆。",
+      "rubric_notes": "不要把比较写成表格式说法。"
+    }
+  },
+  {
+    "case_id": "exe_cons_035",
+    "tags": [
+      "consultant",
+      "budget_update",
+      "student",
+      "realistic",
+      "direct_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "预算我再挤挤还能多一点，但你别一下子给我推那种太满的方案。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 19,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "香港",
+          "英国"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "传媒院校",
+        "target_major": "传媒",
+        "academic_background": "本科大二，均分78",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "预算",
+          "挤挤"
+        ],
+        [
+          "别",
+          "太满",
+          "方案"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "预算补充，但带着明确的防满配倾向。",
+      "rubric_notes": "要像真实家长/学生的顾虑，不是指令。"
+    }
+  },
+  {
+    "case_id": "exe_cons_036",
+    "tags": [
+      "consultant",
+      "short_reply",
+      "parent",
+      "question_first",
+      "hongkong"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "哪个更稳？"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 21,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": "坚决不出国",
+        "target_school": "港澳院校",
+        "target_major": "商科",
+        "academic_background": "高三，均分80",
+        "language_level": "雅思5.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 1,
+      "max_segments": 2,
+      "max_chars_per_segment": 15,
+      "required_keyword_groups": [
+        [
+          "更稳"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "极短问句，测试模型是否能自然接话。",
+      "rubric_notes": "不要把短句改写成长句。"
+    }
+  },
+  {
+    "case_id": "exe_cons_037",
+    "tags": [
+      "consultant",
+      "family_change",
+      "parent",
+      "decision_support",
+      "uk"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "他爸刚才又改口了，说如果能稳一点，先香港也不是不行。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 27,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "英国",
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "传媒院校",
+        "target_major": "传媒",
+        "academic_background": "高二，均分86",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "他爸",
+          "改口"
+        ],
+        [
+          "香港",
+          "稳一点"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "家里态度变化，最后一句像临时确认。",
+      "rubric_notes": "要有真实家庭协商感。"
+    }
+  },
+  {
+    "case_id": "exe_cons_038",
+    "tags": [
+      "consultant",
+      "rag_related",
+      "student",
+      "excel_rag",
+      "hongkong_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "刚才那几条里，我其实更想看一个对我这种背景真能落地的，不要给太虚的。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 23,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "香港",
+          "澳门"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "会计",
+        "academic_background": "本科大三，均分80",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "落地",
+          "虚"
+        ],
+        [
+          "背景",
+          "真能"
+        ]
+      ],
+      "required_context_terms": [
+        [
+          "search_products",
+          "products_intro.xlsx"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "Excel/RAG 相关 case，但用户话术不能露系统词。",
+      "rubric_notes": "要自然提真实需求，不要提系统名。"
+    }
+  },
+  {
+    "case_id": "exe_cons_039",
+    "tags": [
+      "consultant",
+      "sales_ready",
+      "student",
+      "handoff_ready",
+      "direct_path"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我这边已经差不多定了，你要是觉得还缺一个关键点，就直接说。"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 38,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "UBC",
+        "target_major": "商科",
+        "academic_background": "国内本科，均分85",
+        "language_level": "雅思6.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "差不多定了"
+        ],
+        [
+          "关键点",
+          "直接说"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "轻销售 readiness，但保留自然犹豫感。",
+      "rubric_notes": "不要强行写成转人工话术。"
+    }
+  },
+  {
+    "case_id": "exe_cons_040",
+    "tags": [
+      "consultant",
+      "comparison",
+      "parent",
+      "question_first",
+      "canada"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "我看了两家，一个说加拿大更稳，一个说英国更省事，我现在倒是越听越晕。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 31,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "加拿大",
+          "英国"
+        ],
+        "abroad_readiness": "直接出国",
+        "target_school": "前100",
+        "target_major": "商科",
+        "academic_background": "高二，均分84",
+        "language_level": "雅思6.0"
+      },
+      "last_intent": "DECISION_SUPPORT",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "两家",
+          "加拿大",
+          "英国"
+        ],
+        [
+          "更稳",
+          "更省事",
+          "晕"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "比两家建议时的自然困惑。",
+      "rubric_notes": "不要像在做对比表。"
+    }
+  },
+  {
+    "case_id": "exe_cons_041",
+    "tags": [
+      "consultant",
+      "need_consulting",
+      "student",
+      "missing_info",
+      "question_first"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "语言这块我还没彻底定下来，先按现在这个水平看行不行？"
+        }
+      ],
+      "profile": {
+        "user_role": "学生",
+        "educationStage": "本科",
+        "budget": {
+          "amount": 25,
+          "period": "YEAR"
+        },
+        "destination_preference": [
+          "澳大利亚"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "商科院校",
+        "target_major": "商科",
+        "academic_background": "本科大二，均分80",
+        "language_level": "语言成绩未定"
+      },
+      "last_intent": "NEED_CONSULTING",
+      "dialog_status": "CONSULTING"
+    },
+    "expected": {
+      "must_call_tool": false,
+      "min_segments": 2,
+      "max_segments": 3,
+      "max_chars_per_segment": 45,
+      "required_keyword_groups": [
+        [
+          "语言",
+          "还没"
+        ],
+        [
+          "现在这个水平",
+          "行不行"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "只补一个关键缺口信息。",
+      "rubric_notes": "不能把不完整信息硬说满。"
+    }
+  },
+  {
+    "case_id": "exe_cons_042",
+    "tags": [
+      "consultant",
+      "decision_support",
+      "parent",
+      "handoff_ready",
+      "hongkong"
+    ],
+    "node_name": "consultant",
+    "input": {
+      "messages": [
+        {
+          "type": "human",
+          "content": "行吧，那就先按你说的这个方向走，我现在主要是想确认一下后面要不要补材料。"
+        }
+      ],
+      "profile": {
+        "user_role": "家长",
+        "educationStage": "高中",
+        "budget": {
+          "amount": 22,
+          "period": "TOTAL"
+        },
+        "destination_preference": [
+          "香港"
+        ],
+        "abroad_readiness": "需要过渡/暂缓",
+        "target_school": "港澳院校",
+        "target_major": "商科",
+        "academic_background": "高三，均分83，英语88",
+        "language_level": "雅思5.5"
+      },
+      "last_intent": "SALES_READY",
+      "dialog_status": "PERSUADING",
+      "has_proposed_solution": true
+    },
+    "expected": {
+      "must_call_tool": true,
+      "min_segments": 1,
+      "max_segments": 3,
+      "max_chars_per_segment": 60,
+      "required_keyword_groups": [
+        [
+          "补材料",
+          "后面"
+        ],
+        [
+          "这个方向",
+          "走"
+        ]
+      ],
+      "expected_status": "PERSUADING",
+      "skip_rubric": false,
+      "node_goal": "轻松接受后的收口场景。",
+      "rubric_notes": "自然推进，但别写得像流程说明。"
+    }
+  },
+  {
     "case_id": "exe_int_001",
     "tags": [
       "interviewer",
@@ -5034,7 +6224,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我均分82，能不能冲曼大？"
+          "content": "我均分82，曼大还有没有机会？"
         }
       ],
       "profile": {
@@ -5094,7 +6284,7 @@
         },
         {
           "type": "human",
-          "content": "不知道，先别重复问了。"
+          "content": "这个我真不清楚，别老问同一件了。"
         }
       ],
       "profile": {
@@ -5149,7 +6339,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我不懂，你先说要看什么。"
+          "content": "我有点懵，你就直接告诉我先看哪几项。"
         }
       ],
       "profile": {
@@ -5209,7 +6399,7 @@
         },
         {
           "type": "human",
-          "content": "我女儿现在二本，均分不高，申港大还有戏吗？"
+          "content": "我女儿现在二本，均分也一般，港大还有机会吗？"
         }
       ],
       "profile": {
@@ -5268,7 +6458,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "雅思要先考到几分才合适？"
+          "content": "雅思大概要到什么程度才比较稳？"
         }
       ],
       "profile": {
@@ -5327,7 +6517,7 @@
         },
         {
           "type": "human",
-          "content": "我不知道，孩子英语一般。"
+          "content": "我也说不清，孩子英语就一般般。"
         }
       ],
       "profile": {
@@ -5382,7 +6572,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你先说，英语差是不是没救。"
+          "content": "英语差是不是基本没戏了？"
         }
       ],
       "profile": {
@@ -5437,7 +6627,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子现在就普通水平，要不要先读语言班？"
+          "content": "孩子现在就是普通水平，语言班有必要吗？"
         }
       ],
       "profile": {
@@ -5492,7 +6682,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "大概多少钱能做个方案？"
+          "content": "大概预算得准备多少？"
         }
       ],
       "profile": {
@@ -5549,7 +6739,7 @@
         },
         {
           "type": "human",
-          "content": "不知道，先按你们经验说。"
+          "content": "我真没概念，你按常见情况说吧。"
         }
       ],
       "profile": {
@@ -5605,7 +6795,7 @@
         },
         {
           "type": "human",
-          "content": "这个以后再说。"
+          "content": "这个先放一下吧，预算我还没想细。"
         }
       ],
       "profile": {
@@ -5658,7 +6848,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "总预算和每年预算哪个更重要？"
+          "content": "总预算和每年预算，哪个你们更常看？"
         }
       ],
       "profile": {
@@ -5710,7 +6900,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "去哪里性价比高一点？"
+          "content": "如果想性价比高一点，通常看哪些地方？"
         }
       ],
       "profile": {
@@ -5770,7 +6960,7 @@
         },
         {
           "type": "human",
-          "content": "没想好，先给我两个方向。"
+          "content": "我现在没想好，你先给我两个方向我听听。"
         }
       ],
       "profile": {
@@ -5829,7 +7019,7 @@
         },
         {
           "type": "human",
-          "content": "这个以后再说，先看能不能申。"
+          "content": "这个我晚点再定，先看能不能申请上。"
         }
       ],
       "profile": {
@@ -5883,7 +7073,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "华语环境优先，离家别太远。"
+          "content": "我就想离家近一点，最好还有点华语环境。"
         }
       ],
       "profile": {
@@ -5937,7 +7127,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在到底算高三还是大一那种背景？"
+          "content": "我现在到底算高三还是大一，这个有点搞不清。"
         }
       ],
       "profile": {
@@ -5995,7 +7185,7 @@
         },
         {
           "type": "human",
-          "content": "不懂，孩子学校情况我有点乱。"
+          "content": "孩子学校这块我确实有点乱，你先按简单的问。"
         }
       ],
       "profile": {
@@ -6054,7 +7244,7 @@
         },
         {
           "type": "human",
-          "content": "没想好，反正不是本科。"
+          "content": "反正不是本科那一档。"
         }
       ],
       "profile": {
@@ -6110,7 +7300,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子好像读到一半，不记得现在算什么学历。"
+          "content": "孩子读到一半，我也不太确定现在算哪一层。"
         }
       ],
       "profile": {
@@ -6164,7 +7354,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想直接出国，还是先在国内过渡更稳？"
+          "content": "我想问的是，直接出国和先在国内过渡，差别到底大不大？"
         }
       ],
       "profile": {
@@ -6224,7 +7414,7 @@
         },
         {
           "type": "human",
-          "content": "不知道，先别逼我选。"
+          "content": "这个先别逼我马上选。"
         }
       ],
       "profile": {
@@ -6283,7 +7473,7 @@
         },
         {
           "type": "human",
-          "content": "你先说，直接出去和先读港澳有什么差。"
+          "content": "那你先说说，直接出去和先走港澳，中间差在哪。"
         }
       ],
       "profile": {
@@ -6343,7 +7533,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "这个以后再说吧，先把孩子路线定了。"
+          "content": "这个我先缓一缓，你先把孩子路线理清。"
         }
       ],
       "profile": {
@@ -6399,7 +7589,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我美高转本，背景要怎么讲才算完整？"
+          "content": "我是美高转本，背景这块到底怎么说才算完整？"
         }
       ],
       "profile": {
@@ -6459,7 +7649,7 @@
         },
         {
           "type": "human",
-          "content": "孩子英语还行，要补什么？"
+          "content": "孩子英语还可以，但我不清楚还缺什么。"
         }
       ],
       "profile": {
@@ -6518,7 +7708,7 @@
         },
         {
           "type": "human",
-          "content": "手头不算宽裕，十来万够不够？"
+          "content": "手头就这么多，十来万够不够用？"
         }
       ],
       "profile": {
@@ -6571,7 +7761,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "没想好，英美都想看看。"
+          "content": "英美都想看看，但我还没定下来。"
         }
       ],
       "profile": {
@@ -6628,7 +7818,7 @@
         },
         {
           "type": "human",
-          "content": "我算大二还是大三？"
+          "content": "我大二还是大三，这个我自己都说不准。"
         }
       ],
       "profile": {
@@ -6681,7 +7871,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子想先港澳过渡，再考虑直接出国。"
+          "content": "他想先走港澳过渡，之后再看要不要直接出国。"
         }
       ],
       "profile": {
@@ -6742,7 +7932,7 @@
         },
         {
           "type": "human",
-          "content": "孩子成绩不稳定，先看哪块？"
+          "content": "孩子成绩起伏挺大，先看哪块最关键？"
         }
       ],
       "profile": {
@@ -6798,7 +7988,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "托福没考，四六级刚过，这样还来得及吗？"
+          "content": "托福还没考，四六级刚过，这种情况还赶得上吗？"
         }
       ],
       "profile": {
@@ -6851,7 +8041,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "总共就8万人民币，别给我画饼，先说能走什么路。"
+          "content": "我这边最多也就8万上下，马来西亚、泰国这种东南亚路线如果真能落地，你就说现实一点的。"
         }
       ],
       "profile": {
@@ -6900,7 +8090,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "家里总共只能凑出6万，我是大专，想知道还有没有出国的办法。"
+          "content": "家里现在只能凑出6万，我是大专背景，专升本、专升硕或者中外合办里，有没有一条真能走得通的？"
         }
       ],
       "profile": {
@@ -6947,7 +8137,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "双非本科，预算总共9万，想申个稳点的硕士，不要一上来就劝我加钱。"
+          "content": "双非本科，预算就9万出头，波兰、白俄罗斯这种东欧路子里，哪个更稳一点？"
         }
       ],
       "profile": {
@@ -6995,7 +8185,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子高三，家里全包也就7万，想留学但别太贵，能不能先讲讲最省钱的方向。"
+          "content": "孩子高三，家里能拿出来的也就7万，马来西亚或者泰国这类性价比高一点的路子，你看哪种更省心？"
         }
       ],
       "profile": {
@@ -7043,7 +8233,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我是一年预算6万人民币，想去留学，别跟我说空话，给个实际方案。"
+          "content": "我一年预算就6万，东南亚这类性价比高的项目里，有没有能直接对接的？"
         }
       ],
       "profile": {
@@ -7091,7 +8281,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我大专快毕业了，一年预算8万以内，想出去读个更有用的，怎么选最划算。"
+          "content": "我大专快毕业了，想找条专升本或者中外合办的路，预算别超过8万太多。"
         }
       ],
       "profile": {
@@ -7139,7 +8329,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "双非本科，年预算9万，想去东欧读硕，别跟我说太贵，我就要稳一点。"
+          "content": "双非本科，年预算9万，东欧里波兰和俄罗斯这两条，哪条更稳？"
         }
       ],
       "profile": {
@@ -7187,7 +8377,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我gap year一年，预算总是卡得很死，年预算就5万左右，还有没有能读的路。"
+          "content": "我 gap year 一年了，马来西亚、泰国这种能过渡的路子里，哪个更现实？"
         }
       ],
       "profile": {
@@ -7235,7 +8425,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我是家长，孩子本科，家里现在很焦虑，预算不高但也不想被你说得太难听。"
+          "content": "我是家长，孩子本科，家里现在压力挺大，但也不想把孩子的路选窄了，先帮我看稳一点的方向。"
         }
       ],
       "profile": {
@@ -7286,7 +8476,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我妹妹今年高考，家里两个孩子一起花钱，预算真的紧，但也想给她找条不太亏的路。"
+          "content": "我妹妹今年高考，家里两个孩子一起花钱，预算紧得很，中外合办或者东南亚这类性价比高的路子，哪个更适合她？"
         }
       ],
       "profile": {
@@ -7338,7 +8528,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "家里第一次考虑留学，预算有限，我们最怕走冤枉路，你直接告诉我先看什么。"
+          "content": "这是我们第一次认真看留学，先想知道性价比高的路子大概从哪儿开始看。"
         }
       ],
       "profile": {
@@ -7390,7 +8580,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我们预算不高，但孩子成绩还可以，你别用那种嫌弃口气，给个踏实点的建议。"
+          "content": "预算不高，但孩子成绩还行，我们就想找个踏实点的路径，不要那种听着很漂亮、最后很折腾的。"
         }
       ],
       "profile": {
@@ -7442,7 +8632,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "总预算就9万，别只说鼓励的话，能不能直接给我一条具体路线。"
+          "content": "总预算就9万左右，4+0或者中外合办这种具体项目里，哪条更接近我能承受的范围？"
         }
       ],
       "profile": {
@@ -7490,7 +8680,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我大专，手里就7万，想问专升本还是直接出国更划算，别绕弯。"
+          "content": "我大专，现在手里就7万左右，专升本和专升硕这两条，哪个更划算一点？"
         }
       ],
       "profile": {
@@ -7538,7 +8728,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "预算一年5万，能不能靠打工度假或者别的方式先出去，别给我推荐太贵的项目。"
+          "content": "预算一年5万，想先靠打工度假 WHV 或者类似办法出去，有没有更现实的起步方式？"
         }
       ],
       "profile": {
@@ -7586,7 +8776,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "总预算不到10万，又想拿个海外学位，有没有更便宜一点的具体路径。"
+          "content": "总预算不到10万，我想拿个海外在线学位或者别的低费用方案，有没有真能落地的？"
         }
       ],
       "profile": {
@@ -7634,7 +8824,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你先别急着卖服务，我就想知道有没有不花大钱的办法。"
+          "content": "我主要就是想知道，不花大钱的办法到底有没有，性价比高一点的路就行。"
         }
       ],
       "profile": {
@@ -7681,7 +8871,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我听着像又要让我加微信卖规划包，你直说，便宜路到底有没有。"
+          "content": "我现在就怕又碰到那种上来就让我报服务包的，便宜路到底还有没有？马来西亚、白俄罗斯这种方向也行。"
         }
       ],
       "profile": {
@@ -7729,7 +8919,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你先说清楚，是不是不报你们服务就没法做？我怕被绕进去。"
+          "content": "我先确认一下，是不是不买服务也能给建议？我怕服务费没必要地被抬上去。"
         }
       ],
       "profile": {
@@ -7777,7 +8967,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我只想知道便宜方案有哪些，不要最后变成推高价套餐。"
+          "content": "我只想知道便宜方案有哪些，中外合办这类也可以，别最后又变成那种贵很多的方案。"
         }
       ],
       "profile": {
@@ -7825,7 +9015,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别跟我聊了，直接让我和真人老师说，我要当面确认方案。"
+          "content": "我先想和真人老师聊一下，想把方案当面确认清楚。"
         }
       ],
       "profile": {
@@ -7865,7 +9055,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想直接打电话或者语音聊，文字我说不清，帮我转真人。"
+          "content": "能不能直接打电话或者语音，我文字说不太顺，想真人接一下。"
         }
       ],
       "profile": {
@@ -7906,7 +9096,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "能不能把真人顾问叫出来，我不想反复打字了。"
+          "content": "现在方便把真人顾问叫出来吗？我不想一直反复打字。"
         }
       ],
       "profile": {
@@ -7946,7 +9136,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我就要真人，别再自动回复了。"
+          "content": "我就想直接跟真人说，自动回复我有点看不下去了。"
         }
       ],
       "profile": {
@@ -8035,7 +9225,7 @@
         },
         {
           "type": "human",
-          "content": "已经聊太久了，直接转真人吧。"
+          "content": "我们已经聊挺久了，还是让真人接一下吧，省得来回打字。"
         }
       ],
       "profile": {
@@ -8129,7 +9319,7 @@
         },
         {
           "type": "ai",
-          "content": "好的，稍等。"
+          "content": "好的，那你先转一下真人。"
         }
       ],
       "profile": {
@@ -8219,7 +9409,7 @@
         },
         {
           "type": "human",
-          "content": "现在。"
+          "content": "现在就行。"
         }
       ],
       "profile": {
@@ -8260,7 +9450,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我职高毕业，预算总共5万，想看看有没有不贵又靠谱的海外路。"
+          "content": "我职高毕业，预算就5万左右，东南亚这边有没有不太贵、也相对靠谱的路径？"
         }
       ],
       "profile": {
@@ -8308,7 +9498,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我中专毕业，家里只给5万左右，先别说贵的，能不能从最现实的地方开始。"
+          "content": "我中专毕业，家里只给5万上下，中专背景走专升本或者中外合办，哪条更现实？"
         }
       ],
       "profile": {
@@ -8356,7 +9546,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我已经gap一年了，预算一年7万，想补一条能重新起跑的路。"
+          "content": "我已经 gap 一年了，预算一年7万，想找一条能重新起跑的过渡路径。"
         }
       ],
       "profile": {
@@ -8405,7 +9595,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "大专，年预算就8万，我不想听空话，告诉我最稳的升学路。"
+          "content": "大专，年预算也就8万，我想走一条专升本里更稳、性价比也高的路。"
         }
       ],
       "profile": {
@@ -8454,7 +9644,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "双非本科，后来又读了个大专，预算总共不到10万，这种情况还有没有救。"
+          "content": "我双非本科，后来又读了个大专，预算总共不到10万，这种背景还有没有比较现实的办法？"
         }
       ],
       "profile": {
@@ -8502,7 +9692,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我预算不高，想读日本新闻相关方向，有没有便宜点的路径。"
+          "content": "我预算不高，想读日本新闻相关方向，有没有便宜一点、又不太绕的路？"
         }
       ],
       "profile": {
@@ -8550,7 +9740,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我家就想省钱，你别再拐着弯让我买高价服务了，先说能省到什么程度。"
+          "content": "我们家就想省钱，别老想着推高价服务，先说能省到什么程度吧。"
         }
       ],
       "profile": {
@@ -8598,7 +9788,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我是家长，孩子大专，预算很紧，想找个不浪费钱的升学办法。"
+          "content": "我是家长，孩子大专，预算很紧，想找个不浪费钱、也不太冒险的升学办法。"
         }
       ],
       "profile": {
@@ -8651,7 +9841,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "双非本科，预算总共9万，想要一条不太冒险、也别太贵的路。"
+          "content": "双非本科，预算总共9万，我就想要一条不太冒险、也别太贵的路。"
         }
       ],
       "profile": {
@@ -8700,7 +9890,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "先别急着推荐，我想先确认你是不是能讲明白。背景、预算都可以后面再说。"
+          "content": "背景我后面再补，先把方案判断和学校层级讲清楚。"
         }
       ],
       "profile": {
@@ -8761,7 +9951,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿现在高二，我先看你是不是靠谱。英国和香港我都能接受，但不想被带节奏。"
+          "content": "我女儿现在高二，英国和香港我都能接受，但家里最看重还是安全和路径稳不稳。"
         }
       ],
       "profile": {
@@ -8823,7 +10013,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我是家里负责拍板的人。先告诉我，这个项目值不值得我继续听。预算我有，但时间不多。"
+          "content": "我是家里负责拍板的人，预算我有，但时间不多。你就说这项目值不值得我继续听。"
         }
       ],
       "profile": {
@@ -8884,7 +10074,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我先说清楚，我怕踩坑。你们不是那种一上来就让我加微信、发套餐的吧？"
+          "content": "我先说清楚，我最怕踩坑。顾问也好，老师也好，你们这套到底是真是假，别绕我。"
         }
       ],
       "profile": {
@@ -8945,7 +10135,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子才高一，我最在意的是安全和节奏，不想太激进。先跟我讲讲你怎么判断合不合适。"
+          "content": "孩子才高一，我最在意的是安全和节奏，不想太激进。学校方向你得先讲清楚怎么判断。"
         }
       ],
       "profile": {
@@ -9007,7 +10197,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想先看你们是不是会说实话。合不合适、值不值，你直接告诉我，不用给我灌鸡汤。"
+          "content": "我想先看的是这个学校方向到底适不适合，给个真实判断，别给我太虚的。"
         }
       ],
       "profile": {
@@ -9069,7 +10259,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我目标就是美国前十。别跟我说稳妥路线，我想知道现在这个背景怎么冲最值。"
+          "content": "我目标就是美国前十，GPA和语言条件我都清楚。你别跟我绕，直接说申请方案怎么冲最值。"
         }
       ],
       "profile": {
@@ -9130,7 +10320,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我女儿想冲牛津，但我不想听虚话。这个背景到底够不够，你先讲结论。"
+          "content": "我女儿想冲牛津，但我不想听虚话。按这个背景条件，你直接给我结论和判断。"
         }
       ],
       "profile": {
@@ -9191,7 +10381,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我就直说了，成绩不算亮眼，但我预算很足。港大和新国立我都想冲，你别敷衍我。"
+          "content": "我就直说了，成绩不算亮眼，但预算很足。港大和新国立这两条，你给我按现实难度排一下。"
         }
       ],
       "profile": {
@@ -9314,7 +10504,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在在美国和英国之间犹豫。不是想听大道理，我要知道哪个路径对我更值。"
+          "content": "我现在在美国和英国之间来回摇，最纠结的就是路径取舍和值不值。你别讲大道理，直接说哪条更适合我。"
         }
       ],
       "profile": {
@@ -9376,7 +10566,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我最关心安全和排名。孩子能不能稳一点去加拿大或者英国，你先给我个思路。"
+          "content": "我最关心安全和排名。孩子能不能稳一点去加拿大或者英国，这条路径你先给我说清楚。"
         }
       ],
       "profile": {
@@ -9442,7 +10632,7 @@
         },
         {
           "type": "human",
-          "content": "上一位老师又说我很悬，你们怎么前后不一致？我现在只想听实话。"
+          "content": "上一位老师又说我很悬，你们前后说法不太一致。我现在只想听实话判断。"
         }
       ],
       "profile": {
@@ -9507,7 +10697,7 @@
         },
         {
           "type": "human",
-          "content": "你这个说法太泛了，像模板。我要的是孩子到底怎么走，不是空话。"
+          "content": "你这个说法太泛了，像模板。我要的是孩子到底怎么走，路径和结论都别太泛。"
         }
       ],
       "profile": {
@@ -9568,7 +10758,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别再给我绕了，我已经听了两轮还是没结论。今天要么你讲清楚，要么我就不聊了。"
+          "content": "别再给我绕了，我已经听了两轮还是没结论。今天要么你讲清楚，要么我就先停了。"
         }
       ],
       "profile": {
@@ -9680,7 +10870,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你们前两个顾问都像复制粘贴，我现在只想知道这事到底怎么落地。"
+          "content": "前面几位说得都太像一套话了，我现在只关心最后怎么落地。"
         }
       ],
       "profile": {
@@ -9730,7 +10920,7 @@
         },
         {
           "type": "human",
-          "content": "别只给方向，我要看你们怎么证明不是画饼。时间表、边界和结果，都说清楚。"
+          "content": "别只讲方向，我要看你们怎么证明不是在画饼。时间、边界、结果都得说清楚。"
         }
       ],
       "profile": {
@@ -9790,7 +10980,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别打字了，能不能直接打电话，我现在就想听真人讲。"
+          "content": "别打字了，直接电话说吧，我想省点时间。"
         }
       ],
       "profile": {
@@ -9836,7 +11026,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你给我发个语音也行，打字太慢了。我想让家里人一起听，直接说重点。"
+          "content": "打字太慢了，你发个语音也行，我好给家里一起听重点。"
         }
       ],
       "profile": {
@@ -9883,7 +11073,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我要跟真人老师聊，不要机器人。你把负责的人拉出来，我们一次说清。"
+          "content": "我要跟真人老师聊，这件事别再绕了，把能拍板的人接上，我们一次说清。"
         }
       ],
       "profile": {
@@ -9929,7 +11119,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "把老师拉进来吧，我不想再跟你来回问了。这个问题需要人直接定。"
+          "content": "把老师拉进来吧，我不想再跟你来回问了。这个问题得有人直接定。"
         }
       ],
       "profile": {
@@ -9975,7 +11165,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "现在就电话沟通吧，我这边是拍板的人，没时间在消息里拉扯。"
+          "content": "我这边是拍板的人，时间很紧。能不能直接电话聊，快一点。"
         }
       ],
       "profile": {
@@ -10020,7 +11210,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我要跟负责这个项目的人聊，不要绕。你先别回答，直接把能定事的人接上。"
+          "content": "我要跟负责这个项目的人聊，别兜圈子。能定事的人直接接上。"
         }
       ],
       "profile": {
@@ -10066,7 +11256,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "这事你能不能帮我搞定？如果能走得快一点，我愿意继续聊。"
+          "content": "这事你要是能帮我推进快一点，我愿意继续聊；不行就别耗了。"
         }
       ],
       "profile": {
@@ -10112,7 +11302,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "有没有特殊渠道？只要能稳一点，方法我都想听。"
+          "content": "有没有更快也更稳一点的办法？有的话我想继续听。"
         }
       ],
       "profile": {
@@ -10159,7 +11349,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我不想听流程，直接说有没有内部通道能加速。能的话就继续，不行我就换人。"
+          "content": "我不想听流程，直接说有没有内部通道能加速。能就继续，不行我就换人。"
         }
       ],
       "profile": {
@@ -10265,7 +11455,7 @@
         },
         {
           "type": "human",
-          "content": "现在就接。"
+          "content": "行了，先把人接上，别再来回问了。"
         }
       ],
       "profile": {
@@ -10371,7 +11561,7 @@
         },
         {
           "type": "human",
-          "content": "我要听能拍板的人怎么说。"
+          "content": "把能拍板的人接上吧，我想听他怎么说。"
         }
       ],
       "profile": {
@@ -10478,7 +11668,7 @@
         },
         {
           "type": "human",
-          "content": "现在就接。"
+          "content": "别拖了，现在就接。"
         }
       ],
       "profile": {

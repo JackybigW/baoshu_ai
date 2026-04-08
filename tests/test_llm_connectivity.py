@@ -45,6 +45,7 @@ def test_model_registry_connectivity():
     model_cases = [
         {"name": "DeepSeek", "model_id": "deepseek"},
         {"name": "Gemini Flash", "model_id": "gemini_flash"},
+        {"name": "Qwen", "model_id": "qwen"},
         {"name": "GLM", "model_id": "glm"},
         {"name": "Doubao Pro", "model_id": "doubao"},
         {"name": "Doubao Lite", "model_id": "doubao_lite"},

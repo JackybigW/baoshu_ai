@@ -173,6 +173,33 @@ def test_interviewer_node_reasks_background_when_score_missing(monkeypatch):
     assert "语言准备情况" in prompt
 
 
+def test_interviewer_node_normalizes_gemini_block_content(monkeypatch):
+    stub_chat = RecordingChatLLM(
+        AIMessage(
+            content=[
+                {"type": "text", "text": "先回答你这个问题"},
+                {"type": "text", "text": "|||再确认成绩和语言"},
+            ]
+        )
+    )
+    monkeypatch.setattr(consultants, "llm_chat", stub_chat)
+
+    profile = CustomerProfile(
+        user_role="学生",
+        educationStage="本科",
+        academic_background="本科在读，商科方向",
+    )
+
+    state = {
+        "messages": [HumanMessage(content="我先了解一下")],
+        "profile": profile,
+    }
+
+    result = consultants.interviewer_node(state)
+
+    assert [msg.content for msg in result["messages"]] == ["先回答你这个问题", "再确认成绩和语言"]
+
+
 def test_consultant_node_sales_mode_keeps_tool_call(monkeypatch):
     response = SimpleNamespace(
         content="",
@@ -234,6 +261,38 @@ def test_consultant_node_normal_mode_uses_search_results(monkeypatch):
     assert "共匹配到 1 个方案：英国方向" in prompt
     assert "英国、香港" in prompt
     assert [msg.content for msg in result["messages"]] == ["方案A", "你能接受吗"]
+
+
+def test_consultant_node_normalizes_gemini_block_content(monkeypatch):
+    response = SimpleNamespace(
+        content=[
+            {"type": "text", "text": "先说结论"},
+            {"type": "text", "text": "|||这条更稳一些"},
+        ],
+        tool_calls=[],
+        id="response_gemini",
+    )
+    stub_tool_llm = RecordingToolLLM(response)
+    monkeypatch.setattr(consultants, "llm_chat", stub_tool_llm)
+    monkeypatch.setattr(consultants, "search_products", lambda _profile: "共匹配到 1 个方案：香港方向")
+
+    profile = CustomerProfile(
+        user_role="家长",
+        educationStage="高中",
+        destination_preference=["香港"],
+        academic_background="高二，均分86",
+        abroad_readiness="需要过渡/暂缓",
+    )
+
+    state = {
+        "messages": [HumanMessage(content="那香港这条你怎么看")],
+        "profile": profile,
+        "last_intent": IntentType.NEED_CONSULTING,
+    }
+
+    result = consultants.consultant_node(state)
+
+    assert [msg.content for msg in result["messages"]] == ["先说结论", "这条更稳一些"]
 
 
 def test_classifier_node_uses_backup_runtime_strategy(monkeypatch):

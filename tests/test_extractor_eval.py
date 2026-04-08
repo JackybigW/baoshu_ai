@@ -103,7 +103,7 @@ def test_summarize_model_runs_orders_best_model_first():
                     "label": "qwen",
                     "canonical_id": "qwen",
                     "provider": "openai",
-                    "resolved_model": "qwen-plus",
+                    "resolved_model": "qwen3.6-plus",
                 },
                 "summary": {
                     "overall_score": 84.2,
@@ -267,7 +267,7 @@ def test_failure_analysis_groups_results_under_model_label(tmp_path: Path):
             "label": "qwen",
             "canonical_id": "qwen",
             "provider": "openai",
-            "resolved_model": "qwen-plus",
+            "resolved_model": "qwen3.6-plus",
         },
         "summary": {
             "case_count": 1,

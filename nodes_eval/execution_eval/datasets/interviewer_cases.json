@@ -7,7 +7,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我均分82，能不能冲曼大？"
+          "content": "我均分82，曼大还有没有机会？"
         }
       ],
       "profile": {
@@ -42,7 +42,7 @@
         },
         {
           "type": "human",
-          "content": "不知道，先别重复问了。"
+          "content": "这个我真不清楚，别老问同一件了。"
         }
       ],
       "profile": {
@@ -73,7 +73,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我不懂，你先说要看什么。"
+          "content": "我有点懵，你就直接告诉我先看哪几项。"
         }
       ],
       "profile": {
@@ -108,7 +108,7 @@
         },
         {
           "type": "human",
-          "content": "我女儿现在二本，均分不高，申港大还有戏吗？"
+          "content": "我女儿现在二本，均分也一般，港大还有机会吗？"
         }
       ],
       "profile": {
@@ -140,7 +140,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "雅思要先考到几分才合适？"
+          "content": "雅思大概要到什么程度才比较稳？"
         }
       ],
       "profile": {
@@ -174,7 +174,7 @@
         },
         {
           "type": "human",
-          "content": "我不知道，孩子英语一般。"
+          "content": "我也说不清，孩子英语就一般般。"
         }
       ],
       "profile": {
@@ -205,7 +205,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你先说，英语差是不是没救。"
+          "content": "英语差是不是基本没戏了？"
         }
       ],
       "profile": {
@@ -235,7 +235,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子现在就普通水平，要不要先读语言班？"
+          "content": "孩子现在就是普通水平，语言班有必要吗？"
         }
       ],
       "profile": {
@@ -265,7 +265,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "大概多少钱能做个方案？"
+          "content": "大概预算得准备多少？"
         }
       ],
       "profile": {
@@ -300,7 +300,7 @@
         },
         {
           "type": "human",
-          "content": "不知道，先按你们经验说。"
+          "content": "我真没概念，你按常见情况说吧。"
         }
       ],
       "profile": {
@@ -335,7 +335,7 @@
         },
         {
           "type": "human",
-          "content": "这个以后再说。"
+          "content": "这个先放一下吧，预算我还没想细。"
         }
       ],
       "profile": {
@@ -367,7 +367,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "总预算和每年预算哪个更重要？"
+          "content": "总预算和每年预算，哪个你们更常看？"
         }
       ],
       "profile": {
@@ -398,7 +398,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "去哪里性价比高一点？"
+          "content": "如果想性价比高一点，通常看哪些地方？"
         }
       ],
       "profile": {
@@ -433,7 +433,7 @@
         },
         {
           "type": "human",
-          "content": "没想好，先给我两个方向。"
+          "content": "我现在没想好，你先给我两个方向我听听。"
         }
       ],
       "profile": {
@@ -469,7 +469,7 @@
         },
         {
           "type": "human",
-          "content": "这个以后再说，先看能不能申。"
+          "content": "这个我晚点再定，先看能不能申请上。"
         }
       ],
       "profile": {
@@ -501,7 +501,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "华语环境优先，离家别太远。"
+          "content": "我就想离家近一点，最好还有点华语环境。"
         }
       ],
       "profile": {
@@ -532,7 +532,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在到底算高三还是大一那种背景？"
+          "content": "我现在到底算高三还是大一，这个有点搞不清。"
         }
       ],
       "profile": {
@@ -565,7 +565,7 @@
         },
         {
           "type": "human",
-          "content": "不懂，孩子学校情况我有点乱。"
+          "content": "孩子学校这块我确实有点乱，你先按简单的问。"
         }
       ],
       "profile": {
@@ -599,7 +599,7 @@
         },
         {
           "type": "human",
-          "content": "没想好，反正不是本科。"
+          "content": "反正不是本科那一档。"
         }
       ],
       "profile": {
@@ -629,7 +629,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子好像读到一半，不记得现在算什么学历。"
+          "content": "孩子读到一半，我也不太确定现在算哪一层。"
         }
       ],
       "profile": {
@@ -658,7 +658,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我想直接出国，还是先在国内过渡更稳？"
+          "content": "我想问的是，直接出国和先在国内过渡，差别到底大不大？"
         }
       ],
       "profile": {
@@ -694,7 +694,7 @@
         },
         {
           "type": "human",
-          "content": "不知道，先别逼我选。"
+          "content": "这个先别逼我马上选。"
         }
       ],
       "profile": {
@@ -730,7 +730,7 @@
         },
         {
           "type": "human",
-          "content": "你先说，直接出去和先读港澳有什么差。"
+          "content": "那你先说说，直接出去和先走港澳，中间差在哪。"
         }
       ],
       "profile": {
@@ -763,7 +763,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "这个以后再说吧，先把孩子路线定了。"
+          "content": "这个我先缓一缓，你先把孩子路线理清。"
         }
       ],
       "profile": {
@@ -795,7 +795,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我美高转本，背景要怎么讲才算完整？"
+          "content": "我是美高转本，背景这块到底怎么说才算完整？"
         }
       ],
       "profile": {
@@ -830,7 +830,7 @@
         },
         {
           "type": "human",
-          "content": "孩子英语还行，要补什么？"
+          "content": "孩子英语还可以，但我不清楚还缺什么。"
         }
       ],
       "profile": {
@@ -865,7 +865,7 @@
         },
         {
           "type": "human",
-          "content": "手头不算宽裕，十来万够不够？"
+          "content": "手头就这么多，十来万够不够用？"
         }
       ],
       "profile": {
@@ -897,7 +897,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "没想好，英美都想看看。"
+          "content": "英美都想看看，但我还没定下来。"
         }
       ],
       "profile": {
@@ -932,7 +932,7 @@
         },
         {
           "type": "human",
-          "content": "我算大二还是大三？"
+          "content": "我大二还是大三，这个我自己都说不准。"
         }
       ],
       "profile": {
@@ -962,7 +962,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "孩子想先港澳过渡，再考虑直接出国。"
+          "content": "他想先走港澳过渡，之后再看要不要直接出国。"
         }
       ],
       "profile": {
@@ -998,7 +998,7 @@
         },
         {
           "type": "human",
-          "content": "孩子成绩不稳定，先看哪块？"
+          "content": "孩子成绩起伏挺大，先看哪块最关键？"
         }
       ],
       "profile": {
@@ -1030,7 +1030,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "托福没考，四六级刚过，这样还来得及吗？"
+          "content": "托福还没考，四六级刚过，这种情况还赶得上吗？"
         }
       ],
       "profile": {

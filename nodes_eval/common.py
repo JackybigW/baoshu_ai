@@ -20,6 +20,7 @@ from utils.llm_factory import (
     get_llm,
     get_llm_descriptor,
     list_supported_llms,
+    normalize_message_content,
     resolve_llm_key,
 )
 
@@ -136,7 +137,7 @@ def build_backend_model_configs(model_ids: Sequence[str], *, temperature: float 
         default_aliases=("backend", "default", "backend_default"),
         default_label="backend_default",
         default_provider="fallback_chain",
-        default_resolved_model=_resolved_chain_model_names(("deepseek", "gemini_flash", "doubao")),
+        default_resolved_model=_resolved_chain_model_names(("deepseek", "glm", "doubao")),
         default_builder=get_backend_llm,
         explicit_temperature=temperature,
     )
@@ -148,7 +149,7 @@ def build_frontend_model_configs(model_ids: Sequence[str], *, temperature: float
         default_aliases=("frontend", "default", "frontend_default"),
         default_label="frontend_default",
         default_provider="fallback_chain",
-        default_resolved_model=_resolved_chain_model_names(("deepseek", "gemini_pro", "doubao")),
+        default_resolved_model=_resolved_chain_model_names(("deepseek", "glm", "doubao")),
         default_builder=get_frontend_llm,
         explicit_temperature=temperature,
     )
@@ -212,16 +213,16 @@ def messages_from_dicts(items: Sequence[Dict[str, Any]]) -> List[BaseMessage]:
 
 def dump_message(message: BaseMessage) -> Dict[str, Any]:
     if isinstance(message, HumanMessage):
-        return {"type": "human", "content": message.content}
+        return {"type": "human", "content": normalize_message_content(message.content)}
     if isinstance(message, SystemMessage):
-        return {"type": "system", "content": message.content}
+        return {"type": "system", "content": normalize_message_content(message.content)}
     if isinstance(message, ToolMessage):
         return {
             "type": "tool",
-            "content": message.content,
+            "content": normalize_message_content(message.content),
             "tool_call_id": getattr(message, "tool_call_id", ""),
         }
-    payload: Dict[str, Any] = {"type": "ai", "content": message.content}
+    payload: Dict[str, Any] = {"type": "ai", "content": normalize_message_content(message.content)}
     tool_calls = getattr(message, "tool_calls", None)
     if tool_calls:
         payload["tool_calls"] = tool_calls
@@ -235,7 +236,7 @@ def dump_messages(messages: Sequence[BaseMessage]) -> List[Dict[str, Any]]:
 
 
 def join_message_text(messages: Sequence[BaseMessage]) -> str:
-    parts = [str(getattr(message, "content", "") or "").strip() for message in messages]
+    parts = [normalize_message_content(getattr(message, "content", "")).strip() for message in messages]
     return " ||| ".join(part for part in parts if part)
 
 

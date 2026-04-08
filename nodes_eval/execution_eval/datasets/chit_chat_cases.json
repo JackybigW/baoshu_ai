@@ -11,7 +11,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你今天这嘴比我闹钟还早，先夸你一下"
+          "content": "你今天这嘴比我闹钟还早，刚刷到就想笑。"
         }
       ],
       "profile": {},
@@ -55,7 +55,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你这反应快得离谱，是不是偷偷练过"
+          "content": "你这反应快得离谱，感觉你平时没少练。"
         }
       ],
       "profile": {},
@@ -99,7 +99,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别谦虚了，你刚那句挺会接的"
+          "content": "别谦虚了，你刚那句接得挺顺的。"
         }
       ],
       "profile": {},
@@ -143,7 +143,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你这人说话有点欠，但我不讨厌"
+          "content": "你这人说话有点欠，不过我还挺吃这一套。"
         }
       ],
       "profile": {},
@@ -187,7 +187,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你一开口就像熟人，怪省我事的"
+          "content": "你一开口就挺像熟人，省得我还得铺垫。"
         }
       ],
       "profile": {},
@@ -231,7 +231,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你这回复速度，像在跟我比谁先回"
+          "content": "你这回得也太快了，我都快跟不上。"
         }
       ],
       "profile": {},
@@ -275,7 +275,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我怀疑你平时就是那种很会逗人笑的"
+          "content": "我感觉你挺会逗人的，是不是平时就这样。"
         }
       ],
       "profile": {},
@@ -319,7 +319,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天有点烦，想找个人安静说两句"
+          "content": "今天有点烦，想找个人安安静静聊几句。"
         }
       ],
       "profile": {},
@@ -363,7 +363,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我其实没啥大事，就是心里堵得慌"
+          "content": "我其实也没啥大事，就是心里闷得慌。"
         }
       ],
       "profile": {},
@@ -407,7 +407,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "最近挺累的，连说话都没劲"
+          "content": "最近挺累的，连说话都懒得多说。"
         }
       ],
       "profile": {},
@@ -451,7 +451,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "刚跟朋友闹别扭了，脑子乱"
+          "content": "刚跟朋友拧了一下，脑子还是乱的。"
         }
       ],
       "profile": {},
@@ -495,7 +495,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "心情不太稳，想听点不那么空的话"
+          "content": "心里有点堵，想听点实在的话。"
         }
       ],
       "profile": {},
@@ -539,7 +539,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天有点丧，但又不想被教育"
+          "content": "今天有点丧，别跟我讲大道理就行。"
         }
       ],
       "profile": {},
@@ -583,7 +583,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你先别绕，你到底是不是机器人"
+          "content": "你别绕了，我现在就想知道你是不是机器人，别跟我装人。"
         }
       ],
       "profile": {},
@@ -636,7 +636,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "说实话，你是人还是程序"
+          "content": "说白了，你到底是人还是程序啊。"
         }
       ],
       "profile": {},
@@ -689,7 +689,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你回答太顺了，我有点怀疑你是AI"
+          "content": "你答得太顺了，我有点怀疑你是 AI。"
         }
       ],
       "profile": {},
@@ -742,7 +742,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "别装了，你是不是训练出来的"
+          "content": "别装了，你是不是训练出来的 AI 那种。"
         }
       ],
       "profile": {},
@@ -795,7 +795,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你能不能直接承认你不是活人"
+          "content": "你就直说吧，你不是活人对吧。"
         }
       ],
       "profile": {},
@@ -848,7 +848,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我这周刚开学，感觉课表排得满"
+          "content": "我这周刚开学，课表一排满，人都快麻了。"
         }
       ],
       "profile": {
@@ -904,7 +904,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我在想要不要继续学点外语，没想太明白"
+          "content": "我在想要不要继续学点外语，脑子还没捋清。"
         }
       ],
       "profile": {
@@ -960,7 +960,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "最近在看学校官网，越看越晕"
+          "content": "最近翻学校官网吗，越看越乱。"
         }
       ],
       "profile": {
@@ -1015,7 +1015,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我只是随口问问，读书这事儿是不是越早规划越省心"
+          "content": "我只是随口一问，读书这事是不是越早想越省心。"
         }
       ],
       "profile": {
@@ -1071,7 +1071,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "朋友在聊选专业，我听着有点迷"
+          "content": "朋友在聊专业，我听着有点云里雾里的。"
         }
       ],
       "profile": {
@@ -1126,7 +1126,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我这种状态，先把成绩稳住是不是更重要"
+          "content": "我这状态先把成绩稳住，是不是更要紧一点。"
         }
       ],
       "profile": {
@@ -1182,7 +1182,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "你要是顺口说说学习节奏，我也能听听"
+          "content": "学习节奏这块，你要是顺口说两句，我也能听听。"
         }
       ],
       "profile": {
@@ -1237,7 +1237,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "凌晨一点了，还清醒着，挺烦"
+          "content": "凌晨一点了，我还醒着，挺烦的。"
         }
       ],
       "profile": {},
@@ -1290,7 +1290,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我现在就是有点空，想找人说说话"
+          "content": "我现在就是有点空，想找个人说说话。"
         }
       ],
       "profile": {},
@@ -1343,7 +1343,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "夜里特别安静，安静得有点过头"
+          "content": "夜里安静得有点过分，反而睡不太着。"
         }
       ],
       "profile": {},
@@ -1395,7 +1395,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "一个人待着，突然觉得屋里挺大"
+          "content": "一个人坐着，突然觉得房间特别大。"
         }
       ],
       "profile": {},
@@ -1448,7 +1448,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "睡不着，脑子一直转"
+          "content": "睡不着，脑子一直在转，停不下来。"
         }
       ],
       "profile": {},
@@ -1501,7 +1501,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天像被抽空了，没什么情绪"
+          "content": "今天像被掏空了一样，没什么情绪，也没什么劲。"
         }
       ],
       "profile": {},
@@ -1554,7 +1554,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "我只是想让耳朵里有点人声"
+          "content": "我只是想让耳朵里有点人声，别太空。"
         }
       ],
       "profile": {},
@@ -1607,7 +1607,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "刚洗完澡，脑子却还停不下来"
+          "content": "刚洗完澡，还是静不下来，脑子乱转。"
         }
       ],
       "profile": {},
@@ -1660,7 +1660,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "朋友圈刷完更孤独了，真离谱"
+          "content": "刷完朋友圈更空了，孤独得有点离谱。"
         }
       ],
       "profile": {},
@@ -1713,7 +1713,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "外面下雨，我在窗边发呆"
+          "content": "外面在下雨，我就站窗边发了会儿呆。"
         }
       ],
       "profile": {},
@@ -1766,7 +1766,7 @@
       "messages": [
         {
           "type": "human",
-          "content": "今天一句话都没好好说过，来陪我聊两句"
+          "content": "今天一句正经话都没怎么说，陪我聊两句就行。"
         }
       ],
       "profile": {},

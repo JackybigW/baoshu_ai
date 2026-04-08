@@ -1,0 +1,1447 @@
+{
+  "run_ts": "20260407_205800",
+  "models": [
+    {
+      "llm_label": "glm",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "glm",
+      "llm_provider": "openai",
+      "llm_model": "glm-5",
+      "case_count": 208,
+      "overall_score": 86.96,
+      "tool_success_rate": 0.9894,
+      "format_score": 0.9327,
+      "keyword_score": 0.6448,
+      "rubric_score": 0.7612,
+      "pass_rate": 0.6779,
+      "error_count": 0,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260407_205800/glm",
+      "lowest_cases": [
+        {
+          "case_id": "exe_vip_017",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "no_template"
+          ]
+        },
+        {
+          "case_id": "exe_cons_031",
+          "node_name": "consultant",
+          "overall_score": 57.78,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "consultant",
+            "impatience",
+            "parent",
+            "long_dialog",
+            "question_first"
+          ]
+        },
+        {
+          "case_id": "exe_art_014",
+          "node_name": "art",
+          "overall_score": 61.54,
+          "failure_tags": [
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "art",
+            "cross-discipline-transition",
+            "parent",
+            "engineering-to-art"
+          ]
+        },
+        {
+          "case_id": "exe_art_001",
+          "node_name": "art",
+          "overall_score": 63.08,
+          "failure_tags": [
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "art",
+            "portfolio-chaos",
+            "student",
+            "illustration"
+          ]
+        },
+        {
+          "case_id": "exe_chat_014",
+          "node_name": "chit_chat",
+          "overall_score": 64.06,
+          "failure_tags": [
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "chit_chat",
+            "robot_check",
+            "direct_question"
+          ]
+        },
+        {
+          "case_id": "exe_art_004",
+          "node_name": "art",
+          "overall_score": 64.23,
+          "failure_tags": [
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "art",
+            "portfolio-chaos",
+            "parent",
+            "graphic-design"
+          ]
+        },
+        {
+          "case_id": "exe_cons_014",
+          "node_name": "consultant",
+          "overall_score": 67.22,
+          "failure_tags": [
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "decision_support",
+            "excel_rag",
+            "student",
+            "singapore_path"
+          ]
+        },
+        {
+          "case_id": "exe_low_032",
+          "node_name": "low_budget",
+          "overall_score": 67.22,
+          "failure_tags": [
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "low_budget",
+            "vocational",
+            "double_non",
+            "junior_college"
+          ]
+        },
+        {
+          "case_id": "exe_low_035",
+          "node_name": "low_budget",
+          "overall_score": 67.22,
+          "failure_tags": [
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "low_budget",
+            "family_anxiety",
+            "junior_college_parent"
+          ]
+        },
+        {
+          "case_id": "exe_cons_036",
+          "node_name": "consultant",
+          "overall_score": 68.33,
+          "failure_tags": [
+            "格式违规",
+            "关键要点缺失"
+          ],
+          "tags": [
+            "consultant",
+            "short_reply",
+            "parent",
+            "question_first",
+            "hongkong"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "deepseek_official",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "deepseek_official",
+      "llm_provider": "deepseek",
+      "llm_model": "deepseek-chat",
+      "case_count": 208,
+      "overall_score": 84.05,
+      "tool_success_rate": 0.9202,
+      "format_score": 0.9125,
+      "keyword_score": 0.653,
+      "rubric_score": 0.772,
+      "pass_rate": 0.6875,
+      "error_count": 0,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260407_205800/deepseek_official",
+      "lowest_cases": [
+        {
+          "case_id": "exe_cons_002",
+          "node_name": "consultant",
+          "overall_score": 29.17,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低",
+            "状态流转错误"
+          ],
+          "tags": [
+            "consultant",
+            "need_consulting",
+            "question_first",
+            "student",
+            "excel_rag",
+            "singapore_path"
+          ]
+        },
+        {
+          "case_id": "exe_cons_004",
+          "node_name": "consultant",
+          "overall_score": 29.17,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低",
+            "状态流转错误"
+          ],
+          "tags": [
+            "consultant",
+            "need_consulting",
+            "question_first",
+            "parent",
+            "excel_rag",
+            "malaysia_path"
+          ]
+        },
+        {
+          "case_id": "exe_art_017",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "student",
+            "portfolio-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_018",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "parent",
+            "portfolio-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_019",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "student",
+            "animation-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_025",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "student",
+            "real-human-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_027",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "student",
+            "live-review"
+          ]
+        },
+        {
+          "case_id": "exe_low_023",
+          "node_name": "low_budget",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "low_budget",
+            "human_request",
+            "contact_sales"
+          ]
+        },
+        {
+          "case_id": "exe_vip_015",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "dissatisfaction",
+            "severe"
+          ]
+        },
+        {
+          "case_id": "exe_vip_017",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "no_template"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "gemini_flash",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "gemini_flash",
+      "llm_provider": "google_genai",
+      "llm_model": "gemini-3-flash-preview",
+      "case_count": 208,
+      "overall_score": 83.55,
+      "tool_success_rate": 0.9628,
+      "format_score": 0.9101,
+      "keyword_score": 0.5505,
+      "rubric_score": 0.7407,
+      "pass_rate": 0.6442,
+      "error_count": 4,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260408_124933/gemini_flash",
+      "lowest_cases": [
+        {
+          "case_id": "exe_low_023",
+          "node_name": "low_budget",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "low_budget",
+            "human_request",
+            "contact_sales"
+          ]
+        },
+        {
+          "case_id": "exe_vip_014",
+          "node_name": "high_value",
+          "overall_score": 25.28,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低",
+            "状态流转错误"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "too_generic"
+          ]
+        },
+        {
+          "case_id": "exe_vip_018",
+          "node_name": "high_value",
+          "overall_score": 36.94,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "decision_maker",
+            "proof_required"
+          ]
+        },
+        {
+          "case_id": "exe_vip_017",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "no_template"
+          ]
+        },
+        {
+          "case_id": "exe_cons_038",
+          "node_name": "consultant",
+          "overall_score": 44.17,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失"
+          ],
+          "tags": [
+            "consultant",
+            "rag_related",
+            "student",
+            "excel_rag",
+            "hongkong_path"
+          ]
+        },
+        {
+          "case_id": "exe_low_017",
+          "node_name": "low_budget",
+          "overall_score": 50.83,
+          "failure_tags": [
+            "空回复",
+            "关键要点缺失",
+            "状态流转错误"
+          ],
+          "tags": [
+            "low_budget",
+            "upsell_suspicion",
+            "skeptical"
+          ]
+        },
+        {
+          "case_id": "exe_low_018",
+          "node_name": "low_budget",
+          "overall_score": 53.06,
+          "failure_tags": [
+            "空回复",
+            "关键要点缺失",
+            "状态流转错误"
+          ],
+          "tags": [
+            "low_budget",
+            "upsell_suspicion",
+            "no_package_push"
+          ]
+        },
+        {
+          "case_id": "exe_low_035",
+          "node_name": "low_budget",
+          "overall_score": 53.06,
+          "failure_tags": [
+            "空回复",
+            "关键要点缺失",
+            "状态流转错误"
+          ],
+          "tags": [
+            "low_budget",
+            "family_anxiety",
+            "junior_college_parent"
+          ]
+        },
+        {
+          "case_id": "exe_cons_029",
+          "node_name": "consultant",
+          "overall_score": 53.33,
+          "failure_tags": [
+            "格式违规",
+            "关键要点缺失",
+            "状态流转错误",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "timing",
+            "student",
+            "direct_question",
+            "budget_update"
+          ]
+        },
+        {
+          "case_id": "exe_cons_031",
+          "node_name": "consultant",
+          "overall_score": 53.61,
+          "failure_tags": [
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "impatience",
+            "parent",
+            "long_dialog",
+            "question_first"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "deepseek",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "deepseek",
+      "llm_provider": "openai",
+      "llm_model": "deepseek-v3-2-251201",
+      "case_count": 208,
+      "overall_score": 83.1,
+      "tool_success_rate": 0.9149,
+      "format_score": 0.9077,
+      "keyword_score": 0.6234,
+      "rubric_score": 0.7582,
+      "pass_rate": 0.6298,
+      "error_count": 0,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260407_205800/deepseek",
+      "lowest_cases": [
+        {
+          "case_id": "exe_low_026",
+          "node_name": "low_budget",
+          "overall_score": 20.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复"
+          ],
+          "tags": [
+            "low_budget",
+            "handoff_long_dialogue",
+            "repeated_questions"
+          ]
+        },
+        {
+          "case_id": "exe_cons_001",
+          "node_name": "consultant",
+          "overall_score": 27.78,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低",
+            "状态流转错误"
+          ],
+          "tags": [
+            "consultant",
+            "need_consulting",
+            "question_first",
+            "parent",
+            "hongkong_path"
+          ]
+        },
+        {
+          "case_id": "exe_cons_004",
+          "node_name": "consultant",
+          "overall_score": 27.78,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "need_consulting",
+            "question_first",
+            "parent",
+            "excel_rag",
+            "malaysia_path"
+          ]
+        },
+        {
+          "case_id": "exe_cons_002",
+          "node_name": "consultant",
+          "overall_score": 29.17,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "need_consulting",
+            "question_first",
+            "student",
+            "excel_rag",
+            "singapore_path"
+          ]
+        },
+        {
+          "case_id": "exe_art_017",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "student",
+            "portfolio-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_025",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "student",
+            "real-human-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_027",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "student",
+            "live-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_031",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "student",
+            "deadline-nuance"
+          ]
+        },
+        {
+          "case_id": "exe_vip_015",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "dissatisfaction",
+            "severe"
+          ]
+        },
+        {
+          "case_id": "exe_vip_017",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "no_template"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "doubao_lite",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "doubao_lite",
+      "llm_provider": "openai",
+      "llm_model": "doubao-seed-2-0-lite-260215",
+      "case_count": 208,
+      "overall_score": 82.04,
+      "tool_success_rate": 0.8351,
+      "format_score": 0.9666,
+      "keyword_score": 0.5592,
+      "rubric_score": 0.7484,
+      "pass_rate": 0.6202,
+      "error_count": 0,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260407_205800/doubao_lite",
+      "lowest_cases": [
+        {
+          "case_id": "exe_art_029",
+          "node_name": "art",
+          "overall_score": 20.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "student",
+            "nuance-handoff"
+          ]
+        },
+        {
+          "case_id": "exe_cons_029",
+          "node_name": "consultant",
+          "overall_score": 35.28,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "timing",
+            "student",
+            "direct_question",
+            "budget_update"
+          ]
+        },
+        {
+          "case_id": "exe_vip_010",
+          "node_name": "high_value",
+          "overall_score": 36.67,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "high_value",
+            "elite_target",
+            "decision_maker",
+            "family_office"
+          ]
+        },
+        {
+          "case_id": "exe_cons_014",
+          "node_name": "consultant",
+          "overall_score": 36.94,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "decision_support",
+            "excel_rag",
+            "student",
+            "singapore_path"
+          ]
+        },
+        {
+          "case_id": "exe_vip_003",
+          "node_name": "high_value",
+          "overall_score": 37.5,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "high_value",
+            "trust_building",
+            "decision_maker",
+            "budget_only"
+          ]
+        },
+        {
+          "case_id": "exe_low_016",
+          "node_name": "low_budget",
+          "overall_score": 37.78,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "low_budget",
+            "concrete_path",
+            "online_degree"
+          ]
+        },
+        {
+          "case_id": "exe_vip_014",
+          "node_name": "high_value",
+          "overall_score": 37.78,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "too_generic"
+          ]
+        },
+        {
+          "case_id": "exe_vip_007",
+          "node_name": "high_value",
+          "overall_score": 39.44,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "high_value",
+            "elite_target",
+            "student",
+            "top_school"
+          ]
+        },
+        {
+          "case_id": "exe_low_012",
+          "node_name": "low_budget",
+          "overall_score": 40.83,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "low_budget",
+            "family_anxiety",
+            "no_shaming"
+          ]
+        },
+        {
+          "case_id": "exe_vip_018",
+          "node_name": "high_value",
+          "overall_score": 43.33,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "decision_maker",
+            "proof_required"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "qwen",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "qwen",
+      "llm_provider": "openai",
+      "llm_model": "qwen3.6-plus",
+      "case_count": 208,
+      "overall_score": 81.73,
+      "tool_success_rate": 0.9362,
+      "format_score": 0.8704,
+      "keyword_score": 0.5709,
+      "rubric_score": 0.7239,
+      "pass_rate": 0.5962,
+      "error_count": 0,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260407_205800/qwen",
+      "lowest_cases": [
+        {
+          "case_id": "exe_art_029",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "student",
+            "nuance-handoff"
+          ]
+        },
+        {
+          "case_id": "exe_art_030",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "parent",
+            "nuance-handoff"
+          ]
+        },
+        {
+          "case_id": "exe_art_031",
+          "node_name": "art",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "student",
+            "deadline-nuance"
+          ]
+        },
+        {
+          "case_id": "exe_vip_015",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "dissatisfaction",
+            "severe"
+          ]
+        },
+        {
+          "case_id": "exe_vip_017",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "objection",
+            "parent",
+            "no_template"
+          ]
+        },
+        {
+          "case_id": "exe_vip_026",
+          "node_name": "high_value",
+          "overall_score": 39.5,
+          "failure_tags": [
+            "该拉群未拉群",
+            "格式违规"
+          ],
+          "tags": [
+            "high_value",
+            "gray_area",
+            "escalate",
+            "parent"
+          ]
+        },
+        {
+          "case_id": "exe_chat_031",
+          "node_name": "chit_chat",
+          "overall_score": 43.44,
+          "failure_tags": [
+            "格式违规",
+            "关键要点缺失",
+            "状态流转错误",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "chit_chat",
+            "late_night",
+            "flat_mood"
+          ]
+        },
+        {
+          "case_id": "exe_cons_009",
+          "node_name": "consultant",
+          "overall_score": 50.83,
+          "failure_tags": [
+            "该拉群未拉群",
+            "关键要点缺失"
+          ],
+          "tags": [
+            "consultant",
+            "sales_ready",
+            "excel_rag",
+            "parent",
+            "hongkong_path"
+          ]
+        },
+        {
+          "case_id": "exe_cons_008",
+          "node_name": "consultant",
+          "overall_score": 53.06,
+          "failure_tags": [
+            "该拉群未拉群",
+            "关键要点缺失",
+            "误拉群/过早拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "sales_ready",
+            "parent",
+            "handoff_ready",
+            "uk_us_compare"
+          ]
+        },
+        {
+          "case_id": "exe_cons_029",
+          "node_name": "consultant",
+          "overall_score": 53.61,
+          "failure_tags": [
+            "格式违规",
+            "关键要点缺失",
+            "状态流转错误",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "timing",
+            "student",
+            "direct_question",
+            "budget_update"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "doubao",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "doubao",
+      "llm_provider": "openai",
+      "llm_model": "doubao-seed-2-0-pro-260215",
+      "case_count": 208,
+      "overall_score": 80.67,
+      "tool_success_rate": 0.7819,
+      "format_score": 0.9546,
+      "keyword_score": 0.5834,
+      "rubric_score": 0.7352,
+      "pass_rate": 0.5721,
+      "error_count": 0,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260407_205800/doubao",
+      "lowest_cases": [
+        {
+          "case_id": "exe_cons_013",
+          "node_name": "consultant",
+          "overall_score": 32.5,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "状态流转错误",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "decision_support",
+            "student",
+            "offer_compare",
+            "routes"
+          ]
+        },
+        {
+          "case_id": "exe_low_008",
+          "node_name": "low_budget",
+          "overall_score": 33.89,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "low_budget",
+            "annual_budget",
+            "gap_year"
+          ]
+        },
+        {
+          "case_id": "exe_cons_029",
+          "node_name": "consultant",
+          "overall_score": 35.56,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "timing",
+            "student",
+            "direct_question",
+            "budget_update"
+          ]
+        },
+        {
+          "case_id": "exe_cons_014",
+          "node_name": "consultant",
+          "overall_score": 37.5,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "decision_support",
+            "excel_rag",
+            "student",
+            "singapore_path"
+          ]
+        },
+        {
+          "case_id": "exe_cons_036",
+          "node_name": "consultant",
+          "overall_score": 38.61,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "short_reply",
+            "parent",
+            "question_first",
+            "hongkong"
+          ]
+        },
+        {
+          "case_id": "exe_low_036",
+          "node_name": "low_budget",
+          "overall_score": 39.17,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "该拉群未拉群",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "low_budget",
+            "concrete_path",
+            "frugal_route",
+            "double_non"
+          ]
+        },
+        {
+          "case_id": "exe_vip_012",
+          "node_name": "high_value",
+          "overall_score": 42.22,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "high_value",
+            "elite_target",
+            "parent",
+            "safety_rank"
+          ]
+        },
+        {
+          "case_id": "exe_cons_031",
+          "node_name": "consultant",
+          "overall_score": 43.61,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "格式违规",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "impatience",
+            "parent",
+            "long_dialog",
+            "question_first"
+          ]
+        },
+        {
+          "case_id": "exe_cons_027",
+          "node_name": "consultant",
+          "overall_score": 44.44,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "decision_support",
+            "student",
+            "country_change",
+            "singapore"
+          ]
+        },
+        {
+          "case_id": "exe_cons_034",
+          "node_name": "consultant",
+          "overall_score": 44.44,
+          "failure_tags": [
+            "误拉群/过早拉群",
+            "关键要点缺失",
+            "回复质量偏低"
+          ],
+          "tags": [
+            "consultant",
+            "compare_offers",
+            "student",
+            "canada",
+            "direct_path"
+          ]
+        }
+      ]
+    },
+    {
+      "llm_label": "gemini_pro",
+      "dataset": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/golden_dataset.json",
+      "llm_canonical": "gemini_pro",
+      "llm_provider": "google_genai",
+      "llm_model": "gemini-3.1-pro-preview",
+      "case_count": 208,
+      "overall_score": 43.25,
+      "tool_success_rate": 0.766,
+      "format_score": 0.0192,
+      "keyword_score": 0.08,
+      "rubric_score": 0.8099,
+      "pass_rate": 0.0048,
+      "error_count": 203,
+      "failure_analysis_dir": "/Users/jackywang/Documents/baoshu_ai/nodes_eval/execution_eval/failure_analyses/20260408_124933/gemini_pro",
+      "lowest_cases": [
+        {
+          "case_id": "exe_art_017",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "student",
+            "portfolio-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_018",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "parent",
+            "portfolio-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_019",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "student",
+            "animation-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_020",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "expert-review",
+            "parent",
+            "fine-art-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_025",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "student",
+            "real-human-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_026",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "parent",
+            "portfolio-feedback"
+          ]
+        },
+        {
+          "case_id": "exe_art_027",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "student",
+            "live-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_028",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "teacher-request",
+            "parent",
+            "portfolio-review"
+          ]
+        },
+        {
+          "case_id": "exe_art_029",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "student",
+            "nuance-handoff"
+          ]
+        },
+        {
+          "case_id": "exe_art_030",
+          "node_name": "art",
+          "overall_score": 0.0,
+          "failure_tags": [
+            "该拉群未拉群",
+            "空回复",
+            "状态流转错误"
+          ],
+          "tags": [
+            "art",
+            "long-dialog",
+            "parent",
+            "nuance-handoff"
+          ]
+        }
+      ]
+    }
+  ]
+}

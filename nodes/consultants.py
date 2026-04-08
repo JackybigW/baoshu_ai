@@ -20,6 +20,7 @@ from utils.llm_factory import (
     get_frontend_llm,
     get_llm,
     normalize_llm_strategy,
+    normalize_message_content,
 )
 from utils.logger import logger
 from config.prompts import (
@@ -102,6 +103,13 @@ def _resolve_specialist_role(profile: CustomerProfile) -> str:
         return "专门负责英联邦和美国申请的"
     return "负责这个项目的"
 
+
+def _split_ai_response(response: Any) -> List[AIMessage]:
+    raw_content = normalize_message_content(getattr(response, "content", ""))
+    raw_content = raw_content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
+    split_texts = raw_content.split("|||")
+    return [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+
 #1 用户加了好友，优先say hi，勾引用户说话
 def first_greeting_node(state: AgentState):
     """首句破冰"""
@@ -170,9 +178,7 @@ def high_value_node(state: AgentState):
         logger.info(f"🔧 High Value Tool Triggered: {response.tool_calls}")
         return {"messages": [response], "dialog_status": "VIP_SERVICE"}
     else:
-        raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
-        split_texts = raw_content.split("|||")
-        ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+        ai_messages = _split_ai_response(response)
         return {"messages": ai_messages, "dialog_status": "VIP_SERVICE"}
 
 #3 艺术留学顾问（艺术留学和普通留学不兼容，需分开）
@@ -206,10 +212,7 @@ def art_node(state: AgentState):
     # 情况 B: 纯聊天 (Chat)
     # 手动处理分段，为了 UI 好看
     else:
-        raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
-        split_texts = raw_content.split("|||")
-        # 把切分后的文本重新封装成多个 AIMessage
-        ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+        ai_messages = _split_ai_response(response)
         
         return {"messages": ai_messages, "dialog_status": "VIP_SERVICE"}
 
@@ -280,7 +283,7 @@ def interviewer_node(state: AgentState):
         target_greeting = f"{'同学' if user_role == '学生' else '家长'}您好！"
         has_greeted = False
         for msg in state["messages"]:
-            if isinstance(msg, AIMessage) and target_greeting in msg.content:
+            if isinstance(msg, AIMessage) and target_greeting in normalize_message_content(msg.content):
                 has_greeted = True; break
         if not has_greeted:
             greeting_instruction = f"**回复必须以 “{target_greeting}” 开头**。"
@@ -318,9 +321,7 @@ def interviewer_node(state: AgentState):
     response = active_chat_llm.invoke(messages) # 前台对话使用 llm_chat
     
     # Split处理
-    raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
-    split_texts = raw_content.split("|||")
-    ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+    ai_messages = _split_ai_response(response)
     
     return {"messages": ai_messages}
 
@@ -345,7 +346,7 @@ def consultant_node(state: AgentState):
     llm_with_tools = active_chat_llm.bind_tools(tools)
 
     retrieved_context = search_products(profile)
-    last_user_msg = messages[-1].content if messages else ""
+    last_user_msg = normalize_message_content(messages[-1].content) if messages else ""
     
     if is_sales_mode:
         specialist_role = _resolve_specialist_role(profile)
@@ -504,13 +505,11 @@ def consultant_node(state: AgentState):
 
     if response.tool_calls:
         logger.info(f"🔧 Tool Triggered: {response.tool_calls}")
-        if not response.content or not response.content.strip():
+        if not normalize_message_content(response.content).strip():
             logger.warning("⚠️ 检测到静默拉群，自动补充过渡话术...")
             response.content = "这件事儿细节挺多，一句两句说不完。|||我直接拉个群，安排最资深的顾问老师来跟你一对一对接。"
 
-    raw_content = response.content.replace("\n\n", "").replace("\n", "").replace("**", "")
-    split_texts = raw_content.split("|||")
-    ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+    ai_messages = _split_ai_response(response)
     if response.tool_calls and ai_messages:
         ai_messages[-1].tool_calls = response.tool_calls
         ai_messages[-1].id = response.id
@@ -547,10 +546,7 @@ def low_budget_node(state: AgentState):
     
     # 情况 B: 纯聊天 (Chat)
     else:
-        raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
-        split_texts = raw_content.split("|||")
-        # 把切分后的文本重新封装成多个 AIMessage
-        ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+        ai_messages = _split_ai_response(response)
         
         return {"messages": ai_messages, "dialog_status": "PERSUADING"}
 
@@ -579,9 +575,7 @@ def human_handoff_node(state: AgentState):
     system_prompt = HUMAN_HANDOFF_SYSTEM_PROMPT
 
     response = active_chat_llm.invoke([SystemMessage(content=system_prompt)] + messages)
-    raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
-    split_texts = raw_content.split("|||")
-    ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+    ai_messages = _split_ai_response(response)
     return {"messages": ai_messages, "dialog_status": "FINISHED"}
 
 #2.28增加
@@ -594,9 +588,6 @@ def chit_chat_node(state: AgentState):
     
     # 简单的直接调用
     response = active_chat_llm.invoke([SystemMessage(content=system_prompt)] + messages)
-    raw_content = response.content.replace("\n\n", "|||").replace("\n", "|||").replace("**", "")
-    split_texts = raw_content.split("|||")
-    # 把切分后的文本重新封装成多个 AIMessage
-    ai_messages = [AIMessage(content=text.strip()) for text in split_texts if text.strip()]
+    ai_messages = _split_ai_response(response)
     
     return {"messages": ai_messages} # 闲聊不改变 dialog_status，保持原样即可

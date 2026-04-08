@@ -48,7 +48,7 @@ DEFAULT_MODEL_SPECS: Dict[str, Dict[str, Any]] = {
         "provider": "google_genai",
         "api_key_env": "GOOGLE_API_KEY",
         "model_env": "GEMINI_FLASH_MODEL",
-        "default_model": "gemini-3.1-flash-lite-preview",
+        "default_model": "gemini-3-flash-preview",
     },
     "gemini_pro": {
         "aliases": ["gemini_pro", "pro", "google_pro"],
@@ -60,19 +60,20 @@ DEFAULT_MODEL_SPECS: Dict[str, Dict[str, Any]] = {
     "qwen": {
         "aliases": ["qwen", "tongyi", "qwen_plus"],
         "provider": "openai",
-        "api_key_env": "QWEN_API_KEY",
-        "api_key_env_fallbacks": ["DASHSCOPE_API_KEY"],
-        "base_url_env": "QWEN_BASE_URL",
+        "api_key_env": "DASHSCOPE_API_KEY",
+        "api_key_env_fallbacks": ["QWEN_API_KEY"],
+        "base_url_env": "DASHSCOPE_BASE_URL",
+        "base_url_env_fallbacks": ["QWEN_BASE_URL"],
         "model_env": "QWEN_MODEL",
-        "default_model": "qwen-plus",
+        "default_model": "qwen3.6-plus",
     },
     "glm": {
         "aliases": ["glm", "zhipu", "zhipu_glm"],
         "provider": "openai",
-        "api_key_env": "DOUBAO_API_KEY",
-        "base_url_env": "DOUBAO_BASE_URL",
+        "api_key_env": "DASHSCOPE_API_KEY",
+        "base_url_env": "DASHSCOPE_BASE_URL",
         "model_env": "GLM_MODEL",
-        "default_model": "glm-4-7-251222",
+        "default_model": "glm-5",
     },
     "doubao": {
         "aliases": ["doubao", "dou_bao", "ark", "volcengine"],
@@ -96,6 +97,7 @@ DEFAULT_MODEL_SPECS: Dict[str, Dict[str, Any]] = {
 DEEPSEEK_MODEL = "deepseek"
 GEMINI_PRO = "gemini_pro"
 GEMINI_FLASH = "gemini_flash"
+GLM_MODEL = "glm"
 PRIMARY_STRATEGY = "primary"
 BACKUP_FIRST_STRATEGY = "backup_first"
 
@@ -157,6 +159,28 @@ def _get_first_configured_env(primary_env: str, fallback_envs: Optional[List[str
         if value:
             return value
     return ""
+
+
+def normalize_message_content(content: Any) -> str:
+    if content is None:
+        return ""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts: List[str] = []
+        for item in content:
+            if isinstance(item, dict):
+                text = item.get("text")
+                if text:
+                    parts.append(str(text))
+                    continue
+                fallback_text = item.get("content")
+                if fallback_text:
+                    parts.append(str(fallback_text))
+                    continue
+            parts.append(str(item))
+        return "\n".join(part for part in parts if part)
+    return str(content)
 
 
 def _create_llm(
@@ -322,11 +346,11 @@ def _get_backend_llm_with_strategy(
     normalized_strategy = normalize_llm_strategy(strategy)
     if normalized_strategy == BACKUP_FIRST_STRATEGY:
         return _build_chain_from_models(
-            [GEMINI_FLASH, "doubao", DEEPSEEK_MODEL],
+            [GLM_MODEL, "doubao", DEEPSEEK_MODEL],
             temperature=temperature,
         )
     return _build_chain_from_models(
-        [DEEPSEEK_MODEL, GEMINI_FLASH, "doubao"],
+        [DEEPSEEK_MODEL, GLM_MODEL, "doubao"],
         temperature=temperature,
     )
 
@@ -350,10 +374,10 @@ def get_frontend_llm(
     normalized_strategy = normalize_llm_strategy(strategy)
     if normalized_strategy == BACKUP_FIRST_STRATEGY:
         return _build_chain_from_models(
-            [GEMINI_PRO, "doubao", DEEPSEEK_MODEL],
+            [GLM_MODEL, "doubao", DEEPSEEK_MODEL],
             temperature=temperature,
         )
     return _build_chain_from_models(
-        [DEEPSEEK_MODEL, GEMINI_PRO, "doubao"],
+        [DEEPSEEK_MODEL, GLM_MODEL, "doubao"],
         temperature=temperature,
     )
